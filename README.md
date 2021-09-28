@@ -1,1 +1,1 @@
-Making prototype
+2017920036 양다은 DB 담당
