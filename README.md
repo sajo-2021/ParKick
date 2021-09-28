@@ -1,1 +1,1 @@
-Making prototype
+2017920011 김은해 프론트 담당
