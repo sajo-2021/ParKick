@@ -1,0 +1,22 @@
+{
+  "name": "parkick",
+  "version": "1.0.0",
+  "description": "2015920021 박인규 API 담당",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gunbbang001/ParKick.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gunbbang001/ParKick/issues"
+  },
+  "homepage": "https://github.com/gunbbang001/ParKick#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
