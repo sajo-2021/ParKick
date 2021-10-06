@@ -21,3 +21,15 @@
 >       - 영역 정보 프로토콜 만들기
 >       - 각 기능별로 필요한 매개변수 결정하기
 >       - 각 기능별로 반환할 정보, 상태코드 확인하기
+
+### API Documents
+>   request
+>   response
+
+### status code
+>
+>
+
+### Node.js Tutorial
+>
+>
