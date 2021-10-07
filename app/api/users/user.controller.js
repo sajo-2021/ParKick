@@ -1,4 +1,15 @@
 // const models = require('../../models/models');
+//  mysql DB를 연결하는 코드를 model로 불러옴
+//  mongoose 사용 시 이처럼 연결하면 된다.
+
+//      위의 models가 연결된 모듈은 다음과 같음
+// module.exports = {
+//     sequelize: sequelize,
+//     User: User
+// }
+//     해당 코드에서 mysql을 연결한 sequelize 객체와
+//     sequelize에 정의한 모델인 User 모델을 모듈로 내보낸다.
+
 
 let users = [
     {
@@ -15,6 +26,7 @@ let users = [
     }
 ]
 
+// exports 코드를 통해 외부에 연결 가능
 exports.index = (req, res) => {
     return res.json(users);
 };
