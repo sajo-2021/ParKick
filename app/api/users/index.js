@@ -1,5 +1,6 @@
-const express = require('express');
-const router = express.Router();
+const router = require('express').Router();
+// express에서 제공하는 라우터 객체를 이용
+
 const bodyParser = require('body-parser');
 // body-parser 패키지를 추가
 // POST에서 body값을 읽어오기 위한 패키지

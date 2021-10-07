@@ -23,8 +23,10 @@
 >       - 각 기능별로 반환할 정보, 상태코드 확인하기
 
 ### API Documents
->   request
->   response
+> |Verb|Action|Path|Used for|
+> |:---:|:---:|:---:|:---:|
+> |POST|create|/geo|제보기능, 신규 추천 영역 생성|
+> |GET|index|/map|추천 주차존 리스트 조회|
 
 ### status code
 > 
@@ -63,3 +65,9 @@
 >   PS C:\> $param = @{name='inkyu'};
 >   PS C:\> curl 127.0.0.1:3000/users -Method POST -Body $param
 > ```
+
+
+
+> * 현재 로컬 DB 및 모듈화 튜토리얼로 /users를
+> * mongoose 튜토리얼로 /todo를 진행중
+> * 꼬이지 않게 주의
