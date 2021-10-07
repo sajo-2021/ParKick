@@ -33,3 +33,16 @@
 ### Node.js Tutorial
 > s
 >
+
+### Window curl POST
+> * windows powershell은 curl 코드로 자체 명령인 invoke-webrequest를 실행
+> ```
+>   PS C:\> curl (-URI) 127.0.0.1:3000/users -Method POST
+> ```
+> 위와 같은 형식으로 request를 전송
+> 
+> * POST에 Body 전송 시
+> ```
+>   PS C:\> $param = @{name='inkyu'};
+>   PS C:\> curl 127.0.0.1:3000/users -Method POST -Body $param
+> ```
