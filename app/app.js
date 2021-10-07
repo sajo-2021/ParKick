@@ -1,31 +1,31 @@
 const express = require('express');
+const bodyParser = require('body-parser'); 
+// body-parser 패키지를 추가
+// POST에서 body값을 읽어오기 위한 패키지
 
 const app = express();
-
-const bodyParser = require('body-parser'); // body-parser 패키지를 추가
 
 app.use(bodyParser.json()); // express에서 json으로 body를 받음
 app.use(bodyParser.urlencoded({extended: true})); // 이건뭐지
 
-let users = [
-    {
-        id: 1,
-        name: 'Hyun'
-    },
-    {
-        id: 2,
-        name: 'Alice'
-    },
-    {
-        id: 3,
-        name: 'Kelly'
-    }
-]
+app.use('/users',require('./api/users'));
+// /users로 접속하는 요청은 './api/users' 로 보내버린다
 
 app.get('/', (req, res) => {
     res.send('Hello world!\n');
 });
 
+
+app.listen(3000, () => {
+    console.log('Example app listening on port 3000!');
+});
+// 3000포트로 연결하고 로그 남김
+
+module.exports = app;
+// app을 module로 export
+
+
+/*
 app.get('/users', (req, res) => {
     return res.json(users);
 });
@@ -44,9 +44,7 @@ app.get('/users/:id', (req, res) => {
     return res.json(user);
 });
 
-app.listen(3000, () => {
-    console.log('Example app listening on port 3000!');
-});
+
 
 // delete 구현
 app.delete('/users/:id', (req, res) => {
@@ -98,3 +96,5 @@ app.post('/users', (req, res) => {
     return res.status(201).json(newUser);
     // 입력이 완료되면 상태값과 입력된 user 정보를 다시 반환해준다.
 })
+
+*/
