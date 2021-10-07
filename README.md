@@ -27,12 +27,29 @@
 >   response
 
 ### status code
->
->
+> 
+> 
 
 ### Node.js Tutorial
-> s
->
+> nodejs 설치
+> ```
+>   PS C:\> npm init
+> ```
+> 
+> express 패키지 설치, package.json의 dependencies에 자동으로 기록
+> ```
+>   PS C:\> npm install express --save
+> ```
+> 
+> js파일 실행
+> ```
+>   PS C:\> node app.js
+> ```
+> 
+> post에서 body값 받기 위한 body-parser 설치
+> ```
+>   PS C:\> npm install body-parser --save
+> ```
 
 ### Window curl POST
 > * windows powershell은 curl 코드로 자체 명령인 invoke-webrequest를 실행
