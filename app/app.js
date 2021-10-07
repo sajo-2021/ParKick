@@ -1,23 +1,39 @@
 const express = require('express');
 const bodyParser = require('body-parser'); 
+const dotenv = require('dotenv');
 // body-parser 패키지를 추가
 // POST에서 body값을 읽어오기 위한 패키지
+const mongoose = require('mongoose');
+dotenv.config();
 
 const app = express();
+const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json()); // express에서 json으로 body를 받음
 app.use(bodyParser.urlencoded({extended: true})); // 이건뭐지
+// Static file Service
+app.use(express.static('public'));
 
-app.use('/users',require('./api/users'));
-// /users로 접속하는 요청은 './api/users' 로 보내버린다
+
+// /users로 접속하는 요청은 './api/users' 과 연결, index.js와 자동 연결
+app.use('/users', require('./api/users'));
+// /todos로 접속하는 요청은 './api/todo/todos'로 연결, todos.js와 연결됨
+app.use('/todos', require('./api/todo/todos'));
+
+// Node의 native Promise 사용
+mongoose.Promise = global.Promise;
+
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => console.log('Successfully connected to mongodb'))
+    .catch(e => console.error(e));
+
 
 app.get('/', (req, res) => {
     res.send('Hello world!\n');
 });
 
-
-app.listen(3000, () => {
-    console.log('Example app listening on port 3000!');
+app.listen(port, () => {
+    console.log(`Example app listening on port ${port}!`);
 });
 // 3000포트로 연결하고 로그 남김
 
