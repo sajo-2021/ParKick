@@ -20,19 +20,35 @@ _### 아직 정리 못함 (대충 씀;;)###_
 ## Log 
 
 - mongodb comprass 실행
+
 - npm init -y
+
 - npm install mongodb
+
 - robo 3t 설치 및 실행 https://javacpro.tistory.com/65?category=291113
+
 - npm install mongoose
+
 - [Node.js MongoDB Driver API](https://mongodb.github.io/node-mongodb-native/3.6/api/)
+
 - .gitignore 파일 생성 
   * [.gitignore 적용하기](https://velog.io/@psk84/.gitignore-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0)
   * [불필요한 github 업로드 방지](https://helloinyong.tistory.com/106)
+
 - mongodb와 서버가 연동이 안되는 문제점 발견
+
 - 필요한 npm install과 npm inint -y 재실행
+
 - 연결완료. 지금은 server.js 로 npm start
+
 - db로 시작하는 js 파일을 활용하여 CRUD 구현 가능할듯
+
 - robo 3t에서 testdb 생성하여 collection에 document 테이블 생성하기. 
   * [Robomongo 3T 설치 및 실행](https://javacpro.tistory.com/65)
   * [Robo 3T 사용(feat.CRUD)](https://znos.tistory.com/51)
+
 - 예시 데이터와 collection 생성
+
+- Postman 사용하기
+  * [[web] Postman 사용하기 & GET & POST](https://ychae-leah.tistory.com/50)
+  * [postman 사용법 / REST API Json 호출하기](https://miniweb4u.tistory.com/279)
