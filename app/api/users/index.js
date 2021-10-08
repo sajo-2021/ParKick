@@ -1,10 +1,9 @@
 const router = require('express').Router();
 // express에서 제공하는 라우터 객체를 이용
 
-const bodyParser = require('body-parser');
+//const bodyParser = require('body-parser');
 // body-parser 패키지를 추가
 // POST에서 body값을 읽어오기 위한 패키지
-
 // 이제 없어도 되나???
 // router.use(bodyParser.json()); // express에서 json으로 body를 받음
 // router.use(bodyParser.urlencoded({extended: true}));
