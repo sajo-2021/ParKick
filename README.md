@@ -65,6 +65,10 @@
 >   PS C:\> $param = @{name='inkyu'};
 >   PS C:\> curl 127.0.0.1:3000/users -Method POST -Body $param
 > ```
+> * 결과값이 요약되어서 content가 모두 보이지 않을 때
+> ```
+>   PS C:\> curl 127.0.0.1:3000/users -Method POST -Body $param | Select-Object -Expand Content
+> ```
 
 
 
