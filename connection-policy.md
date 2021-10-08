@@ -86,22 +86,22 @@ _혹은 클러스터링을 통해 불규칙적인 형태로 구현할 수 있다
 
 ## 파라미터 값 설정
 
-> 원 -> (주차가능코드, 중심의 위도, 중심의 경도, 반지름) 
+> 원 -> (주차가능코드, 중심의 위도, 중심의 경도, 반지름)    
 > (point_state, point_latitude, point_longititude, point_radius)
 
-> (꼭짓점의 수, 위도1, 경도1, ..., 위도n, 경도n)
+> (꼭짓점의 수, 위도1, 경도1, ..., 위도n, 경도n)   
 > (point_count, park_latitude[], park_longititude[]) 
 
-> (사용자아이디, 사용자비밀번호, 사용자이름, 사용자별명) 
+> (사용자아이디, 사용자비밀번호, 사용자이름, 사용자별명)    
 > (user_id, user_pwd, user_name, user_nick)
 
-> (주차존식별코드)
+> (주차존식별코드)   
 > (zone_no)
 
-> (사용자아이디, 평점, 평점시각)
+> (사용자아이디, 평점, 평점시각)   
 > (user_id, view_stars, view_stars_date)
 
-> (주차존식별코드, 사용자아이디, 리뷰, 리뷰시각)
+> (주차존식별코드, 사용자아이디, 리뷰, 리뷰시각)   
 > (zone_id, user_id, view_review, view_review_date)
 
 ***
