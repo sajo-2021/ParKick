@@ -68,8 +68,8 @@
 
 
 
-> 현재 로컬 DB 및 모듈화 튜토리얼로 /users를
-> mongoose 튜토리얼로 /todo를 진행중
-> 꼬이지 않게 주의
-> mongoose 연동 성공, API 형식과 DB 구조 구체화 필요
-> 이후에 query 만들고 데이터 전처리부분 다듬으면 완성
+> 현재 로컬 DB 및 모듈화 튜토리얼로 /users를  
+> mongoose 튜토리얼로 /todo를 진행중  
+> 꼬이지 않게 주의  
+> mongoose 연동 성공, API 형식과 DB 구조 구체화 필요  
+> 이후에 query 만들고 데이터 전처리부분 다듬으면 완성  
