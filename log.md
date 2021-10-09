@@ -53,3 +53,5 @@ _### 아직 정리 못함 (대충 씀;;)###_
   * [[web] Postman 사용하기 & GET & POST](https://ychae-leah.tistory.com/50)
   * [postman 사용법 / REST API Json 호출하기](https://miniweb4u.tistory.com/279)
 
+
+- 서버 호스팅에서 적용하기
