@@ -11,6 +11,7 @@
 >       2. 클러스터링으로 만들어진 주차존 목록 받아오기
 >           - 모든 목록 받아오기
 >           - 사용자 위치 매개변수를 통해 주변의 주차존 목록만 받기
+>           - 데이터베이스 구조에 따라 달라지지만 각 주차존에 종속된 평가정보도 함께 전송하기
 >
 >   * 공부해야 할 것
 >       - nodejs로 REST API 서버 구현하기
@@ -35,44 +36,67 @@
 ### Node.js Tutorial
 > nodejs 설치
 > ```
->   PS C:\> npm init
+> PS C:\> npm init
 > ```
 > 
 > express 패키지 설치, package.json의 dependencies에 자동으로 기록
 > ```
->   PS C:\> npm install express --save
+> PS C:\> npm install express --save
 > ```
 > 
 > js파일 실행
 > ```
->   PS C:\> node app.js
+> PS C:\> node app.js
 > ```
 > 
 > post에서 body값 받기 위한 body-parser 설치
 > ```
->   PS C:\> npm install body-parser --save
+> PS C:\> npm install body-parser --save
+> ```
+> 
+> dotenv와 mongoose 설치
+> ```
+> PS C:\> npm install dotenv mongoose
 > ```
 
 ### Window curl POST
 > * windows powershell은 curl 코드로 자체 명령인 invoke-webrequest를 실행
 > ```
->   PS C:\> curl (-URI) 127.0.0.1:3000/users -Method POST
+> PS C:\> curl (-URI) 127.0.0.1:3000/users -Method POST
 > ```
 > 위와 같은 형식으로 request를 전송
 > 
 > * POST에 Body 전송 시
 > ```
->   PS C:\> $param = @{name='inkyu'};
->   PS C:\> curl 127.0.0.1:3000/users -Method POST -Body $param
+> PS C:\> $param = @{name='inkyu'};
+> PS C:\> curl 127.0.0.1:3000/users -Method POST -Body $param
 > ```
 > * 결과값이 요약되어서 content가 모두 보이지 않을 때
 > ```
->   PS C:\> curl 127.0.0.1:3000/users -Method POST -Body $param | Select-Object -Expand Content
+> PS C:\> curl 127.0.0.1:3000/users -Method POST -Body $param | Select-Object -Expand Content
 > ```
 
+### 디렉토리 구조
+> parkick/  
+> ├ app/  
+> │ ├ api/  
+> │ │ ├ geo/  
+> │ │ ├ map/  
+> │ │ ├ todo/  
+> │ │ │ ├ index.js  
+> │ │ │ └ todo.controller.js  
+> │ │ └ users/  
+> │ │   ├ index.js  
+> │ │   └ user/controller.js  
+> │ ├ models/  
+> │ │ └ todo.js  
+> │ └ app.js  
+> ├ node_models/  
+> ├ .env  
+> ├ pakage.json  
+> └ README.md  
 
-> 현재 로컬 DB 및 모듈화 튜토리얼로 /users를  
-> mongoose 튜토리얼로 /todo를 진행중  
-> 꼬이지 않게 주의  
+
+
 > mongoose 연동 성공, API 형식과 DB 구조 구체화 필요  
 > 이후에 query 만들고 데이터 전처리부분 다듬으면 완성  
