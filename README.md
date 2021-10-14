@@ -79,17 +79,17 @@
 > parkick/  
 > ├ app/  
 > │ ├ api/  
-> │ │ ├ geo/ -> 주차구역 및 주차금지구역 영역정보를 전달받음  
-> │ │ ├ map/ -> 주차존 리스트 정보를 제공  
-> │ │ ├ todo/ -> mongoDB 연습용   
-> │ │ │ ├ index.js -> controller를 이용하여 uri를 정의  
-> │ │ │ └ todo.controller.js -> 각 uri에 대해 실행되는 코드를 정의  
-> │ │ └ users/ -> api 연습용  
+> │ │ ├ geo/  
+> │ │ ├ map/  
+> │ │ ├ todo/  
+> │ │ │ ├ index.js  
+> │ │ │ └ todo.controller.js  
+> │ │ └ users/  
 > │ │   ├ index.js  
 > │ │   └ user/controller.js  
 > │ ├ models/  
-> │ │ └ todo.js -> todo의 mongoose Schema 및 static method를 정의  
-> │ └ app.js -> express 실행 코드  
+> │ │ └ todo.js  
+> │ └ app.js  
 > ├ node_models/  
 > ├ .env  
 > ├ pakage.json  
