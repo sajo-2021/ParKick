@@ -52,6 +52,11 @@
 > ```
 >   PS C:\> npm install body-parser --save
 > ```
+> 
+> dotenv와 mongoose 설치
+> ```
+>   PS C:\> npm install dotenv mongoose
+> ```
 
 ### Window curl POST
 > * windows powershell은 curl 코드로 자체 명령인 invoke-webrequest를 실행
