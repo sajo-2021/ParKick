@@ -2,7 +2,10 @@ const mongoose = require('mongoose');
 
 const geoSchema = new mongoose.Schema({
     // 영역 정보의 document 형식
-
+    point_no: { type: String, required:true},
+    point_latitude: { type: Number, required:true},
+    point_longitude: { type: Number, required:true},
+    user_id: { type: String }
 },{ timestamps:true });
 
 

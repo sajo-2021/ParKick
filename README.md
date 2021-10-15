@@ -33,7 +33,7 @@
 > 
 > 
 
-### Node.js Tutorial
+### Node.js install
 > nodejs 설치
 > ```
 > PS C:\> npm init
@@ -44,11 +44,6 @@
 > PS C:\> npm install express --save
 > ```
 > 
-> js파일 실행
-> ```
-> PS C:\> node app.js
-> ```
-> 
 > post에서 body값 받기 위한 body-parser 설치
 > ```
 > PS C:\> npm install body-parser --save
@@ -57,6 +52,11 @@
 > dotenv와 mongoose 설치
 > ```
 > PS C:\> npm install dotenv mongoose
+> ```
+> 
+> js파일 실행
+> ```
+> PS C:\> node app.js
 > ```
 
 ### Window curl POST
