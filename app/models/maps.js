@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 
 const mapSchema = new mongoose.Schema({
-
+    park_no: { type: String, required: true},
+    park_latitude: { type: String, required: true},
+    park_longitude: { type: String, required: true}
 }, { timestamps:true });
 
 mapSchema.static.findAll = function(){
