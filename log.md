@@ -61,3 +61,6 @@ _### 아직 정리 못함 (대충 씀;;)###_
 - 유스케이스 작성 -> 데베 완성
 
 - 우분투 환경 설치하기 
+  * [우분투 리눅스 설치 방법](https://withcoding.com/123)
+  * [내PC에 리눅스 설치](https://dreamdeveloper403.tistory.com/27)
+
