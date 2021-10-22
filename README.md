@@ -33,7 +33,7 @@
 > 
 > 
 
-### Node.js install
+### Node.js, module install
 > nodejs 설치
 > ```
 > PS C:\> npm init
@@ -100,3 +100,39 @@
 
 > mongoose 연동 성공, API 형식과 DB 구조 구체화 필요  
 > 이후에 query 만들고 데이터 전처리부분 다듬으면 완성  
+
+
+### 리눅스 환경 설정
+* nodejs, npm, nvm 설치
+> nvm 설치
+> ```
+> $ sudo apt-get install curl
+> $ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+> $ command -v nvm (설치확인)
+> ```
+
+> node 및 npm 설치
+> ```
+> $ nvm ls (버전확인)
+> $ nvm install node
+> $ nvm install --lts
+> $ nvm ls
+>
+> $ node --version
+> $ npm --version
+> ```
+
+> mongodb 설치 (이거 API랑 로컬DB랑 연동해볼라는 거에영)
+> ```
+> $ cd ~
+> $ sudo apt update
+> $ wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | sudo apt-key add -
+> $ echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-5.0.list
+> $ sudo spt-get update
+> $ sudo apt-get install -y mongodb-org
+> $ mongodb --version
+> $ mkdir -p ~/data/db
+> $ sudo mongod --dbpath ~/data/db (DB 실행)
+> $ ps -e | grep 'mongod' (인스턴스 실행 확인)
+> ```
+> 종료 시에는 Ctrl+C  
