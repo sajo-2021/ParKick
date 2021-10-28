@@ -31,3 +31,6 @@ packick 앱을 이용하는 사람은 회원유저와 일반(비회원)유저로
 
 <load parking lot list> 
 킥보드 주차장을 확인한다.
+
+clustering & data preprocessing
+
