@@ -19,6 +19,9 @@ app.use(express.static('public'));
 app.use('/users', require('./api/users'));
 // /todos로 접속하는 요청은 './api/todo/todos'로 연결, todos.js와 연결됨
 app.use('/todos', require('./api/todo'));
+app.use('/parks', require('./api/parks'));
+app.use('/points', require('./api/points'));
+app.use('/views', require('./api/views'))
 
 // Node의 native Promise 사용
 mongoose.Promise = global.Promise;

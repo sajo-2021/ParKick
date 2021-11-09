@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const controller = require('./map.controller');
+const controller = require('./park.controller');
 
 router.get('/', controller.index);
 

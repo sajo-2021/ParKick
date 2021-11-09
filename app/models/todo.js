@@ -9,7 +9,7 @@ const todoSchema = new mongoose.Schema({
     },
     {
         timestamps:true
-});
+})
 
 // Schema.statics.funcName - model의 메소드 (모델 전체에 대한 것)
 // Schema.methods.funcName - instance, document의 메소드 (document에 대한 것)
@@ -21,26 +21,26 @@ todoSchema.statics.create = function (payload) {
 
     return todo.save();
     // return promise
-};
+}
 
 // 화살표 함수는 this나 super에 대한 바인딩이 불가능함
 todoSchema.statics.findAll = function () {
     return this.find({});
     // mongoose의 query함수, find({})는 모델의 모든 document를 찾는다.
-};
+}
 
 todoSchema.statics.findOneByTodoid = function (todoid) {
-    return this.findOne({ todoid });
-};
+    return this.findOne({ todoid: todoid });
+}
 
 todoSchema.statics.updateByTodoid = function (todoid, payload) {
     // {new: true}는 수정된 document를 return 한다.
     return this.findOneAndUpdate({ todoid }, payload, {new: true});
-};
+}
 
 todoSchema.statics.deletyByTodoid = function (todoid) {
     return this.remove({ todoid });
-};
+}
 
 // 'Todo' 모델 생성
 module.exports = mongoose.model('Todo', todoSchema);
