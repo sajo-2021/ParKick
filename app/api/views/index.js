@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const controller = require('./geo.controller');
+const controller = require('./view.controller');
 
 router.get('/', controller.index);
 

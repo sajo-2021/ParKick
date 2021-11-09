@@ -5,7 +5,11 @@ const pointSchema = new mongoose.Schema({
     point_latitude: { type: Number, required:true},
     point_longitude: { type: Number, required:true},
     user_id: { type: String }
-})
+    // 필드에 다른 오브젝트의 아이디를 지정할 수 있음
+    // { type: Schema.Types.ObjectId, ref:'스키마이름' }
+    // 이러한 아이디에 대해 .populate(필드이름) 으로 해당 오브젝트를 불러올 수 있음
+    
+});
 
 pointSchema.statics.create = function (payload) {
     const point = new this(payload);
