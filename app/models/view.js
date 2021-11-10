@@ -17,5 +17,11 @@ viewSchema.statics.findAll = function(){
 viewSchema.statics.findOneByParkno = function(parkno){
     return this.findOne({park_no: parkno});
 }
+viewSchema.statics.updateByParkno = function(parkno, payload){
+    return this.findOneAndUpdate({park_no:parkno}, {$set: payload}, {new:true});
+}
+viewSchema.statics.deleteByParkno = function(parkno){
+    return this.remove({park_no:parkno});
+}
 
 module.exports = mongoose.model('View',viewSchema);

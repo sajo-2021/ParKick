@@ -33,13 +33,13 @@ todoSchema.statics.findOneByTodoid = function (todoid) {
     return this.findOne({ todoid: todoid });
 }
 
-todoSchema.statics.updateByTodoid = function (todoid, payload) {
+todoSchema.statics.updateByTodoid = function(todoid, payload){
     // {new: true}는 수정된 document를 return 한다.
-    return this.findOneAndUpdate({ todoid }, payload, {new: true});
+    return this.findOneAndUpdate({todoid: todoid}, {$set: payload} , {new: true}); 
 }
 
 todoSchema.statics.deletyByTodoid = function (todoid) {
-    return this.remove({ todoid });
+    return this.findOneAndRemove({ todoid: todoid });
 }
 
 // 'Todo' 모델 생성

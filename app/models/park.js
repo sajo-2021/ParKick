@@ -7,18 +7,23 @@ const parkSchema = new mongoose.Schema({
 });
 
 
-parkSchema.static.create = function(payload){
+parkSchema.statics.create = function(payload){
     const park = new this(payload)
     return park.save();
 }
-parkSchema.static.findAll = function(){
+parkSchema.statics.findAll = function(){
     return this.find({});
 }
-parkSchema.static.findOneByParkno = function(parkno){
+parkSchema.statics.findOneByParkno = function(parkno){
     return this.findOne({ park_no : parkno });
     // position은 사용자의 좌표를 바로 입력하면 안됨
     // 좌표에 해당하는 격자의 위치정보로 바꾸어주는 함수 필요
 }
-
+parkSchema.statics.updateByParkno = function(parkno, payload){
+    return this.findOneAndUpdate({park_no: parkno}, payload, {new: true});
+}
+parkSchema.statics.deleteByParkno = function(parkno){
+    return this.remove({park_no: parkno});
+}
 
 module.exports = mongoose.model('Park',parkSchema);
