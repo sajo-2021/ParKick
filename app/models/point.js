@@ -11,6 +11,12 @@ const pointSchema = new mongoose.Schema({
     
 });
 
+pointSchema.statics.findAll = function(){
+    return this.find({});
+}
+pointSchema.statics.findOneByPointno = function(pointno){
+    return this.findOne({point_no: pointno});
+}
 pointSchema.statics.create = function (payload) {
     const point = new this(payload);
     // 데이터가 통으로 전달되면 controller에서
@@ -18,11 +24,13 @@ pointSchema.statics.create = function (payload) {
 
     return point.save();
 }
-pointSchema.statics.findAll = function(){
-    return this.find({});
+
+pointSchema.statics.updateByPointno = function(pointno, payload){
+    return this.findOneAndUpdate({point_no: pointno}, {$set: payload}, {new: true});
 }
-pointSchema.statics.findOneByPointno = function(pointno){
-    return this.findOne({point_no: pointno});
+
+pointSchema.statics.deleteByPointno = function(pointno){
+    return this.remove({point_no: pointno});
 }
 
 module.exports = mongoose.model('Point',pointSchema);
