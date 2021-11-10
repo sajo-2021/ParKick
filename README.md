@@ -1,1 +1,2 @@
-Making prototype
+DBserver : Making prototype    
+DBparkick : db server 
