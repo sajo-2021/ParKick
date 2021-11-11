@@ -24,7 +24,7 @@
 >       - 각 기능별로 반환할 정보, 상태코드 확인하기
 
 ### API Documents
-> * Park Information
+> * Park Information  
 > |Verb|Action|Path|Used for|
 > |:---:|:---:|:---:|:---:|
 > |GET|read All|/parks/|주차장 목록 조회|
@@ -41,7 +41,7 @@
 >   - park_latitude : 주차장의 위도?
 >   - park_longitude : 주차장의 경도
 
-> * Point Information
+> * Point Information  
 > |Verb|Action|Path|Used for|
 > |:---:|:---:|:---:|:---:|
 > |GET|read All|/points/|주차포인트 목록 조회|
@@ -59,7 +59,7 @@
 >   - point_longitude : 주차포인트의 경도
 >   - user_no : 주차 포인트를 제보한 이용자 정보
 
-> * View Information
+> * View Information  
 > |Verb|Action|Path|Used for|
 > |:---:|:---:|:---:|:---:|
 > |GET|read All|/views/|리뷰 목록 조회|
