@@ -24,65 +24,14 @@
 >       - 각 기능별로 반환할 정보, 상태코드 확인하기
 
 ### API Documents
-> * Park Information
 > |Verb|Action|Path|Used for|
 > |:---:|:---:|:---:|:---:|
-> |GET|read All|/parks/|주차장 목록 조회|
-> |GET|read|/parks/:no|park_no가 no인 주차장 조회|
-> |POST|create|/parks/|신규 주차장 생성|
-> |PUT|update|/parks/:no|park_no가 no인 주차장 갱신|
-> |DELETE|delete|/parks/:no|park_no가 no인 주차장 삭제|
->
-> * 요청 uri
->   - no : 검색, 갱신, 삭제할 park_no의 값
->
-> * 출력 결과
->   - park_no : 해당 주차장 고유의 번호
->   - park_latitude : 주차장의 위도?
->   - park_longitude : 주차장의 경도
-
-> * Point Information
-> |Verb|Action|Path|Used for|
-> |:---:|:---:|:---:|:---:|
-> |GET|read All|/points/|주차포인트 목록 조회|
-> |GET|read|/points/:no|point_no가 no인 주차포인트 조회|
-> |POST|create|/points/|신규 주차포인트 생성|
-> |PUT|update|/points/:no|point_no가 no인 주차포인트 갱신|
-> |DELETE|delete|/points/:no|point_no가 no인 주차포인트 삭제|
->
-> * 요청 uri
->   - no : 검색, 갱신, 삭제할 point_no의 값
->
-> * 출력 결과
->   - point_no : 해당 주차장 고유의 번호
->   - point_latitude : 주차포인트의 위도
->   - point_longitude : 주차포인트의 경도
->   - user_no : 주차 포인트를 제보한 이용자 정보
-
-> * View Information
-> |Verb|Action|Path|Used for|
-> |:---:|:---:|:---:|:---:|
-> |GET|read All|/views/|리뷰 목록 조회|
-> |GET|read|/views/:no|park_no가 no인 리뷰 조회|
-> |GET|read User|/views/user/:id|User id가 id인 리뷰 목록 조회|
-> |POST|create|/views/|신규 리뷰 생성|
-> |PUT|update|/views/:no|park_no가 no인 리뷰 갱신|
-> |DELETE|delete|/views/:no|park_no가 no인 리뷰 삭제|
->
-> * 요청 uri
->   - no : 검색, 갱신, 삭제할 point_no의 값
->   - id : 검색할 User_id의 값
->
-> * 출력 결과
->   - user_id : 리뷰를 작성한 user의 id
->   - park_no : 리뷰에 해당되는 주차장의 park_no
->   - view_stars : 리뷰 별점
->   - view_review : 리뷰 내용
+> |POST|create|/geo|제보기능, 신규 추천 영역 생성|
+> |GET|index|/map|추천 주차존 리스트 조회|
 
 ### status code
-> 400 : 형식 오류
-> 404 : 없는 데이타
-> 500 : 시스템 에러, 기타 에러
+> 
+> 
 
 ### Node.js, module install
 > nodejs 설치
@@ -126,6 +75,31 @@
 > ```
 > PS C:\> curl 127.0.0.1:3000/users -Method POST -Body $param | Select-Object -Expand Content
 > ```
+
+### 디렉토리 구조
+> parkick/  
+> ├ app/  
+> │ ├ api/  
+> │ │ ├ geo/  
+> │ │ ├ map/  
+> │ │ ├ todo/  
+> │ │ │ ├ index.js  
+> │ │ │ └ todo.controller.js  
+> │ │ └ users/  
+> │ │   ├ index.js  
+> │ │   └ user/controller.js  
+> │ ├ models/  
+> │ │ └ todo.js  
+> │ └ app.js  
+> ├ node_models/  
+> ├ .env  
+> ├ pakage.json  
+> └ README.md  
+
+
+
+> mongoose 연동 성공, API 형식과 DB 구조 구체화 필요  
+> 이후에 query 만들고 데이터 전처리부분 다듬으면 완성  
 
 
 ### 리눅스 환경 설정
