@@ -20,14 +20,6 @@ exports.readno = (req, res) => {
     }).catch(err => res.status(500).send(err));
 }
 
-exports.readUserid = (req, res) =>{
-    View.findByUserid(req.paarams.id).then((views) => {
-        if(!views.length) return res.status(404).send({err: 'View not found!'});
-
-        res.send(views);
-    }).catch(err => res.status(500).send(err));
-}
-
 exports.create = (req, res) => {
     View.create(req.body)
         .then((view) => {
