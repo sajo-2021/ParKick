@@ -134,32 +134,6 @@
 > PS C:\> curl 127.0.0.1:3000/users -Method POST -Body $param | Select-Object -Expand Content
 > ```
 
-### 디렉토리 구조
-> parkick/  
-> ├ app/  
-> │ ├ api/  
-> │ │ ├ geo/  
-> │ │ ├ map/  
-> │ │ ├ todo/  
-> │ │ │ ├ index.js  
-> │ │ │ └ todo.controller.js  
-> │ │ └ users/  
-> │ │   ├ index.js  
-> │ │   └ user/controller.js  
-> │ ├ models/  
-> │ │ └ todo.js  
-> │ └ app.js  
-> ├ node_models/  
-> ├ .env  
-> ├ pakage.json  
-> └ README.md  
-
-
-
-> mongoose 연동 성공, API 형식과 DB 구조 구체화 필요  
-> 이후에 query 만들고 데이터 전처리부분 다듬으면 완성  
-
-
 ### 리눅스 환경 설정
 * nodejs, npm, nvm 설치
 > nvm 설치
