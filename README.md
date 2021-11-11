@@ -107,3 +107,8 @@ TCP 소켓 통신
 _박인규 선배님 참고자료 공유:)_   
 [node.js REST API 서버 만들기](https://velog.io/@wimes/series/back-end)   
 [NodeJS_REST-API_tutorial](https://github.com/kiryun/NodeJS_REST-API_template)
+
+***
+Mongoose 설치
+-----------------
+공인 ip 주소 및 서버 연동 성공!
