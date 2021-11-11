@@ -27,7 +27,7 @@
 > * Park Information  
 >
 > |Verb|Action|Path|Used for|
-> |:---:|:---:|:---:|:---:|
+> |:---:|:---:|:---|:---:|
 > |GET|read All|/parks/|주차장 목록 조회|
 > |GET|read|/parks/:no|park_no가 no인 주차장 조회|
 > |POST|create|/parks/|신규 주차장 생성|
@@ -45,7 +45,7 @@
 > * Point Information  
 >
 > |Verb|Action|Path|Used for|
-> |:---:|:---:|:---:|:---:|
+> |:---:|:---:|:---|:---:|
 > |GET|read All|/points/|주차포인트 목록 조회|
 > |GET|read|/points/:no|point_no가 no인 주차포인트 조회|
 > |POST|create|/points/|신규 주차포인트 생성|
@@ -64,7 +64,7 @@
 > * View Information  
 >
 > |Verb|Action|Path|Used for|
-> |:---:|:---:|:---:|:---:|
+> |:---:|:---:|:---|:---:|
 > |GET|read All|/views/|리뷰 목록 조회|
 > |GET|read|/views/:no|park_no가 no인 리뷰 조회|
 > |GET|read User|/views/user/:id|User id가 id인 리뷰 목록 조회|
