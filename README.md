@@ -25,6 +25,7 @@
 
 ### API Documents
 > * Park Information  
+>
 > |Verb|Action|Path|Used for|
 > |:---:|:---:|:---:|:---:|
 > |GET|read All|/parks/|주차장 목록 조회|
@@ -42,6 +43,7 @@
 >   - park_longitude : 주차장의 경도
 
 > * Point Information  
+>
 > |Verb|Action|Path|Used for|
 > |:---:|:---:|:---:|:---:|
 > |GET|read All|/points/|주차포인트 목록 조회|
@@ -60,6 +62,7 @@
 >   - user_no : 주차 포인트를 제보한 이용자 정보
 
 > * View Information  
+>
 > |Verb|Action|Path|Used for|
 > |:---:|:---:|:---:|:---:|
 > |GET|read All|/views/|리뷰 목록 조회|
