@@ -6,6 +6,8 @@ router.get('/', controller.index);
 
 router.get('/:no', controller.readno);
 
+router.get('/user/:id', controller.readUserid);
+
 router.post('/', controller.create);
 
 router.put('/:no', controller.update);
