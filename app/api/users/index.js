@@ -10,18 +10,13 @@ const router = require('express').Router();
 
 const controller = require('./user.controller');
 
-module.exports = router;
-// 이렇게 module.exports를 통해 모듈을 생성한다면
-// 다른 코드에서 require('PATH')를 통해 연결할 수 있음
-// 바로 위의 controller 객체가 동일함
-
 router.get('/', controller.index);
 // 목록 읽기
 
-router.get('/:id', controller.show);
+router.get('/:id', controller.read);
 // 항목 읽기
 
-router.delete('/:id',controller.destroy);
+router.delete('/:id',controller.delete);
 // 항목 삭제
 
 router.post('/', controller.create);
@@ -29,3 +24,16 @@ router.post('/', controller.create);
 
 router.put('/:id', controller.update);
 // 항목 수정
+
+router.get('/id/:id', controller.readid);
+
+router.put('/id/:id', controller.updateid);
+
+router.delete('/id/:id', controller.deleteid);
+
+
+
+module.exports = router;
+// 이렇게 module.exports를 통해 모듈을 생성한다면
+// 다른 코드에서 require('PATH')를 통해 연결할 수 있음
+// 바로 위의 controller 객체가 동일함

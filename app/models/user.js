@@ -1,11 +1,20 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-    user_id: { type: String, required: true},
-    user_pwd: { type: String, required: true},
-    user_name: { type: String, required: true},
-    user_nick: { type: String, required: true}
+    id: { type: String, trim:true, required: true},
+    pwd: { type: String, trim:true, required: true},
+    name: { type: String, required: true},
+    nickname: { type: String},
+    email: {
+        type:String, required:true,
+        validate(value){
+            if(!validator.isEmail(value)) throw new Error("Email is invalid");
+        }
+    }
+},{
+    timestamps:true
 });
+
 
 userSchema.statics.create = function(payload){
     const user = new this(payload);
@@ -14,8 +23,8 @@ userSchema.statics.create = function(payload){
 userSchema.statics.findAll = function(payload){
     return this.find({});
 }
-userSchema.statics.findOneByUserid = function(userid){
-    return this.findOne({user_id: userid});
+userSchema.statics.findOneByUserid = function(id){
+    return this.findOne({id: id});
 }
 
 module.exports = mongoose.model('User',userSchema);
