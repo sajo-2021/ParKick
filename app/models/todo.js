@@ -9,7 +9,7 @@ const todoSchema = new mongoose.Schema({
     },
     {
         timestamps:true
-})
+});
 
 // Schema.statics.funcName - model의 메소드 (모델 전체에 대한 것)
 // Schema.methods.funcName - instance, document의 메소드 (document에 대한 것)

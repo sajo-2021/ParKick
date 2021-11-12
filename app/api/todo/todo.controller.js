@@ -52,6 +52,11 @@ exports.update = (req, res) => {
 
 exports.delete = (req, res) => {
     Todo.deletyByTodoid(req.params.todoid)
-        .then((todo) => res.sendStatus(200))
-        .catch(err => res.status(500).send(err));
+        .then((todo) => {
+            res.sendStatus(200);
+
+            console.log('todo delete log');
+            console.log(todo);
+            console.log('-------------------');
+        }).catch(err => res.status(500).send(err));
 };
