@@ -28,7 +28,7 @@ exports.readno = (req, res) => {
             if(!lot) return res.status(404).send({err: 'SE09'});
             res.status(200).send(lot);
 
-            console.log('lot read log');
+            console.log('lot readno log');
             console.log(lot);
             console.log('------------------------');
         }).catch(err => res.status(500).send(err));
@@ -38,7 +38,7 @@ exports.updateno = (req, res) => {
     Parklot.updateByParkno(req.params.no, req.body).then((lot) => {
             res.send(lot)
             
-            console.log('lot update log');
+            console.log('lot updateno log');
             console.log(`no: ${req.params.no}`);
             console.log(req.body);
             console.log('-------------------');
@@ -49,7 +49,7 @@ exports.deleteno = (req, res) => {
     Parklot.deleteByParkno(req.params.no).then((lot) => {
             res.sendStatus(200)
 
-            console.log('lot delete log');
+            console.log('lot deleteno log');
             console.log(lot);
             console.log('------------------');
         }).catch(err => res.status(500).send(err));
@@ -60,7 +60,7 @@ exports.readid = (req, res) => {
         if(!lot) return res.status(404).send({err: 'SE09'});
             res.status(200).send(lot);
 
-            console.log('lot read log');
+            console.log('lot readid log');
             console.log(lot);
             console.log('------------------------');
         }).catch(err => res.status(500).send(err));
@@ -70,7 +70,7 @@ exports.updateid = (req, res) => {
     Parklot.updateById(req.params.id, req.body).then((lot) => {
             res.send(lot)
             
-            console.log('lot update log');
+            console.log('lot updateid log');
             console.log(`no: ${req.params.no}`);
             console.log(req.body);
             console.log('-------------------');
@@ -81,7 +81,7 @@ exports.deleteid = (req, res) => {
     Parklot.deleteById(req.params.id).then((lot) => {
             res.sendStatus(200)
 
-            console.log('lot delete log');
+            console.log('lot deleteid log');
             console.log(lot);
             console.log('------------------');
         }).catch(err => res.status(500).send(err));

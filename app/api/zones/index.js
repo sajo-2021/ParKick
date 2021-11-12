@@ -4,12 +4,18 @@ const controller = require('./zone.controller');
 
 router.get('/', controller.index);
 
-router.get('/:no', controller.readno);
-
 router.post('/', controller.create);
 
-router.put('/:no', controller.update);
+router.get('/no/:no', controller.readno);
 
-router.delete('/:no', controller.delete);
+router.put('/no/:no', controller.updateno);
+
+router.delete('/no/:no', controller.deleteno);
+
+router.get('/id/:id', controller.readid);
+
+router.put('/id/:id', controller.updateid);
+
+router.delete('/id/:id', controller.deleteid);
 
 module.exports = router;
