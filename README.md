@@ -160,7 +160,6 @@
 > PS C:\> curl 127.0.0.1:3000/users -Method POST -Body $param | Select-Object -Expand Content
 > ```
 
-
 ### 리눅스 환경 설정
 * nodejs, npm, nvm 설치
 > nvm 설치
