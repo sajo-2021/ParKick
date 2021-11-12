@@ -105,6 +105,7 @@
 >
 > * 출력 결과
 >   - comment : 댓글의 내용  
+>   
 > comment의 CRUD가 따로 필요할까??  
 > Read는 필요없지않을까? parklot에서 populate를 통해 읽는것이 더욱 효과적  
 
