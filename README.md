@@ -24,63 +24,89 @@
 >       - 각 기능별로 반환할 정보, 상태코드 확인하기
 
 ### API Documents
-> * Park Information  
+> * Parklot Information  
 >
 > |Verb|Action|Path|Used for|
 > |:---:|:---:|:---|:---:|
-> |GET|read All|/parks/|주차장 목록 조회|
-> |GET|read|/parks/:no|park_no가 no인 주차장 조회|
-> |POST|create|/parks/|신규 주차장 생성|
-> |PUT|update|/parks/:no|park_no가 no인 주차장 갱신|
-> |DELETE|delete|/parks/:no|park_no가 no인 주차장 삭제|
+> |GET|read All|/parklots/|주차장 목록 조회|
+> |POST|create|/parklots/|신규 주차장 생성|
+> |GET|read|/parklots/no/:no|park_no가 no인 주차장 조회|
+> |PUT|update|/parklots/no/:no|park_no가 no인 주차장 갱신|
+> |DELETE|delete|/parklots/no/:no|park_no가 no인 주차장 삭제|
+> |GET|read|/parklots/id/:id|_id가 id인 주차장 조회|
+> |PUT|update|/parklots/id/:id|_id가 id인 주차장 갱신|
+> |DELETE|delete|/parklots/id/:id|_id가 id인 주차장 삭제|
 >
 > * 요청 uri
->   - no : 검색, 갱신, 삭제할 park_no의 값
+>   - no : 검색, 갱신, 삭제할 lotid의 값
+>   - id : 검색할 _id의 값
 >
 > * 출력 결과
->   - park_no : 해당 주차장 고유의 번호
->   - park_latitude : 주차장의 위도?
->   - park_longitude : 주차장의 경도
+>   - lotid : 해당 주차장 고유의 번호
+>   - latitude : 주차장의 위도?
+>   - longitude : 주차장의 경도
 
-> * Point Information  
+> * Zone Information  
 >
 > |Verb|Action|Path|Used for|
 > |:---:|:---:|:---|:---:|
-> |GET|read All|/points/|주차포인트 목록 조회|
-> |GET|read|/points/:no|point_no가 no인 주차포인트 조회|
-> |POST|create|/points/|신규 주차포인트 생성|
-> |PUT|update|/points/:no|point_no가 no인 주차포인트 갱신|
-> |DELETE|delete|/points/:no|point_no가 no인 주차포인트 삭제|
+> |GET|read All|/zones/|주차포인트 목록 조회|
+> |POST|create|/zones/|신규 주차포인트 생성|
+> |GET|read|/zones/no/:no|point_no가 no인 주차포인트 조회|
+> |PUT|update|/zones/no/:no|point_no가 no인 주차포인트 갱신|
+> |DELETE|delete|/zones/no/:no|point_no가 no인 주차포인트 삭제|
+> |GET|read|/zones/id/:id|_id가 id인 주차포인트 조회|
+> |PUT|update|/zones/id/:id|_id가 id인 주차포인트 갱신|
+> |DELETE|delete|/zones/id/:id|_id가 id인 주차포인트 삭제|
 >
 > * 요청 uri
->   - no : 검색, 갱신, 삭제할 point_no의 값
+>   - no : 검색, 갱신, 삭제할 zoneid의 값
+>   - id : 검색할 _id의 값
 >
 > * 출력 결과
->   - point_no : 해당 주차장 고유의 번호
->   - point_latitude : 주차포인트의 위도
->   - point_longitude : 주차포인트의 경도
->   - user_no : 주차 포인트를 제보한 이용자 정보
+>   - zoneid : 해당 주차포인트 고유의 번호
+>   - latitude : 주차포인트의 위도
+>   - longitude : 주차포인트의 경도
 
-> * View Information  
+> * Rate Information  
 >
 > |Verb|Action|Path|Used for|
 > |:---:|:---:|:---|:---:|
-> |GET|read All|/views/|리뷰 목록 조회|
-> |GET|read|/views/:no|park_no가 no인 리뷰 조회|
-> |GET|read User|/views/user/:id|User id가 id인 리뷰 목록 조회|
-> |POST|create|/views/|신규 리뷰 생성|
-> |PUT|update|/views/:no|park_no가 no인 리뷰 갱신|
-> |DELETE|delete|/views/:no|park_no가 no인 리뷰 삭제|
+> |GET|read All|/rates/|평가 목록 조회|
+> |POST|create|/rates/|신규 평가 생성|
+> |GET|read|/rates/no/:no|lotid가 no인 평가 조회|
+> |PUT|update|/rates/no/:no|lotid가 no인 평가 갱신|
+> |DELETE|delete|/rates/no/:no|lotid가 no인 평가 삭제|
+> |GET|read|/rates/id/:id|_id가 id인 평가 조회|
+> |PUT|update|/rates/id/:id|_id가 id인 평가 갱신|
+> |DELETE|delete|/rates/id/:id|_id가 id인 평가 삭제|
 >
 > * 요청 uri
->   - no : 검색, 갱신, 삭제할 point_no의 값
->   - id : 검색할 User_id의 값
+>   - no : 검색, 갱신, 삭제할 lotid의 값
+>   - id : 검색할 _id의 값
 >
 > * 출력 결과
->   - user_id : 리뷰를 작성한 user의 id
->   - park_no : 리뷰에 해당되는 주차장의 park_no
->   - view_stars : 리뷰 별점
->   - view_review : 리뷰 내용
+>   - lotid : 해당 평가에 해당되는 주차장의 id
+>   - like : 평가 중 좋아요 수
+>   - dislike : 평가중 싫어요 수
+
+> * Comment Information  
+>
+> |Verb|Action|Path|Used for|
+> |:---:|:---:|:---|:---:|
+> |GET|read All|/comments/|댓글 목록 조회|
+> |POST|create|/comments/|신규 댓글 생성|
+> |GET|read|/comments/id/:id|_id가 id인 댓글 조회|
+> |PUT|update|/comments/id/:id|_id가 id인 댓글 갱신|
+> |DELETE|delete|/comments/id/:id|_id가 id인 댓글 삭제|
+>
+> * 요청 uri
+>   - id : 검색할 _id의 값
+>
+> * 출력 결과
+>   - comment : 댓글의 내용
+> comment의 CRUD가 따로 필요할까??
+> Read는 필요없지않을까? parklot에서 populate를 통해 읽는것이 더욱 효과적
 
 ### status code
 > * 400 : 형식 오류
