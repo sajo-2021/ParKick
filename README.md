@@ -28,8 +28,8 @@ Parkick DBserver
     * zone.ctrl.js
   
 ### Local 서버  
-    > package.json   
-    > "start": "node index.js"   
+    > package.json    
+    > "start": "node index.js"       
     > $npm start   
 
 ### 네이버 클라우드 서버 
