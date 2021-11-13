@@ -1,29 +1,27 @@
 {
-  "dependencies": {
-    "dotenv": "^10.0.0",
-    "express": "^4.17.1",
-    "init": "^0.1.2",
-    "mongo": "^0.1.0",
-    "mongodb": "^4.1.4",
-    "mongoose": "^6.0.12",
-    "validator": "^13.7.0"
-  },
   "name": "parkick",
-  "description": "",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "2015920021 박인규 API 담당",
+  "main": "app.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node app/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DaaEun/ParKick.git"
+    "url": "git+https://github.com/gunbbang001/ParKick.git"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/DaaEun/ParKick/issues"
+    "url": "https://github.com/gunbbang001/ParKick/issues"
   },
-  "homepage": "https://github.com/DaaEun/ParKick#readme"
+  "homepage": "https://github.com/gunbbang001/ParKick#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mongoose": "^6.0.9",
+    "validator": "^13.7.0"
+  }
 }
