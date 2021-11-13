@@ -6,11 +6,12 @@ const validator = require("validator");
 
 // 스키마 생성
 const ParklotSchema = new mongoose.Schema({
-  lotid: { // 주차장이름, 추천한 주차공간을 좌표값이 아닌, 위치정보로 제공
-    type: Number, 
+  lotid: { // 이름 
+  // UI에서 주차장 좌표값이 아닌 주차장 이름 출력
+    type: String, 
     required: true, 
     unique:true
-  },  // 수정하기
+  }, 
   latitude: {   // 위도
     type: String,
     required: true,
@@ -29,7 +30,7 @@ const ParklotSchema = new mongoose.Schema({
       }
     },
   },
-  lotcomments: [{ // 특정 주차장의 댓글들
+  comments: [{ // 특정 주차장의 댓글들
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'Comment'
   }],
@@ -38,9 +39,18 @@ const ParklotSchema = new mongoose.Schema({
   timestamps: true
 });
 
-User.findOne({ name: 'zero' }).populate('bestFriend').exec((err, data) => {
+/*
+    필드에 다른 오브젝트의 아이디를 지정할 수 있음
+    { type: Schema.Types.ObjectId, ref:'스키마이름' }
+    이러한 아이디에 대해 .populate(필드이름) 으로 해당 오브젝트를 불러올 수 있음    
+*/
+const Comment = require("comment");
+Comment.findOne({parklot: parklot_id }).populate('comments').exec((err, data) => {
+  // parklot_id : 특정 주차장 _id 입력받기
   console.log(data);
 });
+
+
 
 // 모델 생성
 const Parklot = mongoose.model("Parklot", ParklotSchema);
