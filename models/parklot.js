@@ -50,9 +50,29 @@ Comment.findOne({parklot: parklot_id }).populate('comments').exec((err, data) =>
   console.log(data);
 });
 
-
+/////////////////////////////////////////////////////////
+/// # 구상(구현X) : 세분화된 주차장 
+/// area(서울) > section(동대문구) > location(서울시립대)  
+///                                    
+/// # 구현 : 섹션별 주차장 
+/// section : 특정 좌표들로 구분                                 
+/////////////////////////////////////////////////////////
+const SectionSchema = new mongoose.Schema({
+  sectid: {
+    type: String, 
+    unique:true
+  },
+  parklot: {
+    type: [ParklotSchema]
+  }
+},
+{
+  timestamps: true
+});
 
 // 모델 생성
 const Parklot = mongoose.model("Parklot", ParklotSchema);
+const Section = mongoose.model("Section", SectionSchemaSchema);
 
 module.exports = Parklot;
+module.exports = Section;
