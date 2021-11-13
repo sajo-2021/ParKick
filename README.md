@@ -28,11 +28,10 @@ Parkick DBserver
     * zone.ctrl.js
   
 ### Local 서버  
-> package.json
-> "start": "node index.js"
-> $npm start
+    > package.json   
+    > "start": "node index.js"   
+    > $npm start   
 
 ### 네이버 클라우드 서버 
-> putty 실행  
-> 공유 포트 접속
->
+    > putty 실행     
+    > 공유 포트 접속    
