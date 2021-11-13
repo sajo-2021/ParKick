@@ -46,8 +46,7 @@ const UserSchema = new mongoose.Schema({
 },
 {
   timestamps:true
-}
-);
+});
 
 // 모델 생성
 const User = mongoose.model("User", UserSchema);

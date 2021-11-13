@@ -6,20 +6,29 @@ const validator = require("validator");
 
 // 스키마 생성
 const RateSchema = new mongoose.Schema({
+  lotid: {type:Number, required: true}, // 무얼까?
   like: {
     type: Number,
+    validate(value){
+      if(value < 0) throw new Error("like is not Negative");
+    }
   },
   // like와 dislike 구분
-  // like : +1
-  // dislike : -1 
+  // like : 좋아요    dislike : 싫어요
   // APIserver에서 각각 count 갯수 세기 용이
   dislike: {
     type: Number,
+    validate(value){
+      if(value < 0) throw new Error("like is not Negative");
+    }
   },
-  saveDate: {
-    type: Date,
-    default: Date.now,
-  },
+  // saveDate: {
+  //   type: Date,
+  //   default: Date.now,
+  // },
+},
+{
+  timestamps: true
 });
 
 // 모델 생성

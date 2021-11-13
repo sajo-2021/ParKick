@@ -6,8 +6,13 @@ const validator = require("validator");
 
 // 스키마 생성
 const ParklotSchema = new mongoose.Schema({
+  lotid: { // 주차장이름, 추천한 주차공간을 좌표값이 아닌, 위치정보로 제공
+    type: Number, 
+    required: true, 
+    unique:true
+  },  // 수정하기
   latitude: {   // 위도
-    type: Number,
+    type: String,
     required: true,
     validate(value) {
       if (value < 0) {
@@ -16,7 +21,7 @@ const ParklotSchema = new mongoose.Schema({
     },
   },
   longtitude: {   // 경도
-    type: Number,
+    type: String,
     required: true,
     validate(value) {
       if (value < 0) {
@@ -24,10 +29,17 @@ const ParklotSchema = new mongoose.Schema({
       }
     },
   },
-  saveDate: {
-    type: Date,
-    default: Date.now,
-  },
+  lotcomments: [{ // 특정 주차장의 댓글들
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Comment'
+  }],
+},
+{
+  timestamps: true
+});
+
+User.findOne({ name: 'zero' }).populate('bestFriend').exec((err, data) => {
+  console.log(data);
 });
 
 // 모델 생성

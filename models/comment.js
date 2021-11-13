@@ -13,11 +13,14 @@ const CommentSchema = new mongoose.Schema({
         throw new Error("More than 100 characters cannot be entered.");
       }
     }
-  },
-  saveDate: {
-    type: Date,
-    default: Date.now,
-  },
+  }
+  // saveDate: {
+  //   type: Date,
+  //   default: Date.now,
+  // },
+},
+{
+  timestamps:true
 });
 
 // 모델 생성
