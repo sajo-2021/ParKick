@@ -202,6 +202,30 @@ const UserSchema = new mongoose.Schema({
 > "start": "node index.js"
 > $npm start
 
+## Log 2021.11.13
+1. parklot 스키마에 섹션별 구분을 위한 배열 구현 -> (parklot.js)Section 스키마 생성
+2. rate 스키마에서 like/dislike 구분 및 type 변경
+3. 연관있는 필드 연결 (외래키 특성 구현)
+4. DaaEun/Parkick 브랜치 정리
+5. Systemserver 연동을 위한 TCP, UDP 학습 및 통신(못함)
+6. 우분투 서버에서 실행(못함)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## 추가 참고 자료
 
 ### restAPI

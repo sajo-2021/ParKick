@@ -39,15 +39,21 @@ const UserSchema = new mongoose.Schema({
       }
     },
   },
-  // saveDate: {
-  //   type: Date,
-  //   default: Date.now,
-  // },
+  comments: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Comment'
+  }],
 },
 {
   timestamps:true
-}
-);
+});
+
+const Comment = require("comment");
+Comment.findOne({user: user_id }).populate('comments').exec((err, data) => {
+  // user_id : 특정 유저 _id 입력받기
+  console.log(data);
+});
+
 
 // 모델 생성
 const User = mongoose.model("User", UserSchema);

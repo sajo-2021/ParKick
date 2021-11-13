@@ -24,13 +24,18 @@ const ZoneSchema = new mongoose.Schema({
       }
     },
   },
-  saveDate: {
-    type: Date,
-    default: Date.now,
-  },
+  // saveDate: {
+  //   type: Date,
+  //   default: Date.now,
+  // },
+},
+{
+  timestamps:true
 });
 
 // 모델 생성
 const Zone = mongoose.model("Zone", ZoneSchema);
 
 module.exports = Zone;
+
+// 주차공간 데이터는 list 뭉텅이로 제공 -> 데이터 가공 필요
