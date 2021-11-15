@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 var Rate = require('./rate');
+var Comment = require('./comment');
+var User = reqire('./user');
 
 const parklotSchema = new mongoose.Schema({
     lotid: { type: Number, required: true, unique:true},
@@ -16,7 +18,7 @@ const parklotSchema = new mongoose.Schema({
             if(value < 0) throw new Error("A number less than 0 came in.");
         }
     },
-    rate: {type: mongoose.Schema.Types.ObjectId, ref:'Rate', default:{} },
+    rate: {type: mongoose.Schema.Types.ObjectId, ref:'Rate' },
     comments: [{
         user: {type:mongoose.Schema.Types.ObjectId, ref:'User'}, 
         comment: {type: mongoose.Schema.Types.ObjectId, ref:'Comment'},
@@ -28,15 +30,16 @@ const parklotSchema = new mongoose.Schema({
 
 
 parklotSchema.statics.create = function(payload){
-    const rateid = null;
-    Rate.create().then(rate => rateid = rate._id);
-    const park = new this(payload);
-    park.rate = rateid;
+    var park = new this(payload);
+    var newrate = new Rate();
+    newrate.save();
+
+    park.rate = newrate._id;
 
     return park.save();
 }
 parklotSchema.statics.findAll = function(){
-    return this.find({});
+    return this.find({}).populate("rate");
 }
 parklotSchema.statics.findOneByParkno = function(lot){
     return this.findOne({ lotid : lot });
@@ -65,6 +68,16 @@ parklotSchema.statics.updateById = function(id, payload){
 }
 parklotSchema.statics.deleteById = function(id){
     return this.remove({_id: id});
+}
+parklotSchema.statics.writeComments = function(lot ,user , comment){
+    return this.findOne({lotid: lot}).addComment(user, comment);
+}
+
+parklotSchema.methods.addComment = function(user, comment){
+    var com = new Comment({comment: comment});
+    com.save();
+    this.comments.push({user:user, comment: com._id});
+    return this.save();
 }
 
 

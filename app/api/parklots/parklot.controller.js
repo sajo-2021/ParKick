@@ -86,3 +86,13 @@ exports.deleteid = (req, res) => {
             console.log('------------------');
         }).catch(err => res.status(500).send(err));
 }
+
+exports.writecom = (req, res) => {
+    Parklot.writeComments(req.params.no, req.params.user, req.body).then(lot => {
+        res.send(lot);
+
+        console.log('write Comment log');
+        console.log(lot);
+        console.log('---------------------')
+    })
+}
