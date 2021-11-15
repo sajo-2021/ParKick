@@ -6,6 +6,10 @@ const validator = require("validator");
 
 // 스키마 생성
 const ZoneSchema = new mongoose.Schema({
+  suggest: {  // true : 주차공간 추천 / false : 주차금지공간 추천
+    type:Boolean,
+    default :true,
+  },
   latitude: {   // 위도
     type: Number,
     required: true,
