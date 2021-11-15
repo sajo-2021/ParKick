@@ -100,6 +100,7 @@ exports.updatecom = (req, res) => {
     Parklot.findOneByParkno(req.params.no).then(lot => {
         if(!lot) return res.status(404).send('SE09');
         lot.updateComment(req.params.comid, req.body);
+        console.log(lot);
 
         res.send(lot);
     }).catch(err => res.status(500).send(err));
@@ -108,7 +109,8 @@ exports.updatecom = (req, res) => {
 exports.deletecom = (req, res) => {
     Parklot.findOneByParkno(req.params.no).then(lot => {
         if(!lot) return res.status(404).send('SE09');
-        lot.comments.pull({'comments.$.comment' : req.params.comid})
+        lot.comments.pull({'comments.$.comment' : req.params.comid});
+        lot.save();
 
         res.send(lot);
     }).catch(err => res.status(500).send(err));

@@ -102,8 +102,11 @@ parklotSchema.methods.updateComment = function(commentid, edit){
     Comment.findeOneById(commentid).then(comment => {
         if(!comment) throw new Error('Comment id is Unavailable');
         comment.comment = edit;
-        this.save();
+        console.log(comment);
+        comment.save();
     });
+
+    return this.save();
 }
 
 

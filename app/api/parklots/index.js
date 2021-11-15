@@ -20,7 +20,7 @@ router.delete('/id/:id', controller.deleteid);
 
 router.post('/:no/:user', controller.writecom);
 
-router.put('/:no/:user/:comid', controller.updatecom);
+router.put('/:no/:comid', controller.updatecom);
 
 router.delete('/:no/:comid', controller.deletecom);
 
