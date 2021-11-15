@@ -50,7 +50,15 @@ parklotSchema.statics.findAll = function(){
         });
 }
 parklotSchema.statics.findOneByParkno = function(lot){
-    return this.findOne({ lotid : lot });
+    return this.findOne({ lotid : lot })
+        .populate("rate", "like dislike")
+        .populate({
+            path: "comments", 
+            populate: {path:"user", select: "nickname"}})
+        .populate({
+            path: "comments",
+            populate: {path: "comment", select: "comment"}
+        });
     // position은 사용자의 좌표를 바로 입력하면 안됨
     // 좌표에 해당하는 격자의 위치정보로 바꾸어주는 함수 필요
 }

@@ -1,7 +1,7 @@
 const Comment = require('../../models/comment');
 
 exports.index = (req, res) => {
-    Comment.create().then((comments) => {
+    Comment.findAll().then((comments) => {
         if(!comments.length) return res.status(404).send('SE09');
         res.send(comments);
     }).catch(err => res.status(500).send(err));
