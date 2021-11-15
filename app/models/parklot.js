@@ -87,13 +87,14 @@ parklotSchema.statics.deleteById = function(id){
 }
 
 parklotSchema.methods.addComment = function(user, comment){
+    User.findOneById(user).then(user => {
+        if(!user) throw new Error('User id is Unavailable!');
+        user.mycomments.push(com._id);
+    });
     var com = new Comment(comment);
     com.save();
     this.comments.push({user:user, comment: com._id});
-    User.findOneById(user).then(user => {
-        user.addComment(com._id);
-    });
-
+    
     return this.save();
 }
 

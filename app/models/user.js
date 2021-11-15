@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-var Parklot = require('./parklot');
+var Comment = require('./comment');
 
 const userSchema = new mongoose.Schema({
     id: { type: String, trim:true, required: true},
@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
         // }
     },
     lot_rate_list: [{
-        lot: mongoose.Schema.Types.ObjectId,
+        lot: {type: mongoose.Schema.Types.ObjectId, ref: 'Parklot'},
         myrate: Number
     }],
     mycomments: [ {type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}]
@@ -50,7 +50,7 @@ userSchema.statics.deleteById = function(id){
 }
 
 userSchema.methods.addComment = function(cid){
-    this.mycomments.push({cid});
+    this.mycomments.push(cid);
 }
 
 userSchema.methods.updateRate = function(check, lot) {

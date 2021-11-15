@@ -89,6 +89,7 @@ exports.deleteid = (req, res) => {
 
 exports.writecom = (req, res) => {
     Parklot.findOneByParkno(req.params.no).then(lot => {
+        if(!lot) return res.status(404).send('SE09');
         lot.addComment(req.params.user, req.body);
 
         res.send(lot);
