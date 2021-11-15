@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+var Rate = require('./rate');
 
 const parklotSchema = new mongoose.Schema({
     lotid: { type: Number, required: true, unique:true},
@@ -14,14 +15,23 @@ const parklotSchema = new mongoose.Schema({
         validate(value) {
             if(value < 0) throw new Error("A number less than 0 came in.");
         }
-    }
+    },
+    rate: {type: mongoose.Schema.Types.ObjectId, ref:'Rate', default:{} },
+    comments: [{
+        user: {type:mongoose.Schema.Types.ObjectId, ref:'User'}, 
+        comment: {type: mongoose.Schema.Types.ObjectId, ref:'Comment'},
+        default: {}
+    }]
 },{
     timestamps: true
 });
 
 
 parklotSchema.statics.create = function(payload){
+    const rateid = null;
+    Rate.create().then(rate => rateid = rate._id);
     const park = new this(payload);
+    park.rate = rateid;
 
     return park.save();
 }
