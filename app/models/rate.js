@@ -2,15 +2,14 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 
 const rateSchema = new mongoose.Schema({
-    lotid: {type:Number, required: true},
     like: {
-        type:Number, required: true,
+        type:Number, default: 0,
         validate(value){
             if(value < 0) throw new Error("like is not Negative");
         }
     },
     dislike: {
-        type:Number, required:true,
+        type:Number, default: 0,
         validate(value){
             if(value < 0) throw new Error("dislike is not Negative");
         }
@@ -43,5 +42,9 @@ rateSchema.statics.updateById = function(id, payload){
 rateSchema.statics.deleteById = function(id){
     return this.remove({_id: id});
 }
+
+
+
+
 
 module.exports = mongoose.model('Rate',rateSchema);
