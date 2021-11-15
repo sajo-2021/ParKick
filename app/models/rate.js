@@ -13,7 +13,11 @@ const rateSchema = new mongoose.Schema({
         validate(value){
             if(value < 0) throw new Error("dislike is not Negative");
         }
-    }
+    },
+    parklots: [{
+        lot: mongoose.Schema.Types.ObjectId,
+        myrate: Number
+    }]
 }, {timestamps: true});
 
 rateSchema.statics.create = function(payload){

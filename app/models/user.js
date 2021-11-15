@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+var Parklot = require('./parklot');
 
 const userSchema = new mongoose.Schema({
     id: { type: String, trim:true, required: true},
@@ -10,7 +11,12 @@ const userSchema = new mongoose.Schema({
         // validate(value){
         //     if(!validator.isEmail(value)) throw new Error("Email is invalid");
         // }
-    }
+    },
+    lot_rate_list: [{
+        lot: mongoose.Schema.Types.ObjectId,
+        myrate: Number
+    }],
+    mycomments: [ {type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}]
 },{
     timestamps:true
 });
@@ -42,5 +48,21 @@ userSchema.statics.updateById = function(id, payload){
 userSchema.statics.deleteById = function(id){
     return this.remove({_id: id});
 }
+
+userSchema.methods.addComment = function(cid){
+    this.mycomments.push({cid});
+}
+
+userSchema.methods.updateRate = function(check, lot) {
+
+    // if(check===1){
+    //     this.update({'lot_rate_list.lot': lot}, {$set:{'lot_rate_list.$.myrate':1}},{new: true});
+    //     Parklot.findOneById(lot).then((lot) => lot.rateLike());
+    // }else if(check===2){
+    //     this.update({'lot_rate_list.lot': lot}, {$set:{'lot_rate_list.$.myrate':2}},{new: true});
+    //     Parklot.findOneById(lot).then((lot) => lot.rateDislike());
+    // }
+}
+
 
 module.exports = mongoose.model('User',userSchema);

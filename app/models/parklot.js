@@ -90,9 +90,22 @@ parklotSchema.methods.addComment = function(user, comment){
     var com = new Comment(comment);
     com.save();
     this.comments.push({user:user, comment: com._id});
+    User.findOneById(user).then(user => {
+        user.addComment(com._id);
+    });
+
     return this.save();
 }
 
+
+
+parklotSchema.methods.rateLike = function(){
+    var rateid = this.rate;
+    Rate.findOneAndUpdate({_id: rateid}, {$inc: {like:1}}, {new: true});
+}
+parklotSchema.methods.rateDislike= function(){
+
+}
 
 
 module.exports = mongoose.model('Parklot',parklotSchema);

@@ -96,5 +96,5 @@ exports.writecom = (req, res) => {
         console.log('write Comment log');
         console.log(lot);
         console.log('---------------------')
-    })
+    }).catch(err => res.status(500).send(err));
 }
