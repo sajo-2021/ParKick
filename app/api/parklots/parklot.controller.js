@@ -88,7 +88,9 @@ exports.deleteid = (req, res) => {
 }
 
 exports.writecom = (req, res) => {
-    Parklot.writeComments(req.params.no, req.params.user, req.body).then(lot => {
+    Parklot.findOneByParkno(req.params.no).then(lot => {
+        lot.addComment(req.params.user, req.body);
+
         res.send(lot);
 
         console.log('write Comment log');

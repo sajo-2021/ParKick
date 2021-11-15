@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 var Rate = require('./rate');
 var Comment = require('./comment');
-var User = reqire('./user');
+var User = require('./user');
 
 const parklotSchema = new mongoose.Schema({
     lotid: { type: Number, required: true, unique:true},
@@ -69,12 +69,9 @@ parklotSchema.statics.updateById = function(id, payload){
 parklotSchema.statics.deleteById = function(id){
     return this.remove({_id: id});
 }
-parklotSchema.statics.writeComments = function(lot ,user , comment){
-    return this.findOne({lotid: lot}).addComment(user, comment);
-}
 
 parklotSchema.methods.addComment = function(user, comment){
-    var com = new Comment({comment: comment});
+    var com = new Comment(comment);
     com.save();
     this.comments.push({user:user, comment: com._id});
     return this.save();

@@ -7,9 +7,9 @@ const userSchema = new mongoose.Schema({
     nickname: { type: String},
     email: {
         type:String, required:true,
-        validate(value){
-            if(!validator.isEmail(value)) throw new Error("Email is invalid");
-        }
+        // validate(value){
+        //     if(!validator.isEmail(value)) throw new Error("Email is invalid");
+        // }
     }
 },{
     timestamps:true
@@ -23,8 +23,24 @@ userSchema.statics.create = function(payload){
 userSchema.statics.findAll = function(payload){
     return this.find({});
 }
-userSchema.statics.findOneByUserid = function(id){
-    return this.findOne({id: id});
+userSchema.statics.findOneByUserid = function(user){
+    return this.findOne({id: user});
+}
+userSchema.statics.updateByUserid = function(user, payload){
+    return this.findOneAndUpdate({id: user}, {$set: payload}, {new: true});
+}
+userSchema.statics.deleteByUserid = function(user){
+    return this.remove({id: user});
+}
+
+userSchema.statics.findOneById = function(id){
+    return this.findOne({_id: id});
+}
+parklotSchema.statics.updateById = function(id, payload){
+    return this.findOneAndUpdate({_id: id},{$set: payload}, {new: true});
+}
+parklotSchema.statics.deleteById = function(id){
+    return this.remove({_id: id});
 }
 
 module.exports = mongoose.model('User',userSchema);
