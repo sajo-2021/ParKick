@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 80;
 
 app.use(bodyParser.json()); // express에서 json으로 body를 받음
 app.use(bodyParser.urlencoded({extended: true})); // 이건뭐지
