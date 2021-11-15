@@ -93,9 +93,23 @@ exports.writecom = (req, res) => {
         lot.addComment(req.params.user, req.body);
 
         res.send(lot);
+    }).catch(err => res.status(500).send(err));
+}
 
-        console.log('write Comment log');
-        console.log(lot);
-        console.log('---------------------')
+exports.updatecom = (req, res) => {
+    Parklot.findOneByParkno(req.params.no).then(lot => {
+        if(!lot) return res.status(404).send('SE09');
+        lot.updateComment(req.params.comid, req.body);
+
+        res.send(lot);
+    }).catch(err => res.status(500).send(err));
+}
+
+exports.deletecom = (req, res) => {
+    Parklot.findOneByParkno(req.params.no).then(lot => {
+        if(!lot) return res.status(404).send('SE09');
+        lot.comments.pull({'comments.$.comment' : req.params.comid})
+
+        res.send(lot);
     }).catch(err => res.status(500).send(err));
 }

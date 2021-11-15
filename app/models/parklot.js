@@ -98,6 +98,14 @@ parklotSchema.methods.addComment = function(user, comment){
     return this.save();
 }
 
+parklotSchema.methods.updateComment = function(commentid, edit){
+    Comment.findeOneById(commentid).then(comment => {
+        if(!comment) throw new Error('Comment id is Unavailable');
+        comment.comment = edit;
+        this.save();
+    });
+}
+
 
 
 parklotSchema.methods.rateLike = function(){
