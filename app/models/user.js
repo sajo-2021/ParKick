@@ -36,10 +36,10 @@ userSchema.statics.deleteByUserid = function(user){
 userSchema.statics.findOneById = function(id){
     return this.findOne({_id: id});
 }
-parklotSchema.statics.updateById = function(id, payload){
+userSchema.statics.updateById = function(id, payload){
     return this.findOneAndUpdate({_id: id},{$set: payload}, {new: true});
 }
-parklotSchema.statics.deleteById = function(id){
+userSchema.statics.deleteById = function(id){
     return this.remove({_id: id});
 }
 

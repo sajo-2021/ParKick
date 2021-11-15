@@ -39,7 +39,15 @@ parklotSchema.statics.create = function(payload){
     return park.save();
 }
 parklotSchema.statics.findAll = function(){
-    return this.find({}).populate("rate");
+    return this.find({})
+        .populate("rate", "like dislike")
+        .populate({
+            path: "comments", 
+            populate: {path:"user", select: "nickname"}})
+        .populate({
+            path: "comments",
+            populate: {path: "comment", select: "comment"}
+        });
 }
 parklotSchema.statics.findOneByParkno = function(lot){
     return this.findOne({ lotid : lot });
