@@ -14,13 +14,11 @@ router.delete('/no/:no', controller.deleteno);
 
 router.delete('/id/:id', controller.deleteid);
 
-router.post('/:no/:user', controller.writecom);
+router.post('/com/:no/:user', controller.writecom);
+router.put('/com/:no/:comid', controller.updatecom);
+router.delete('/com/:no/:comid', controller.deletecom);
 
-router.put('/:no/:comid', controller.updatecom);
-
-router.delete('/:no/:comid', controller.deletecom);
-
-router.get('/inclike/:id', controller.inclike);
+router.get('/inclike/:lotid/:userid', controller.inclike);
 router.get('/declike/:id', controller.declike);
 router.get('/incdislike/:id', controller.incdislike);
 router.get('/decdislike/:id', controller.decdislike);

@@ -4,8 +4,6 @@ const controller = require('./rate.controller');
 
 router.get('/', controller.index);
 
-router.post('/', controller.create);
-
 router.get('/id/:id', controller.read);
 
 router.put('/id/:id', controller.update);

@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
     },
     lot_rate_list: [{
         lot: {type: mongoose.Schema.Types.ObjectId, ref: 'Parklot'},
-        myrate: Number
+        myrate: {type: Number, default: 0 }
     }],
     mycomments: [ {type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}]
 },{
@@ -29,15 +29,6 @@ userSchema.statics.create = function(payload){
 userSchema.statics.findAll = function(payload){
     return this.find({});
 }
-userSchema.statics.findOneByUserid = function(user){
-    return this.findOne({id: user});
-}
-userSchema.statics.updateByUserid = function(user, payload){
-    return this.findOneAndUpdate({id: user}, {$set: payload}, {new: true});
-}
-userSchema.statics.deleteByUserid = function(user){
-    return this.remove({id: user});
-}
 
 userSchema.statics.findOneById = function(id){
     return this.findOne({_id: id});
@@ -49,19 +40,9 @@ userSchema.statics.deleteById = function(id){
     return this.remove({_id: id});
 }
 
-userSchema.methods.addComment = function(cid){
-    this.mycomments.push(cid);
-}
-
-userSchema.methods.updateRate = function(check, lot) {
-
-    // if(check===1){
-    //     this.update({'lot_rate_list.lot': lot}, {$set:{'lot_rate_list.$.myrate':1}},{new: true});
-    //     Parklot.findOneById(lot).then((lot) => lot.rateLike());
-    // }else if(check===2){
-    //     this.update({'lot_rate_list.lot': lot}, {$set:{'lot_rate_list.$.myrate':2}},{new: true});
-    //     Parklot.findOneById(lot).then((lot) => lot.rateDislike());
-    // }
+userSchema.statics.incLike = function(userid, lotid){
+    return this.findOneAndUpdate(
+        {_id: userid, 'lot_rate_list.lot': lotid}, {$inc: {'lot_rate_list.$.myrate': 1}}, {new: true});
 }
 
 

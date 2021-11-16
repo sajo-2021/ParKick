@@ -84,14 +84,6 @@ parklotSchema.statics.deleteById = function(id){
     return this.remove({_id: id});
 }
 
-parklotSchema.statics.incLike = function(id){
-    var rateId = this.findById(id, 'rate').exec();
-    console.log('rateid ' + rateId);
-    console.log(rateId.rate);
-    return Rate.incLike(rateId);
-}
-
-
 
 
 parklotSchema.methods.addComment = function(user, comment){
@@ -117,15 +109,6 @@ parklotSchema.methods.updateComment = function(commentid, edit){
     return this.save();
 }
 
-
-
-parklotSchema.methods.rateLike = function(){
-    var rateid = this.rate;
-    Rate.findOneAndUpdate({_id: rateid}, {$inc: {like:1}}, {new: true});
-}
-parklotSchema.methods.rateDislike= function(){
-
-}
 
 
 module.exports = mongoose.model('Parklot',parklotSchema);

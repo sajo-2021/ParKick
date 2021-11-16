@@ -1,5 +1,6 @@
 const Parklot = require('../../models/parklot');
-const Rate = require('../../models/rate')
+const Rate = require('../../models/rate');
+const User = require('../../models/user');
 
 exports.index = (req, res) => {
     Parklot.findAll().then((lots) => {
@@ -9,6 +10,7 @@ exports.index = (req, res) => {
         console.log('lot list log');
         console.log(lots);
         console.log('---------------');
+        console.log(req.body);
     }).catch(err => res.status(500).send(err));
 };
 
@@ -67,12 +69,14 @@ exports.deleteid = (req, res) => {
 }
 
 exports.inclike = (req, res) => {
-    Parklot.findById(req.params.id, "rate").then(lot => {
+    Parklot.findById(req.params.lotid, "rate").then(lot => {
         console.log('rateid : ' + lot.rate);
         Rate.incLike(lot.rate).then(rate => {
             console.log(rate);
-            res.send('rate like : ' + rate.like);
-        })
+        }).catch(err => res.status(500).send(err));
+        User.incLike(req.params.userid, req.params.lotid).then(user => {
+            console.log(user);
+        }).catch(err => res.status(500).send(err));
     }).catch(err => res.status(500).send(err));
 }
 exports.incdislike = (req, res) => {
@@ -81,7 +85,7 @@ exports.incdislike = (req, res) => {
         Rate.incDislike(lot.rate).then(rate => {
             console.log(rate);
             res.send('rate dislike : ' + rate.dislike);
-        })
+        }).catch(err => res.status(500).send(err));
     }).catch(err => res.status(500).send(err));
 }
 exports.declike = (req, res) => {
@@ -90,7 +94,7 @@ exports.declike = (req, res) => {
         Rate.decLike(lot.rate).then(rate => {
             console.log(rate);
             res.send('rate like : ' + rate.like);
-        })
+        }).catch(err => res.status(500).send(err));
     }).catch(err => res.status(500).send(err));
 }
 exports.decdislike = (req, res) => {
@@ -99,7 +103,7 @@ exports.decdislike = (req, res) => {
         Rate.decDislike(lot.rate).then(rate => {
             console.log(rate);
             res.send('rate dislike : ' + rate.dislike);
-        })
+        }).catch(err => res.status(500).send(err));
     }).catch(err => res.status(500).send(err));
 }
 
