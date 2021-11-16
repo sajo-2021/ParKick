@@ -44,12 +44,17 @@ userSchema.statics.incLike = function(userid, lotid, pmt){
     this.findOne({_id: userid, 'lot_rate_list.lot':lotid}).then(user => {
         console.log('lot_rate_list에 lotid값이 있는 객체는'+user);
         if(!user){
-            // lot_rate_list에 myrate가 1인 lotid를 추가하고
-            if(pmt=1){ // like인 경우
-                user.lot_rate_list.push({lot:lotid, myrate:1});
-            }else if(pmt=2){ //dislike인 경우
-                user.lot_rate_list.push({lot:lotid, myrate:-1});
-            }
+            this.findOne({_id: userid}).then(nopark => {
+                console.log('userid가 '+userid+' 인 객체는');
+                console.log(nopark);
+
+                // lot_rate_list에 myrate가 1인 lotid를 추가하고
+                if(pmt=1){ // like인 경우
+                    nopark.lot_rate_list.push({lot:lotid, myrate:1});
+                }else if(pmt=2){ //dislike인 경우
+                    nopark.lot_rate_list.push({lot:lotid, myrate:-1});
+                }
+            });
         }else{
             // 해당 lot의 myrate가 뭔지 확인하자
             console.log(user.find({'lot_rate_list.lot':lotid}).myrate);
