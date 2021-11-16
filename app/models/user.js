@@ -70,8 +70,14 @@ userSchema.statics.incLike = function(userid, lotid, pmt){
                     if(park.myrate == 1){
                         if(pmt==1) return;
                         else if(pmt==2){
+                            console.log('기존의 user 객체');
+                            console.log(user.lot_rate_list);
                             user.lot_rate_list.pull({lot:lotid});
+                            console.log('pull 이후의 user 객체');
+                            console.log(user.lot_rate_list);
                             user.lot_rate_list.push({lot:lotid, myrate:-1});
+                            console.log('push 이후의 user 객체');
+                            console.log(user.lot_rate_list);
                             user.save();
                             console.log(user);
                         }
