@@ -74,7 +74,7 @@ exports.inclike = (req, res) => {
         console.log('rateid : ' + lot.rate);
         Rate.incLike(lot.rate).then(rate => {
             console.log('rate.inclike의 리턴 : '+rate);
-        })
+        }).catch(err => res.status(500).send(err));
         // User.incLike(req.body.userid, req.body.lotid, req.body.pmt)
         //     .then()
         //     .catch(err => res.status(500).send(err));

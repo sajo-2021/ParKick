@@ -42,7 +42,7 @@ userSchema.statics.deleteById = function(id){
 
 userSchema.statics.incLike = function(userid, lotid, pmt){
     this.findOne({_id: userid, 'lot_rate_list.lot':lotid}).then(user => {
-        console.log('lot_rate_list에 lotid값이 있는 객체는'+user);
+        console.log('lot_rate_list에 lotid값이 있는 객체는 '+user);
         if(!user){
             this.findOne({_id: userid}).then(nopark => {
                 console.log('userid가 '+userid+' 인 객체는');
@@ -65,7 +65,7 @@ userSchema.statics.incLike = function(userid, lotid, pmt){
             }).catch(err => console.log(err));
         }else{
             // 해당 lot의 myrate가 뭔지 확인하자
-            console.log(user.find({'lot_rate_list.lot':lotid}).myrate);
+            console.log(user.lot_rate_list.lot(lotid).myrate);
         }
     }).catch(err => console.log(err));
 
