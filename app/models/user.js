@@ -62,13 +62,12 @@ userSchema.statics.incLike = function(userid, lotid, pmt){
                 }
 
                 console.log('lot_rate_list 추가!');
-                return nopark;
             }).catch(err => console.log(err));
         }else{
             // 해당 lot의 myrate가 뭔지 확인하자
             console.log(user.find({'lot_rate_list.lot':lotid}).myrate);
         }
-    })
+    }).catch(err => console.log(err));
 
 
     // return this.findOneAndUpdate(
