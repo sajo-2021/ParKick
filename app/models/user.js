@@ -64,21 +64,22 @@ userSchema.statics.incLike = function(userid, lotid, pmt){
                 console.log('lot_rate_list 추가!');
             }).catch(err => console.log(err));
         }else{
-            user.findOne({'lot_rate_list.lot':lotid}).then(item => {
-                if(item.myrate == 1){
-                    if(pmt==1) return;
-                    else if(pmt==2){
-                        item.myrate = -1;
-                        item.save();
-                    }
-                }else if(item.myrate == -1){
-                    if(pmt==2) return;
-                    else if(pmt==1){
-                        item.myrate = 1;
-                        item.save();
-                    }
-                }
-            })
+            console.log(user.nickname);
+            // user.findOne({'lot_rate_list.lot':lotid}).then(item => {
+            //     if(item.myrate == 1){
+            //         if(pmt==1) return;
+            //         else if(pmt==2){
+            //             item.myrate = -1;
+            //             item.save();
+            //         }
+            //     }else if(item.myrate == -1){
+            //         if(pmt==2) return;
+            //         else if(pmt==1){
+            //             item.myrate = 1;
+            //             item.save();
+            //         }
+            //     }
+            // }).catch(err => console.log(err));
         }
     }).catch(err => console.log(err));
 
