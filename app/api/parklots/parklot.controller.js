@@ -77,7 +77,7 @@ exports.inclike = (req, res) => {
         // }).catch(err => res.status(500).send(err));
         User.incLike(req.body.userid, req.body.lotid, req.body.pmt)
             .then()
-            .catch(err => res.status(500).send(err));
+            .catch(err => res.status(501).send(err));
     }).catch(err => res.status(500).send(err));
 }
 

@@ -64,7 +64,9 @@ userSchema.statics.incLike = function(userid, lotid, pmt){
                 console.log('lot_rate_list 추가!');
             }).catch(err => console.log(err));
         }else{
-            console.log(user.nickname);
+            console.log(user.lot_rate_list.find({lot:lotid}));
+
+
             // user.findOne({'lot_rate_list.lot':lotid}).then(item => {
             //     if(item.myrate == 1){
             //         if(pmt==1) return;
