@@ -34,14 +34,6 @@ parklotSchema.statics.create = function(payload){
     park.rate = Rate.create();
 
     return park.save();
-
-    // var park = new this(payload);
-    // var newrate = new Rate();
-    // newrate.save();
-
-    // park.rate = newrate._id;
-
-    // return park.save();
 }
 
 
@@ -69,29 +61,35 @@ parklotSchema.statics.findOneByParkno = function(lot){
     // position은 사용자의 좌표를 바로 입력하면 안됨
     // 좌표에 해당하는 격자의 위치정보로 바꾸어주는 함수 필요
 }
-/*
-parklotSchema.ststics.findOneById = function(id){
-    return this.findOne({_id: id});
-}
-*/
-parklotSchema.statics.updateByParkno = function(lot, payload){
-    return this.findOneAndUpdate({lotid: lot}, payload, {new: true});
-}
-parklotSchema.statics.deleteByParkno = function(lot){
-    return this.remove({lotid: lot});
-}
-
 parklotSchema.statics.findOneById = function(id){
-    console.log(id);
-
-    return this.findOne({_id: id});
+    return this.findOne({_id: id})
+        .populate("rate", "like dislike")
+        .populate({
+            path: "comments", 
+            populate: {path:"user", select: "nickname"}})
+        .populate({
+            path: "comments",
+            populate: {path: "comment", select: "comment"}
+        });
 }
-parklotSchema.statics.updateById = function(id, payload){
-    return this.findOneAndUpdate({_id: id},{$set: payload}, {new: true});
+
+parklotSchema.statics.deleteByParkno = function(lot){
+    // 연결된 rate와 comment들을 먼저 삭제하는 동작이 필요함
+    // 유저가 comment와 연결이 되어 있다면 거기서도 삭제를 해야 할텐데...
+    // parklot의 comment에 존재하는 모든 유저에 대해 삭제?
+    // 아니면 comment가 유저정보를 가지는 방식을 따를까?
+    return this.remove({lotid: lot});
 }
 parklotSchema.statics.deleteById = function(id){
     return this.remove({_id: id});
 }
+
+parklotSchema.statics.incLike = function(id){
+    return this.findById(id, 'rate');
+}
+
+
+
 
 parklotSchema.methods.addComment = function(user, comment){
     User.findOneById(user).then(user => {

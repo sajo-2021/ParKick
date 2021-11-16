@@ -8,13 +8,9 @@ router.post('/', controller.create);
 
 router.get('/no/:no', controller.readno);
 
-router.put('/no/:no', controller.updateno);
-
-router.delete('/no/:no', controller.deleteno);
-
 router.get('/id/:id', controller.readid);
 
-router.put('/id/:id', controller.updateid);
+router.delete('/no/:no', controller.deleteno);
 
 router.delete('/id/:id', controller.deleteid);
 
@@ -23,6 +19,8 @@ router.post('/:no/:user', controller.writecom);
 router.put('/:no/:comid', controller.updatecom);
 
 router.delete('/:no/:comid', controller.deletecom);
+
+router.get('/rate/:id', controller.inclike);
 
 
 module.exports = router;

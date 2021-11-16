@@ -35,6 +35,34 @@ rateSchema.statics.deleteById = function(id){
     return this.remove({_id: id});
 }
 
+// statics 메소드로 작성해보자
+rateSchema.statics.incLike = function(id){
+    return this.findOneAndUpdate({_id: id}, {$inc: {like: 1}}, {new: true});
+}
+rateSchema.statics.incDislike = function(id){
+    return this.findOneAndUpdate({_id: id}, {$inc: {dislike: 1}}, {new: true});
+}
+rateSchema.statics.decLike = function(id){
+    return this.findOneAndUpdate({_id: id}, {$inc: {like: -1}}, {new: true});
+}
+rateSchema.statics.decDislike = function(id){
+    return this.findOneAndUpdate({_id: id}, {$inc: {dislike: -1}}, {new: true});
+}
+
+
+// rateSchema의 인스턴스 메소드
+// rateSchema.methods.incLike = function(){
+//     return this.update({}, {$inc: {like: 1}}, {new: true});
+// }
+// rateSchema.methods.incDislike = function(){
+//     return this.update({}, {$inc: {dislike: 1}}, {new: true});
+// }
+// rateSchema.methods.decLike = function(){
+//     return this.update({}, {$inc: {like: -1}}, {new: true});
+// }
+// rateSchema.methods.decDislike = function(){
+//     return this.update({}, {$inc: {dislike: -1}}, {new: true});
+// }
 
 
 
