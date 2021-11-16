@@ -21,6 +21,8 @@ exports.create = (req, res) => {
             
             console.log('lot create log');
             console.log(req.body);
+            console.log(req.body.lotid);
+            console.log(req.body.longitude);
             console.log('-------------------');
         })
         .catch(err => res.status(500).send(err));
@@ -69,12 +71,12 @@ exports.deleteid = (req, res) => {
 }
 
 exports.inclike = (req, res) => {
-    Parklot.findById(req.params.lotid, "rate").then(lot => {
+    Parklot.findById(req.body.lotid, "rate").then(lot => {
         console.log('rateid : ' + lot.rate);
         Rate.incLike(lot.rate).then(rate => {
             console.log(rate);
         }).catch(err => res.status(500).send(err));
-        User.incLike(req.params.userid, req.params.lotid).then(user => {
+        User.incLike(req.body.userid, req.body.lotid, req.body.pmt).then(user => {
             console.log(user);
         }).catch(err => res.status(500).send(err));
     }).catch(err => res.status(500).send(err));

@@ -40,9 +40,25 @@ userSchema.statics.deleteById = function(id){
     return this.remove({_id: id});
 }
 
-userSchema.statics.incLike = function(userid, lotid){
-    return this.findOneAndUpdate(
-        {_id: userid, 'lot_rate_list.lot': lotid}, {$inc: {'lot_rate_list.$.myrate': 1}}, {new: true});
+userSchema.statics.incLike = function(userid, lotid, pmt){
+    this.findOne({_id: userid, 'lot_rate_list.lot':lotid}).then(user => {
+        console.log('lot_rate_list에 lotid값이 있는 객체는'+user);
+        if(!user){
+            // lot_rate_list에 myrate가 1인 lotid를 추가하고
+            if(pmt=1){ // like인 경우
+                user.lot_rate_list.push({lot:lotid, myrate:1});
+            }else if(pmt=2){ //dislike인 경우
+                user.lot_rate_list.push({lot:lotid, myrate:-1});
+            }
+        }else{
+            // 해당 lot의 myrate가 뭔지 확인하자
+            console.log(user.find({'lot_rate_list.lot':lotid}).myrate);
+        }
+    })
+
+
+    // return this.findOneAndUpdate(
+    //     {_id: userid, 'lot_rate_list.lot': lotid}, {$inc: {'lot_rate_list.$.myrate': 1}}, {new: true});
 }
 
 

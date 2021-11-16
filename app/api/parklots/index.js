@@ -18,7 +18,7 @@ router.post('/com/:no/:user', controller.writecom);
 router.put('/com/:no/:comid', controller.updatecom);
 router.delete('/com/:no/:comid', controller.deletecom);
 
-router.get('/inclike/:lotid/:userid', controller.inclike);
+router.post('/inclike/', controller.inclike);
 router.get('/declike/:id', controller.declike);
 router.get('/incdislike/:id', controller.incdislike);
 router.get('/decdislike/:id', controller.decdislike);
