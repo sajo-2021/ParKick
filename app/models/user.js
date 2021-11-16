@@ -65,8 +65,10 @@ userSchema.statics.incLike = function(userid, lotid, pmt){
             }).catch(err => console.log(err));
         }else{
             console.log('객체가 존재함');
-            this.findOne({_id:userid, 'lot_rate_list.lot':lotid}, 'lot_rate_list.$.myrate')
+            this.find({'_id':userid, 'lot_rate_list':{'$elemMatch': {'lot':lotid }}})
                 .then(park => {
+                    console.log(user);
+                    console.log(park);
                     if(park.myrate == 1){
                         if(pmt==1) return;
                         else if(pmt==2){
