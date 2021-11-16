@@ -10,7 +10,6 @@ exports.index = (req, res) => {
         console.log('lot list log');
         console.log(lots);
         console.log('---------------');
-        console.log(req.body);
     }).catch(err => res.status(500).send(err));
 };
 
@@ -82,6 +81,9 @@ exports.inclike = (req, res) => {
         res.sendStatus(200);
     }).catch(err => res.status(500).send(err));
 }
+
+
+
 exports.incdislike = (req, res) => {
     Parklot.findById(req.params.id, "rate").then(lot => {
         console.log('rateid : ' + lot.rate);
