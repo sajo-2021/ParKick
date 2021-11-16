@@ -79,6 +79,7 @@ exports.inclike = (req, res) => {
         User.incLike(req.body.userid, req.body.lotid, req.body.pmt).then(user => {
             console.log(user);
         }).catch(err => res.status(500).send(err));
+        res.sendStatus(200);
     }).catch(err => res.status(500).send(err));
 }
 exports.incdislike = (req, res) => {
