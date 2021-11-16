@@ -85,7 +85,8 @@ parklotSchema.statics.deleteById = function(id){
 }
 
 parklotSchema.statics.incLike = function(id){
-    return this.findById(id, 'rate');
+    const rateId = this.findById(id, 'rate').rate;
+    return Rate.incLike(rateId);
 }
 
 
