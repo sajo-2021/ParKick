@@ -66,8 +66,8 @@ exports.deleteid = (req, res) => {
 }
 
 exports.inclike = (req, res) => {
-    Parklot.incLike(req.params.id).then(lot => {
-        res.sendStatus(200);
+    Parklot.findById(req.params.id, "rate").then(lot => {
+        res.send(lot.rate);
     }).catch(err => res.status(500).send(err));
 }
 
