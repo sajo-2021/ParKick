@@ -64,6 +64,7 @@ userSchema.statics.incLike = function(userid, lotid, pmt){
                 console.log('lot_rate_list 추가!');
             }).catch(err => console.log(err));
         }else{
+            console.log('객체가 존재함');
             this.findOne({_id:userid, 'lot_rate_list.lot':lotid}, 'lot_rate_list.$.myrate')
                 .then(park => {
                     if(park.myrate == 1){
@@ -72,6 +73,7 @@ userSchema.statics.incLike = function(userid, lotid, pmt){
                             user.lot_rate_list.pull({lot:lotid});
                             user.lot_rate_list.push({lot:lotid, myrate:-1});
                             user.save();
+                            console.log(user);
                         }
                     }else if(park.myrate == -1){
                         if(pmt==2) return;
@@ -79,6 +81,7 @@ userSchema.statics.incLike = function(userid, lotid, pmt){
                             user.lot_rate_list.pull({lot:lotid});
                             user.lot_rate_list.push({lot:lotid, myrate:1});
                             user.save();
+                            console.log(user);
                         }
                     }
                         
