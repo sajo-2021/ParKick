@@ -51,15 +51,15 @@ userSchema.statics.incLike = function(userid, lotid, pmt){
                 // lot_rate_list에 myrate가 1인 lotid를 추가하고
                 if(pmt=1){ // like인 경우
                     nopark.lot_rate_list.push({lot:lotid, myrate:1});
-                    nopark.save();
+                    return nopark.save();
                 }else if(pmt=2){ //dislike인 경우
                     nopark.lot_rate_list.push({lot:lotid, myrate:-1});
-                    nopark.save();
+                    return nopark.save();
                 }
 
                 console.log('lot_rate_list 추가!');
                 console.log(nopark);
-            });
+            }).catch(err => console.log(err));
         }else{
             // 해당 lot의 myrate가 뭔지 확인하자
             console.log(user.find({'lot_rate_list.lot':lotid}).myrate);
