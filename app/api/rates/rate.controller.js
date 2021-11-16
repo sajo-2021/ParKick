@@ -8,18 +8,6 @@ exports.index = (req, res) => {
     }).catch(err => res.status(500).send(err));
 }
 
-exports.readno = (req, res) => {
-    Rate.findOneByParkno(req.params.no).then((rate)=>{
-        if(!rate) return res.status(404).send({err:'SE09'});
-
-        res.send(rate);
-
-        console.log('Rate read log');
-        console.log(rate);
-        console.log('-------------------');
-    }).catch(err => res.status(500).send(err));
-}
-
 exports.create = (req, res) => {
     Rate.create(req.body)
         .then((rate) => {
@@ -31,27 +19,8 @@ exports.create = (req, res) => {
         }).catch((err) => res.status(500).send(err));
 }
 
-exports.updateno = (req, res) => {
-    Rate.updateByParkno(req.params.no, req.body).then((rate) => {
-        res.send(rate);
 
-        console.log('Rate update log');
-        console.log(req.body);
-        console.log('--------------------');
-    }).catch(err => res.status(500).send(err));
-}
-
-exports.deleteno = (req, res) => {
-    Rate.deleteByParkno(req.params.no).then((rate) => {
-        res.sendStatus(200);
-
-        console.log('Rate delete log');
-        console.log(rate);
-        console.log('-------------------');
-    }).catch(err => res.status(500).send(err));
-}
-
-exports.readid = (req, res) => {
+exports.read = (req, res) => {
     Rate.findOneById(req.params.id).then((rate)=>{
         if(!rate) return res.status(404).send({err:'SE09'});
 
@@ -63,7 +32,7 @@ exports.readid = (req, res) => {
     }).catch(err => res.status(500).send(err));
 }
 
-exports.updateid = (req, res) => {
+exports.update = (req, res) => {
     Rate.updateById(req.params.id, req.body).then((rate) => {
         res.send(rate);
 
@@ -73,7 +42,7 @@ exports.updateid = (req, res) => {
     }).catch(err => res.status(500).send(err));
 }
 
-exports.deleteid = (req, res) => {
+exports.delete = (req, res) => {
     Rate.deleteById(req.params.id).then((rate) => {
         res.sendStatus(200);
 

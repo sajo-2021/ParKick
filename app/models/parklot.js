@@ -31,13 +31,20 @@ const parklotSchema = new mongoose.Schema({
 
 parklotSchema.statics.create = function(payload){
     var park = new this(payload);
-    var newrate = new Rate();
-    newrate.save();
-
-    park.rate = newrate._id;
+    park.rate = Rate.create();
 
     return park.save();
+
+    // var park = new this(payload);
+    // var newrate = new Rate();
+    // newrate.save();
+
+    // park.rate = newrate._id;
+
+    // return park.save();
 }
+
+
 parklotSchema.statics.findAll = function(){
     return this.find({})
         .populate("rate", "like dislike")

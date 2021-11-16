@@ -13,30 +13,18 @@ const rateSchema = new mongoose.Schema({
         validate(value){
             if(value < 0) throw new Error("dislike is not Negative");
         }
-    },
-    parklots: [{
-        lot: mongoose.Schema.Types.ObjectId,
-        myrate: Number
-    }]
+    }
 }, {timestamps: true});
 
-rateSchema.statics.create = function(payload){
-    const rate = new this(payload);
-    return rate.save();
+rateSchema.statics.create = function(){
+    const rate = new this();
+    rate.save();
+
+    return rate._id;
 }
 rateSchema.statics.findAll = function(){
     return this.find({});
 }
-rateSchema.statics.findOneByParkno = function(lot){
-    return this.findOne({lotid: lot});
-}
-rateSchema.statics.updateByParkno = function(lot, payload){
-    return this.findOneAndUpdate({lotid:lot}, {$set: payload}, {new:true});
-}
-rateSchema.statics.deleteByParkno = function(lot){
-    return this.remove({lotid:lot});
-}
-
 rateSchema.statics.findOneById = function(id){
     return this.findOne({_id: id});
 }
