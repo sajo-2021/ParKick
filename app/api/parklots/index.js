@@ -20,7 +20,9 @@ router.put('/:no/:comid', controller.updatecom);
 
 router.delete('/:no/:comid', controller.deletecom);
 
-router.get('/rate/:id', controller.inclike);
-
+router.get('/inclike/:id', controller.inclike);
+router.get('/declike/:id', controller.declike);
+router.get('/incdislike/:id', controller.incdislike);
+router.get('/decdislike/:id', controller.decdislike);
 
 module.exports = router;
