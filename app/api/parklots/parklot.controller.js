@@ -1,4 +1,5 @@
 const Parklot = require('../../models/parklot');
+const Rate = require('../../models/rate')
 
 exports.index = (req, res) => {
     Parklot.findAll().then((lots) => {
@@ -67,9 +68,43 @@ exports.deleteid = (req, res) => {
 
 exports.inclike = (req, res) => {
     Parklot.findById(req.params.id, "rate").then(lot => {
-        res.send(lot.rate);
+        console.log('rateid : ' + lot.rate);
+        Rate.incLike(lot.rate).then(rate => {
+            console.log(rate);
+            res.send('rate like : ' + rate.like);
+        })
     }).catch(err => res.status(500).send(err));
 }
+exports.incdislike = (req, res) => {
+    Parklot.findById(req.params.id, "rate").then(lot => {
+        console.log('rateid : ' + lot.rate);
+        Rate.incDislike(lot.rate).then(rate => {
+            console.log(rate);
+            res.send('rate dislike : ' + rate.dislike);
+        })
+    }).catch(err => res.status(500).send(err));
+}
+exports.declike = (req, res) => {
+    Parklot.findById(req.params.id, "rate").then(lot => {
+        console.log('rateid : ' + lot.rate);
+        Rate.decLike(lot.rate).then(rate => {
+            console.log(rate);
+            res.send('rate like : ' + rate.like);
+        })
+    }).catch(err => res.status(500).send(err));
+}
+exports.decdislike = (req, res) => {
+    Parklot.findById(req.params.id, "rate").then(lot => {
+        console.log('rateid : ' + lot.rate);
+        Rate.decDislike(lot.rate).then(rate => {
+            console.log(rate);
+            res.send('rate dislike : ' + rate.dislike);
+        })
+    }).catch(err => res.status(500).send(err));
+}
+
+
+
 
 
 
