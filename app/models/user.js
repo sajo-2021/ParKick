@@ -66,18 +66,19 @@ userSchema.statics.incLike = function(userid, lotid, pmt){
         }else{
             this.findOne({_id:userid, 'lot_rate_list.lot':lotid}, 'lot_rate_list.$.myrate')
                 .then(park => {
-                    console.log(park);
                     if(park.myrate == 1){
                         if(pmt==1) return;
                         else if(pmt==2){
-                            park.myrate = -1;
-                            park.save();
+                            user.lot_rate_list.pull({lot:lotid});
+                            user.lot_rate_list.push({lot:lotid, myrate:-1});
+                            user.save();
                         }
                     }else if(park.myrate == -1){
                         if(pmt==2) return;
                         else if(pmt==1){
-                            park.myrate = 1;
-                            park.save();
+                            user.lot_rate_list.pull({lot:lotid});
+                            user.lot_rate_list.push({lot:lotid, myrate:1});
+                            user.save();
                         }
                     }
                         
