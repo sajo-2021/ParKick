@@ -71,14 +71,13 @@ exports.deleteid = (req, res) => {
 
 exports.inclike = (req, res) => {
     Parklot.findById(req.body.lotid, "rate").then(lot => {
-        res.send(lot);
         console.log('rateid : ' + lot.rate);
         Rate.incLike(lot.rate).then(rate => {
             console.log('rate.inclike의 리턴 : '+rate);
         })
-        User.incLike(req.body.userid, req.body.lotid, req.body.pmt)
-            .then()
-            .catch(err => res.status(500).send(err));
+        // User.incLike(req.body.userid, req.body.lotid, req.body.pmt)
+        //     .then()
+        //     .catch(err => res.status(500).send(err));
     }).catch(err => res.status(500).send(err));
 }
 
