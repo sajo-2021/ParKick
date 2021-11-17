@@ -97,6 +97,7 @@ exports.inclike = (req, res) => {
 
         if(!user){ // user가 null이라면
             console.log('user는 null입니다.');
+            console.log('pmt : ' + req.body.pmt);
             if(req.body.pmt=1){ // like인 경우
                 nopark.lot_rate_list.push({lot:lotid, myrate:1});
                 console.log('push 완료');
