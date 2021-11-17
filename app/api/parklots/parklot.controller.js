@@ -87,13 +87,16 @@ exports.inclike = (req, res) => {
             User.findOne({
                 _id: req.body.userid, 
                 'lot_rate_list.lot': req.body.lotid
-                }, 'lot_rate_list.$')
-        ]).then(([exist, user, lot]) => {
+                }, 'lot_rate_list.$'),
+            Rate.findOne(parklot.rate)
+        ]).then(([exist, user, lot, rateid]) => {
             console.log('user => ' + exist);
             console.log('---------------------');
             console.log('nopark => ' + user);
             console.log('---------------------');
             console.log('lot => ' + lot);
+            console.log('---------------------');
+            console.log('rateid => ' + rateid);
             console.log('---------------------');
     
             if(!exist){ // user가 null이라면
@@ -132,9 +135,8 @@ exports.inclike = (req, res) => {
                     }
                 }
             }
-    
-            res.send(nopark);
         }).catch(err => res.status(500).send(err));
+        res.send(parklot);
     }).catch(err => res.status(500).send(err));
 }
 
