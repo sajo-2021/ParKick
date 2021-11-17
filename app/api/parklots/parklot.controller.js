@@ -71,131 +71,71 @@ exports.deleteid = (req, res) => {
 
 exports.inclike = (req, res) => {
     // Parklot.findById(req.body.lotid, "rate").then(lot => {
-    //     console.log('rateid : ' + lot.rate);
+    //     console.log('rateeid : ' + lot.rate);
     //     Rate.incLike(lot.rate).then(rate => {
     //         console.log('rate.inclike의 리턴 : '+rate);
     //     }).catch(err => res.status(500).send(err));
     // }).catch(err => res.status(500).send(err));
     
-    //User.incLike(req.body.userid, req.body.lotid, req.body.pmt);
-    Promise.all([
-        User.findOne({
-            _id: req.body.userid, 
-            'lot_rate_list.lot': req.body.lotid}),
-        User.findOne({_id: req.body.userid}),
-        User.findOne({
-            _id: req.body.userid, 
-            'lot_rate_list.lot': req.body.lotid
-            }, 'lot_rate_list.$')
-    ]).then(([user, nopark, lot]) => {
-        console.log('user => ' + user);
-        console.log('---------------------');
-        console.log('nopark => ' + nopark);
-        console.log('---------------------');
-        console.log('lot => ' + lot);
-        console.log('---------------------');
-
-        if(!user){ // user가 null이라면
-            if(req.body.pmt==1){ // like인 경우
-                nopark.lot_rate_list.push({lot:req.body.lotid, myrate:1});
-                console.log('push 완료');
-                nopark.save();
-                console.log('save 완료');
-            }else if(req.body.pmt==2){ //dislike인 경우
-                nopark.lot_rate_list.push({lot:req.body.lotid, myrate:-1});
-                console.log('push 완료');
-                nopark.save();
-                console.log('save 완료');
-            }
-        }else{
-            console.log('user는 null이 아닙니다.');
-            let myrate = lot.lot_rate_list[0].myrate;
-            console.log('myrate : ' + myrate);
-            if(myrate == 1){
-                if(req.body.pmt == 1){
-                    console.log('이미 like입니다.');
-                }else if(req.body.pmt == 2){
-                    console.log('like를 dislike로 변경합니다.');
-                    nopark.lot_rate_list.pull({lot:req.body.lotid});
-                    nopark.lot_rate_list.push({lot:req.body.lotid, myrate: -1});
-                    nopark.save();
+    //User.incLike(req.body.userid, rq.body.lotid, req.body.pmt);
+    Parklot.findById(req.body.lotid).then(parklot => {
+        Promise.all([
+            User.findOne({
+                _id: req.body.userid, 
+                'lot_rate_list.lot': req.body.lotid}),
+            User.findOne({_id: req.body.userid}),
+            User.findOne({
+                _id: req.body.userid, 
+                'lot_rate_list.lot': req.body.lotid
+                }, 'lot_rate_list.$')
+        ]).then(([exist, user, lot]) => {
+            console.log('user => ' + exist);
+            console.log('---------------------');
+            console.log('nopark => ' + user);
+            console.log('---------------------');
+            console.log('lot => ' + lot);
+            console.log('---------------------');
+    
+            if(!exist){ // user가 null이라면
+                if(req.body.pmt==1){ // like인 경우
+                    user.lot_rate_list.push({lot:req.body.lotid, myrate:1});
+                    console.log('push 완료');
+                    user.save();
+                    console.log('save 완료');
+                }else if(req.body.pmt==2){ //dislike인 경우
+                    user.lot_rate_list.push({lot:req.body.lotid, myrate:-1});
+                    console.log('push 완료');
+                    user.save();
+                    console.log('save 완료');
                 }
-            }else if(myrate == -1){
-                if(req.body.pmt == 1){
-                    console.log('dislike를 like로 변경합니다.');
-                    nopark.lot_rate_list.pull({lot:req.body.lotid});
-                    nopark.lot_rate_list.push({lot:req.body.lotid, myrate: 1});
-                    nopark.save();
-                }else if(req.body.pmt == 2){
-                    console.log('이미 dislike입니다.');
+            }else{
+                console.log('user는 null이 아닙니다.');
+                let myrate = lot.lot_rate_list[0].myrate;
+                console.log('myrate : ' + myrate);
+                if(myrate == 1){
+                    if(req.body.pmt == 1){
+                        console.log('이미 like입니다.');
+                    }else if(req.body.pmt == 2){
+                        console.log('like를 dislike로 변경합니다.');
+                        user.lot_rate_list.pull({lot:req.body.lotid, myrate: 1});
+                        user.lot_rate_list.push({lot:req.body.lotid, myrate: -1});
+                        user.save();
+                    }
+                }else if(myrate == -1){
+                    if(req.body.pmt == 1){
+                        console.log('dislike를 like로 변경합니다.');
+                        user.lot_rate_list.pull({lot:req.body.lotid, myrate: -1});
+                        user.lot_rate_list.push({lot:req.body.lotid, myrate: 1});
+                        user.save();
+                    }else if(req.body.pmt == 2){
+                        console.log('이미 dislike입니다.');
+                    }
                 }
             }
-        }
-
-        res.send(nopark);
+    
+            res.send(nopark);
+        }).catch(err => res.status(500).send(err));
     }).catch(err => res.status(500).send(err));
-
-
-    // User.findRateItem(req.body.userid, req.body.lotid, req.body.pmt)
-    //     .then(user => {
-    //         console.log('lot_rate_list에 lotid값이 있는 객체는 '+user);
-    //         if(!user){
-    //             this.findOne({_id: userid}).then(nopark => {
-    //                 console.log('userid가 '+userid+' 인 객체는');
-    //                 console.log(nopark);
-    
-    //                 // lot_rate_list에 myrate가 1인 lotid를 추가하고
-    //                 if(pmt=1){ // like인 경우
-    //                     nopark.lot_rate_list.push({lot:lotid, myrate:1});
-    //                     console.log('push 완료');
-    //                     nopark.save();
-    //                     console.log('save 완료');
-    //                 }else if(pmt=2){ //dislike인 경우
-    //                     nopark.lot_rate_list.push({lot:lotid, myrate:-1});
-    //                     console.log('push 완료');
-    //                     nopark.save();
-    //                     console.log('save 완료');
-    //                 }
-    
-    //                 console.log('lot_rate_list 추가!');
-    //             }).catch(err => console.log(err));
-    //         }else{
-    //             console.log('객체가 존재함');
-    //             this.findOne({'_id':userid, 'lot_rate_list.lot':lotid }, 'lot_rate_list.$')
-    //                 .then(park => {
-    //                     console.log(user);
-    //                     console.log('myrate : ' + park.lot_rate_list[0].myrate);
-    //                     if(park.lot_rate_list[0].myrate == 1){
-    //                         if(pmt==2){
-    //                             console.log('기존의 user 객체');
-    //                             console.log(user.lot_rate_list);
-    //                             user.lot_rate_list.pull({'lot_rate_list.$.lot':lotid});
-    //                             console.log('pull 이후의 user 객체');
-    //                             console.log(user.lot_rate_list);
-    //                             user.lot_rate_list.push({lot:lotid, myrate:-1});
-    //                             console.log('push 이후의 user 객체');
-    //                             console.log(user.lot_rate_list);
-    //                             user.save();
-    //                             console.log(user);
-    //                         }
-    //                     }else if(park.lot_rate_list[0].myrate == -1){
-    //                         if(pmt==1){
-    //                             console.log('기존의 user 객체');
-    //                             console.log(user.lot_rate_list);
-    //                             user.lot_rate_list.pull({'lot_rate_list.$.lot':lotid});
-    //                             console.log('pull 이후의 user 객체');
-    //                             console.log(user.lot_rate_list);
-    //                             user.lot_rate_list.push({lot:lotid, myrate:1});
-    //                             console.log('push 이후의 user 객체');
-    //                             console.log(user.lot_rate_list);
-    //                             user.save();
-    //                             console.log(user);
-    //                         }
-    //                     }
-                            
-    //                 })
-    //         }
-    //     }).catch(err => res.status(505).send(err));
 }
 
 
