@@ -160,7 +160,7 @@ exports.writeComment = (req, res) => {
         if(!lot) return res.status(404).send('SE09');
         Promise.all([
             User.findOneById(req.params.user),
-            Comment.create(req.body.comment)
+            Comment.create(req.body)
         ]).then(([user, comment]) => {
             console.log('user => ' + user);
             console.log('---------------------');
@@ -171,7 +171,8 @@ exports.writeComment = (req, res) => {
             //lot.comments.push({userid: user._id, comment: comment._id});
 
         }).catch(err => res.status(500).send(err));
-    })
+        res.send(lot);
+    }).catch(err => res.status(500).send(err));
 }
 
 
