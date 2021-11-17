@@ -158,6 +158,8 @@ exports.updateRate = (req, res) => {
 exports.writeComment = (req, res) => {
     Parklot.findOneByParkno(req.body.no).then(lot => {
         if(!lot) return res.status(404).send('SE09');
+        if(lot.comments.$.user === req.body.user)
+            return res.status(505).send('이미 댓글을 단 유저입니다.');
         Promise.all([
             User.findOneById(req.body.user),
             Comment.create({comment: req.body.comment})
