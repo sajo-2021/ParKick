@@ -96,15 +96,13 @@ exports.inclike = (req, res) => {
         console.log('---------------------');
 
         if(!user){ // user가 null이라면
-            console.log('user는 null입니다.');
-            console.log('pmt : ' + req.body.pmt);
-            if(req.body.pmt=1){ // like인 경우
-                nopark.lot_rate_list.push({lot:lotid, myrate:1});
+            if(req.body.pmt==1){ // like인 경우
+                nopark.lot_rate_list.push({lot:req.body.lotid, myrate:1});
                 console.log('push 완료');
                 nopark.save();
                 console.log('save 완료');
-            }else if(req.body.pmt=2){ //dislike인 경우
-                nopark.lot_rate_list.push({lot:lotid, myrate:-1});
+            }else if(req.body.pmt==2){ //dislike인 경우
+                nopark.lot_rate_list.push({lot:req.body.lotid, myrate:-1});
                 console.log('push 완료');
                 nopark.save();
                 console.log('save 완료');
@@ -118,10 +116,16 @@ exports.inclike = (req, res) => {
                     console.log('이미 like입니다.');
                 }else if(req.body.pmt == 2){
                     console.log('like를 dislike로 변경합니다.');
+                    nopark.lot_rate_list.pull({lot:req.body.lotid});
+                    nopark.lot_rate_list.push({lot:req.body.lotid, myrate: -1});
+                    nopark.save();
                 }
             }else if(myrate == -1){
                 if(req.body.pmt == 1){
                     console.log('dislike를 like로 변경합니다.');
+                    nopark.lot_rate_list.pull({lot:req.body.lotid});
+                    nopark.lot_rate_list.push({lot:req.body.lotid, myrate: 1});
+                    nopark.save();
                 }else if(req.body.pmt == 2){
                     console.log('이미 dislike입니다.');
                 }
