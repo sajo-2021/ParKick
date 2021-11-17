@@ -98,6 +98,11 @@ exports.inclike = (req, res) => {
             console.log('---------------------');
             console.log('rateid => ' + rateid);
             console.log('---------------------');
+            console.log('rateid.like => ' + rateid.like);
+            console.log('---------------------');
+            console.log('rateid.dislike => ' + rateid.dislike);
+            console.log('---------------------');
+
     
             if(!exist){ // user가 null이라면
                 if(req.body.pmt==1){ // like인 경우
@@ -105,17 +110,13 @@ exports.inclike = (req, res) => {
                     console.log('push 완료');
                     user.save();
                     console.log('save 완료');
-                    rateid.updateOne({$inc: {like: 1}}, {new: true})
-                        .then(r => console.log(r))
-                        .catch(err => console.log(err));
+                    
                 }else if(req.body.pmt==2){ //dislike인 경우
                     user.lot_rate_list.push({lot:req.body.lotid, myrate:-1});
                     console.log('push 완료');
                     user.save();
                     console.log('save 완료');
-                    rateid.updateOne({$inc: {dislike: 1}}, {new: true})
-                        .then(r => console.log(r))
-                        .catch(err => console.log(err));
+                    
                 }
             }else{
                 console.log('user는 null이 아닙니다.');
@@ -129,9 +130,7 @@ exports.inclike = (req, res) => {
                         user.lot_rate_list.pull({lot:req.body.lotid, myrate: 1});
                         user.lot_rate_list.push({lot:req.body.lotid, myrate: -1});
                         user.save();
-                        rateid.updateOne({$inc: {like: -1, dislike: 1}}, {new: true})
-                            .then(r => console.log(r))
-                            .catch(err => console.log(err));
+                        
                     }
                 }else if(myrate == -1){
                     if(req.body.pmt == 1){
@@ -139,9 +138,7 @@ exports.inclike = (req, res) => {
                         user.lot_rate_list.pull({lot:req.body.lotid, myrate: -1});
                         user.lot_rate_list.push({lot:req.body.lotid, myrate: 1});
                         user.save();
-                        rateid.updateOne({$inc: {like: 1, dislike: -1}}, {new: true})
-                            .then(r => console.log(r))
-                            .catch(err => console.log(err));
+                        
                     }else if(req.body.pmt == 2){
                         console.log('이미 dislike입니다.');
                     }
