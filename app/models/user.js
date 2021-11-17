@@ -12,11 +12,12 @@ const userSchema = new mongoose.Schema({
         //     if(!validator.isEmail(value)) throw new Error("Email is invalid");
         // }
     },
-    lot_rate_list: [{
+    lot_rate_list: [new mongoose.Schema({
         lot: {type: mongoose.Schema.Types.ObjectId, ref: 'Parklot'},
-        myrate: {type: Number, default: 0 },
+        myrate: {type: Number, default: 0 }
+    },{
         _id: false
-    }],
+    })],
     mycomments: [ {type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}]
 },{
     timestamps:true
@@ -55,12 +56,12 @@ userSchema.statics.incLike = function(userid, lotid, pmt){
                 console.log(nopark);
 
                 // lot_rate_list에 myrate가 1인 lotid를 추가하고
-                if(pmt=1){ // like인 경우
+                if(pmt===1){ // like인 경우
                     nopark.lot_rate_list.push({lot:lotid, myrate:1});
                     console.log('push 완료');
                     nopark.save();
                     console.log('save 완료');
-                }else if(pmt=2){ //dislike인 경우
+                }else if(pmt===2){ //dislike인 경우
                     nopark.lot_rate_list.push({lot:lotid, myrate:-1});
                     console.log('push 완료');
                     nopark.save();
