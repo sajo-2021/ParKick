@@ -167,9 +167,10 @@ exports.writeComment = (req, res) => {
             console.log('comment => ' + comment);
             console.log('---------------------');
 
-            //user.mycomments.push(comment._id);
-            //lot.comments.push({userid: user._id, comment: comment._id});
-
+            user.mycomments.push(comment._id);
+            user.save();
+            lot.comments.push({user: user._id, comment: comment._id});
+            lot.save();
         }).catch(err => res.status(500).send(err));
         res.send(lot);
     }).catch(err => res.status(500).send(err));
