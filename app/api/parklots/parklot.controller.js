@@ -156,11 +156,11 @@ exports.updateRate = (req, res) => {
 
 
 exports.writeComment = (req, res) => {
-    Parklot.findOneByParkno(req.params.no).then(lot => {
+    Parklot.findOneByParkno(req.body.no).then(lot => {
         if(!lot) return res.status(404).send('SE09');
         Promise.all([
-            User.findOneById(req.params.user),
-            Comment.create(req.body)
+            User.findOneById(req.body.user),
+            Comment.create({comment: req.body.comment})
         ]).then(([user, comment]) => {
             console.log('user => ' + user);
             console.log('---------------------');
@@ -172,21 +172,10 @@ exports.writeComment = (req, res) => {
             lot.comments.push({user: user._id, comment: comment._id});
             lot.save();
         }).catch(err => res.status(500).send(err));
-        res.send(lot);
+        res.sendStatus(200);
     }).catch(err => res.status(500).send(err));
 }
 
-
-
-
-exports.writecom = (req, res) => {
-    Parklot.findOneByParkno(req.params.no).then(lot => {
-        if(!lot) return res.status(404).send('SE09');
-        lot.addComment(req.params.user, req.body);
-
-        res.send(lot);
-    }).catch(err => res.status(500).send(err));
-}
 
 exports.updatecom = (req, res) => {
     Parklot.findOneByParkno(req.params.no).then(lot => {
