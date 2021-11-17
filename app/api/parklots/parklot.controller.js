@@ -97,12 +97,12 @@ exports.inclike = (req, res) => {
 
         if(!user){ // user가 null이라면
             console.log('user는 null입니다.');
-            if(req.params.pmt=1){ // like인 경우
+            if(req.body.pmt=1){ // like인 경우
                 nopark.lot_rate_list.push({lot:lotid, myrate:1});
                 console.log('push 완료');
                 nopark.save();
                 console.log('save 완료');
-            }else if(req.params.pmt=2){ //dislike인 경우
+            }else if(req.body.pmt=2){ //dislike인 경우
                 nopark.lot_rate_list.push({lot:lotid, myrate:-1});
                 console.log('push 완료');
                 nopark.save();
@@ -113,15 +113,15 @@ exports.inclike = (req, res) => {
             let myrate = lot.lot_rate_list[0].myrate;
             console.log('myrate : ' + myrate);
             if(myrate == 1){
-                if(req.params.pmt == 1){
+                if(req.body.pmt == 1){
                     console.log('이미 like입니다.');
-                }else if(req.params.pmt == 2){
+                }else if(req.body.pmt == 2){
                     console.log('like를 dislike로 변경합니다.');
                 }
             }else if(myrate == -1){
-                if(req.params.pmt == 1){
+                if(req.body.pmt == 1){
                     console.log('dislike를 like로 변경합니다.');
-                }else if(req.params.pmt == 2){
+                }else if(req.body.pmt == 2){
                     console.log('이미 dislike입니다.');
                 }
             }
