@@ -158,14 +158,19 @@ exports.updateRate = (req, res) => {
 exports.writeComment = (req, res) => {
     Promise.all([
         Parklot.findOneByParkno(req.body.no),
-        Parklot.findOne({lotid: req.body.no, 'comments.user':req.body.user})
+        Parklot.findOne({
+            lotid: req.body.no, 
+            'comments.user':req.body.user},
+            'comments.$')
     ]).then(([lot, exist]) => {
         console.log('lot => ' + lot);
         console.log('---------------------');
         console.log('exist => ' + exist);
         console.log('---------------------');
+        console.log('exist.comments[0].user => ' + exist.comments[0].user);
+        console.log('---------------------');
         if(!lot) return res.status(404).send('SE09');
-        if(lot.comments.$.user === req.body.user)
+        if(exist.comments[0].user === req.body.user)
             return res.status(505).send('이미 댓글을 단 유저입니다.');
         Promise.all([
             User.findOneById(req.body.user),
