@@ -65,16 +65,16 @@ userSchema.statics.incLike = function(userid, lotid, pmt){
             }).catch(err => console.log(err));
         }else{
             console.log('객체가 존재함');
-            this.find({'_id':userid, 'lot_rate_list':{'$elemMatch': {'lot':lotid }}})
+            this.findOne({'_id':userid, 'lot_rate_list.lot':lotid }, 'lot_rate_list.$')
                 .then(park => {
                     console.log(user);
-                    console.log(park);
+                    console.log('myrate : ' + park.lot_rate_list[0].myrate);
                     if(park.myrate == 1){
                         if(pmt==1) return;
                         else if(pmt==2){
                             console.log('기존의 user 객체');
                             console.log(user.lot_rate_list);
-                            user.lot_rate_list.pull({lot:lotid});
+                            user.lot_rate_list.pull({'lot_rate_list.$.lot':lotid});
                             console.log('pull 이후의 user 객체');
                             console.log(user.lot_rate_list);
                             user.lot_rate_list.push({lot:lotid, myrate:-1});
@@ -86,8 +86,14 @@ userSchema.statics.incLike = function(userid, lotid, pmt){
                     }else if(park.myrate == -1){
                         if(pmt==2) return;
                         else if(pmt==1){
-                            user.lot_rate_list.pull({lot:lotid});
+                            console.log('기존의 user 객체');
+                            console.log(user.lot_rate_list);
+                            user.lot_rate_list.pull({'lot_rate_list.$.lot':lotid});
+                            console.log('pull 이후의 user 객체');
+                            console.log(user.lot_rate_list);
                             user.lot_rate_list.push({lot:lotid, myrate:1});
+                            console.log('push 이후의 user 객체');
+                            console.log(user.lot_rate_list);
                             user.save();
                             console.log(user);
                         }
