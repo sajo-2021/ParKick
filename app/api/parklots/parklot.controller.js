@@ -96,6 +96,7 @@ exports.inclike = (req, res) => {
         console.log('---------------------');
 
         if(!user){ // user가 null이라면
+            console.log('user는 null입니다.');
             if(pmt=1){ // like인 경우
                 nopark.lot_rate_list.push({lot:lotid, myrate:1});
                 console.log('push 완료');
@@ -108,7 +109,9 @@ exports.inclike = (req, res) => {
                 console.log('save 완료');
             }
         }else{
+            console.log('user는 null이 아닙니다.');
             let myrate = lot.lot_rate_list[0].myrate;
+            console.log('myrate : ' + myrate);
             if(myrate == 1){
                 if(req.params.pmt == 1){
                     console.log('이미 like입니다.');
