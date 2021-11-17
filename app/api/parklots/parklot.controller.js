@@ -78,7 +78,7 @@ exports.inclike = (req, res) => {
     // }).catch(err => res.status(500).send(err));
     
     //User.incLike(req.body.userid, rq.body.lotid, req.body.pmt);
-    Parklot.findById(req.body.lotid).then(parklot => {
+    Parklot.findOne(req.body.lotid).then(parklot => {
         Promise.all([
             User.findOne({
                 _id: req.body.userid, 
@@ -90,6 +90,8 @@ exports.inclike = (req, res) => {
                 }, 'lot_rate_list.$'),
             Rate.findOne(parklot.rate)
         ]).then(([exist, user, lot, rateid]) => {
+            console.log('user => ' + parklot);
+            console.log('---------------------');
             console.log('user => ' + exist);
             console.log('---------------------');
             console.log('nopark => ' + user);
