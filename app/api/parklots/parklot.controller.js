@@ -110,13 +110,17 @@ exports.inclike = (req, res) => {
                     console.log('push 완료');
                     user.save();
                     console.log('save 완료');
-                    
+
+                    rateid.like++;
+                    rateid.save();
                 }else if(req.body.pmt==2){ //dislike인 경우
                     user.lot_rate_list.push({lot:req.body.lotid, myrate:-1});
                     console.log('push 완료');
                     user.save();
                     console.log('save 완료');
-                    
+
+                    rateid.dislike++;
+                    rateid.save();
                 }
             }else{
                 console.log('user는 null이 아닙니다.');
@@ -131,6 +135,9 @@ exports.inclike = (req, res) => {
                         user.lot_rate_list.push({lot:req.body.lotid, myrate: -1});
                         user.save();
                         
+                        rateid.like--;
+                        rateid.dislike++;
+                        rateid.save();
                     }
                 }else if(myrate == -1){
                     if(req.body.pmt == 1){
@@ -139,6 +146,9 @@ exports.inclike = (req, res) => {
                         user.lot_rate_list.push({lot:req.body.lotid, myrate: 1});
                         user.save();
                         
+                        rateid.like++;
+                        rateid.dislike--;
+                        rateid.save();
                     }else if(req.body.pmt == 2){
                         console.log('이미 dislike입니다.');
                     }
