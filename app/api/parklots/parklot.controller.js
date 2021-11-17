@@ -1,6 +1,7 @@
 const Parklot = require('../../models/parklot');
 const Rate = require('../../models/rate');
 const User = require('../../models/user');
+const Comment = require('../../models/comment');
 
 exports.index = (req, res) => {
     Parklot.findAll().then((lots) => {
@@ -69,16 +70,8 @@ exports.deleteid = (req, res) => {
         }).catch(err => res.status(500).send(err));
 }
 
-exports.inclike = (req, res) => {
-    // Parklot.findById(req.body.lotid, "rate").then(lot => {
-    //     console.log('rateeid : ' + lot.rate);
-    //     Rate.incLike(lot.rate).then(rate => {
-    //         console.log('rate.inclike의 리턴 : '+rate);
-    //     }).catch(err => res.status(500).send(err));
-    // }).catch(err => res.status(500).send(err));
-    
-    //User.incLike(req.body.userid, rq.body.lotid, req.body.pmt);
-    Parklot.findOne(req.body.lotid).then(parklot => {
+exports.updateRate = (req, res) => {
+    Parklot.findOne({_id: req.body.lotid}).then(parklot => {
         Promise.all([
             User.findOne({
                 _id: req.body.userid, 
@@ -88,7 +81,7 @@ exports.inclike = (req, res) => {
                 _id: req.body.userid, 
                 'lot_rate_list.lot': req.body.lotid
                 }, 'lot_rate_list.$'),
-            Rate.findOne(parklot.rate)
+            Rate.findOne({_id: parklot.rate})
         ]).then(([exist, user, lot, rateid]) => {
             console.log('user => ' + parklot);
             console.log('---------------------');
@@ -162,36 +155,24 @@ exports.inclike = (req, res) => {
 }
 
 
+exports.writeComment = (req, res) => {
+    Parklot.findOneByParkno(req.params.no).then(lot => {
+        if(!lot) return res.status(404).send('SE09');
+        Promise.all([
+            User.findOneById(req.params.user),
+            Comment.create(req.body.comment)
+        ]).then(([user, comment]) => {
+            console.log('user => ' + user);
+            console.log('---------------------');
+            console.log('comment => ' + comment);
+            console.log('---------------------');
 
-exports.incdislike = (req, res) => {
-    Parklot.findById(req.params.id, "rate").then(lot => {
-        console.log('rateid : ' + lot.rate);
-        Rate.incDislike(lot.rate).then(rate => {
-            console.log(rate);
-            res.send('rate dislike : ' + rate.dislike);
-        }).catch(err => res.status(500).send(err));
-    }).catch(err => res.status(500).send(err));
-}
-exports.declike = (req, res) => {
-    Parklot.findById(req.params.id, "rate").then(lot => {
-        console.log('rateid : ' + lot.rate);
-        Rate.decLike(lot.rate).then(rate => {
-            console.log(rate);
-            res.send('rate like : ' + rate.like);
-        }).catch(err => res.status(500).send(err));
-    }).catch(err => res.status(500).send(err));
-}
-exports.decdislike = (req, res) => {
-    Parklot.findById(req.params.id, "rate").then(lot => {
-        console.log('rateid : ' + lot.rate);
-        Rate.decDislike(lot.rate).then(rate => {
-            console.log(rate);
-            res.send('rate dislike : ' + rate.dislike);
-        }).catch(err => res.status(500).send(err));
-    }).catch(err => res.status(500).send(err));
-}
+            //user.mycomments.push(comment._id);
+            //lot.comments.push({userid: user._id, comment: comment._id});
 
-
+        }).catch(err => res.status(500).send(err));
+    })
+}
 
 
 

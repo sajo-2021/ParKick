@@ -14,13 +14,10 @@ router.delete('/no/:no', controller.deleteno);
 
 router.delete('/id/:id', controller.deleteid);
 
-router.post('/com/:no/:user', controller.writecom);
+router.post('/com/:no/:user', controller.writeComment);
 router.put('/com/:no/:comid', controller.updatecom);
 router.delete('/com/:no/:comid', controller.deletecom);
 
-router.post('/rate/', controller.inclike);
-router.get('/declike/:id', controller.declike);
-router.get('/incdislike/:id', controller.incdislike);
-router.get('/decdislike/:id', controller.decdislike);
+router.post('/rate/', controller.updateRate);
 
 module.exports = router;
