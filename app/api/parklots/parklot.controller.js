@@ -97,12 +97,12 @@ exports.inclike = (req, res) => {
 
         if(!user){ // user가 null이라면
             console.log('user는 null입니다.');
-            if(pmt=1){ // like인 경우
+            if(req.params.pmt=1){ // like인 경우
                 nopark.lot_rate_list.push({lot:lotid, myrate:1});
                 console.log('push 완료');
                 nopark.save();
                 console.log('save 완료');
-            }else if(pmt=2){ //dislike인 경우
+            }else if(req.params.pmt=2){ //dislike인 경우
                 nopark.lot_rate_list.push({lot:lotid, myrate:-1});
                 console.log('push 완료');
                 nopark.save();
