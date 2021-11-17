@@ -69,9 +69,8 @@ userSchema.statics.incLike = function(userid, lotid, pmt){
                 .then(park => {
                     console.log(user);
                     console.log('myrate : ' + park.lot_rate_list[0].myrate);
-                    if(park.myrate == 1){
-                        if(pmt==1) return;
-                        else if(pmt==2){
+                    if(park.lot_rate_list[0].myrate == 1){
+                        if(pmt==2){
                             console.log('기존의 user 객체');
                             console.log(user.lot_rate_list);
                             user.lot_rate_list.pull({'lot_rate_list.$.lot':lotid});
@@ -83,9 +82,8 @@ userSchema.statics.incLike = function(userid, lotid, pmt){
                             user.save();
                             console.log(user);
                         }
-                    }else if(park.myrate == -1){
-                        if(pmt==2) return;
-                        else if(pmt==1){
+                    }else if(park.lot_rate_list[0].myrate == -1){
+                        if(pmt==1){
                             console.log('기존의 user 객체');
                             console.log(user.lot_rate_list);
                             user.lot_rate_list.pull({'lot_rate_list.$.lot':lotid});
