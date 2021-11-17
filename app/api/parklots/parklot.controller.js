@@ -82,7 +82,7 @@ exports.inclike = (req, res) => {
         User.findOne({
             _id: req.body.userid, 
             'lot_rate_list.lot': req.body.lotid}),
-        User.findOne({_id: rea.body.userid}),
+        User.findOne({_id: req.body.userid}),
         User.findOne({
             _id: req.body.userid, 
             'lot_rate_list.lot': req.body.lotid
@@ -94,7 +94,38 @@ exports.inclike = (req, res) => {
         console.log('---------------------');
         console.log('lot => ' + lot);
         console.log('---------------------');
-    })
+
+        if(!user){ // user가 null이라면
+            if(pmt=1){ // like인 경우
+                nopark.lot_rate_list.push({lot:lotid, myrate:1});
+                console.log('push 완료');
+                nopark.save();
+                console.log('save 완료');
+            }else if(pmt=2){ //dislike인 경우
+                nopark.lot_rate_list.push({lot:lotid, myrate:-1});
+                console.log('push 완료');
+                nopark.save();
+                console.log('save 완료');
+            }
+        }else{
+            let myrate = lot.lot_rate_list[0].myrate;
+            if(myrate == 1){
+                if(req.params.pmt == 1){
+                    console.log('이미 like입니다.');
+                }else if(req.params.pmt == 2){
+                    console.log('like를 dislike로 변경합니다.');
+                }
+            }else if(myrate == -1){
+                if(req.params.pmt == 1){
+                    console.log('dislike를 like로 변경합니다.');
+                }else if(req.params.pmt == 2){
+                    console.log('이미 dislike입니다.');
+                }
+            }
+        }
+
+        res.send(nopark);
+    }).catch(err => res.status(500).send(err));
 
 
     // User.findRateItem(req.body.userid, req.body.lotid, req.body.pmt)
