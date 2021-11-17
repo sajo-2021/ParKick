@@ -14,7 +14,8 @@ const userSchema = new mongoose.Schema({
     },
     lot_rate_list: [{
         lot: {type: mongoose.Schema.Types.ObjectId, ref: 'Parklot'},
-        myrate: {type: Number, default: 0 }
+        myrate: {type: Number, default: 0 },
+        _id: false
     }],
     mycomments: [ {type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}]
 },{
@@ -39,6 +40,11 @@ userSchema.statics.updateById = function(id, payload){
 userSchema.statics.deleteById = function(id){
     return this.remove({_id: id});
 }
+
+userSchema.statics.findRateItem = function(userid, lotid, pmt){
+    return this.findOne({_id:userid, 'lot_rate_list.lot':lotid});
+}
+
 
 userSchema.statics.incLike = function(userid, lotid, pmt){
     this.findOne({_id: userid, 'lot_rate_list.lot':lotid}).then(user => {
