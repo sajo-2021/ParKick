@@ -19,11 +19,12 @@ const parklotSchema = new mongoose.Schema({
         }
     },
     rate: {type: mongoose.Schema.Types.ObjectId, ref:'Rate' },
-    comments: [{
+    comments: [new mongoose.Schema({
         user: {type:mongoose.Schema.Types.ObjectId, ref:'User'}, 
         comment: {type: mongoose.Schema.Types.ObjectId, ref:'Comment'},
-        default: {}
-    }]
+    },{
+        _id:false
+    })]
 },{
     timestamps: true
 });
