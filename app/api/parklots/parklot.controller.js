@@ -156,6 +156,12 @@ exports.updateRate = (req, res) => {
 
 
 exports.writeComment = (req, res) => {
+    /*
+        body로 전달되어야 할 값
+        no : lot의 고유 넘버
+        user : user의 _id값
+        comment : 기록하고자 하는 comment의 내용
+    */
     Promise.all([
         Parklot.findOneByParkno(req.body.no),
         Parklot.findOne({
@@ -177,8 +183,6 @@ exports.writeComment = (req, res) => {
         console.log('---------------------');
 
         let result = "결과 : ";
-
-
 
         if(!lot) {
             console.log('lot is null');
@@ -210,11 +214,76 @@ exports.writeComment = (req, res) => {
                 result += "이미 댓글을 달았습니다.";
             }
         }
-
         res.send('뭔가 오류가 발생했군요!\n'+result);
     }).catch(err => res.status(500).send(err));
 }
 
+exports.updateComment = (req, res) => {
+    /*
+        body로 전달되어야 할 값
+        no : lot의 고유 넘버
+        user : user의 _id값
+        comment : 수정하고자 하는 comment의 내용
+    */
+    Promise.all([
+        Parklot.findOneByParkno(req.body.no),
+        Parklot.findOne({
+            lotid: req.body.no, 
+            'comments.user':req.body.user},
+            'comments.$'),
+        User.findOneById(req.body.user)
+    ]).then(([lot, exist, user]) => {
+        console.log('lot => ' + lot);
+        console.log('---------------------');
+        console.log('exist => ' + exist);
+        console.log('---------------------');
+        if(exist){
+            console.log('exist.comments[0].user => ' + exist.comments[0].user);
+            console.log('---------------------');
+        }
+        console.log('user => ' + user);
+        console.log('---------------------');
+
+        let result = "결과 : ";
+
+        if(!lot) {
+            console.log('lot is null');
+            result += "lot가 null 입니다.";
+        }
+        else if(!user) {
+            console.log('user is null');
+            result += "user가 null 입니다.";
+        }
+        else{
+            if(!exist) { // exist가 null이라면 자유롭게 추가해도 됨
+                console.log('아직 댓글을 달지 않았습니다.');
+                result += "아직 댓글을 달지 않았습니다.";
+                // Comment.create({comment: req.body.comment})
+                //     .then(comment => {                        
+                //         console.log('comment => ' + comment);
+                //         console.log('---------------------');
+
+                //         user.mycomments.push(comment._id);
+                //         user.save();
+                //         lot.comments.push({user: user._id, comment: comment._id});
+                //         lot.save();
+
+                        
+                //     }).catch(err => res.status(500).send(err));
+
+                // return res.sendStatus(200);
+            }
+            else{ // exist가 null이 아니라면 추가하면 안됨.
+                Comment.findOneById(exist.comments[0].comment)
+                    .then(comment => {
+                        comment.comment = req.body.comment;
+                        comment.save();
+                    }).catch(err => res.status(500).send(err));
+            }
+        }
+        res.send('뭔가 오류가 발생했군요!\n'+result);
+    }).catch(err => res.ststus(500).send(err));
+}
 
 exports.updatecom = (req, res) => {
     Parklot.findOneByParkno(req.params.no).then(lot => {
