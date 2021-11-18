@@ -60,10 +60,19 @@ exports.deleteno = (req, res) => {
             //Rate.deleteOne({_id: parklot.rate}),
             
         ]).then(([comment_list]) => {
+            console.log('parklot => ' + parklot);
+            console.log('parklot.comments => ' + parklot.comments);
             console.log('comment_list => ' + comment_list);
+            console.log('comment_list.comments => ' + comment_list.comments);
+
+            // comment_list에는 해당 parklot에 기록된 모든 comment 정보가 있음
+            // list를 돌면서
+            // 각 user별로 mycomments.pull을 수행하고
+            // 각 comment별로 Comment.deleteById를 수행한다.
+            // 모든 list를 돈 뒤에는 해당 parklot을 삭제한다.
         }).catch(err => res.status(500).send(err));
 
-        return res.sendStatus(200);
+        res.sendStatus(200);
     }).catch(err => res.status(500).send(err));
 
 
