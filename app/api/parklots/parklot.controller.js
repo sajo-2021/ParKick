@@ -53,36 +53,30 @@ exports.readid = (req, res) => {
 exports.deleteno = (req, res) => {
     // 먼저 해당 parklot에 속하는 rate와 모든 comment를 삭제하여야 한다.
     Parklot.findOneByParkno(req.params.no).then(parklot => {
-        Promise.all([
-            Parklot.findOne({
-                lotid: req.params.no},
-                'comments.$'),
-            //Rate.deleteOne({_id: parklot.rate}),
-            
-        ]).then(([comment_list]) => {
-            console.log('parklot => ' + parklot);
-            console.log('parklot.comments => ' + parklot.comments);
-            console.log('comment_list => ' + comment_list);
-            console.log('comment_list.comments => ' + comment_list.comments);
+        console.log('parklot => ' + parklot);
+        console.log('parklot.comments => ' + parklot.comments);
 
-            // comment_list에는 해당 parklot에 기록된 모든 comment 정보가 있음
-            // list를 돌면서
-            // 각 user별로 mycomments.pull을 수행하고
-            // 각 comment별로 Comment.deleteById를 수행한다.
-            // 모든 list를 돈 뒤에는 해당 parklot을 삭제한다.
-        }).catch(err => res.status(500).send(err));
+        for(let i=0; i < parklot.comments.length; i++){
+            let userid = parklot.comments[i].user;
+            let comid = parklot.comments[i].comment;
 
-        res.sendStatus(200);
+            User.findOneById(userid).then(user => {
+                user.mycomments.pull(comid);
+                user.save();
+            }).catch(err => console.log(err));
+            parklot.comments.pull({user: userid, comment: comid})
+            parklot.save();
+        }
+
+        Rate.deleteOne({_id: parklot.rate})
+            .then(rate => console.log(rate))
+            .catch(err => console.log(err));
     }).catch(err => res.status(500).send(err));
 
 
-    // Parklot.deleteByParkno(req.params.no).then((lot) => {
-    //         res.sendStatus(200)
-
-    //         console.log('lot deleteno log');
-    //         console.log(lot);
-    //         console.log('------------------');
-    //     }).catch(err => res.status(500).send(err));
+    Parklot.deleteByParkno(req.params.no).then((lot) => {
+        res.sendStatus(200);
+    }).catch(err => res.status(500).send(err));
 }
 
 exports.deleteid = (req, res) => {
