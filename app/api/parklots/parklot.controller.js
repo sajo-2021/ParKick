@@ -294,12 +294,12 @@ exports.deleteComment = (req, res) => {
         user : user의 _id값
     */
     Promise.all([
-        Parklot.findOneByParkno(req.body.no),
+        Parklot.findOneByParkno(req.params.no),
         Parklot.findOne({
-            lotid: req.body.no, 
-            'comments.user':req.body.user},
+            lotid: req.params.no, 
+            'comments.user':req.params.user},
             'comments.$'),
-        User.findOneById(req.body.user)
+        User.findOneById(req.params.user)
     ]).then(([lot, exist, user]) => {
         console.log('lot => ' + lot);
         console.log('---------------------');
@@ -328,6 +328,9 @@ exports.deleteComment = (req, res) => {
                 result += "해당 user는 아직 댓글을 달지 않았습니다.";
             }
             else{ // 댓글이 존재하므로 삭제
+                lot.comments.pull({user: user._id, comment: exist.comments[0].comment})
+                user.mycomments.pull(exist.comments[0].comment);
+                
                 Comment.deleteById(exist.comments[0].comment)
                     .then().catch(err => res.status(500).send(err));
                 return res.sendStatus(200); 
