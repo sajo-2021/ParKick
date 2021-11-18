@@ -63,20 +63,20 @@ exports.deleteno = (req, res) => {
             console.log('userid => ' + userid);
             console.log('comid => ' + comid);
 
+            parklot.comments.pull({user: userid, comment: comid});
+            parklot.save();
             User.findOneById(userid).then(user => {
                 user.mycomments.pull(comid);
                 user.save();
             }).catch(err => console.log(err));
-            parklot.comments[i].pull();
-            parklot.save();
+            
 
-            // Comment.deleteById(comid)
-            //         .then().catch(err => res.status(500).send(err));
+            Comment.deleteOne({_id: comid}).then()
+                .catch(err => res.status(500).send(err));
         }
 
-        // Rate.deleteOne({_id: parklot.rate})
-        //     .then(rate => console.log(rate))
-        //     .catch(err => console.log(err));
+        Rate.deleteOne({_id: parklot.rate}).then()
+            .catch(err => console.log(err));
     }).catch(err => res.status(500).send(err));
 
     // 각 user의 lot_rate_list에서도 해당되는 parklot 삭제해야함
