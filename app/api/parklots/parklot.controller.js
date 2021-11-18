@@ -162,8 +162,7 @@ exports.writeComment = (req, res) => {
             lotid: req.body.no, 
             'comments.user':req.body.user},
             'comments.$'),
-        User.findOneById(req.body.user),
-        Comment.create({comment: req.body.comment})
+        User.findOneById(req.body.user)
     ]).then(([lot, exist, user]) => {
         console.log('lot => ' + lot);
         console.log('---------------------');
@@ -185,13 +184,16 @@ exports.writeComment = (req, res) => {
             if(exist.comments[0].user == req.body.user){
                 console.log('이미 댓글을 달았습니다.');
             }else{
-                user.mycomments.push(comment._id);
-                user.save();
-                lot.comments.push({user: user._id, comment: comment._id});
-                lot.save();
+                Comment.create({comment: req.body.comment})
+                    .then(comment => {
+                        user.mycomments.push(comment._id);
+                        user.save();
+                        lot.comments.push({user: user._id, comment: comment._id});
+                        lot.save();
+                        
+                        res.sendStatus(200);
+                    }).catch(err => res.status(500).send(err));
             }
-
-            res.sendStatus(200);
         }
     }).catch(err => res.status(500).send(err));
 }
