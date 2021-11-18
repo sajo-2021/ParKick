@@ -60,6 +60,9 @@ exports.deleteno = (req, res) => {
             let userid = parklot.comments[i].user;
             let comid = parklot.comments[i].comment;
 
+            console.log(userid);
+            console.log(comid);
+
             User.findOneById(userid).then(user => {
                 user.mycomments.pull(comid);
                 user.save();
@@ -74,9 +77,9 @@ exports.deleteno = (req, res) => {
     }).catch(err => res.status(500).send(err));
 
 
-    Parklot.deleteByParkno(req.params.no).then((lot) => {
-        res.sendStatus(200);
-    }).catch(err => res.status(500).send(err));
+    // Parklot.deleteByParkno(req.params.no).then((lot) => {
+    //     res.sendStatus(200);
+    // }).catch(err => res.status(500).send(err));
 }
 
 exports.deleteid = (req, res) => {
