@@ -70,11 +70,9 @@ exports.deleteno = (req, res) => {
                 user.save();
             }).catch(err => console.log(err));
             
-
             Comment.deleteOne({_id: comid}).then()
                 .catch(err => res.status(500).send(err));
         }
-
         Rate.deleteOne({_id: parklot.rate}).then()
             .catch(err => console.log(err));
     }).catch(err => res.status(500).send(err));
@@ -82,9 +80,9 @@ exports.deleteno = (req, res) => {
     // 각 user의 lot_rate_list에서도 해당되는 parklot 삭제해야함
     // 아 rate_userid 목록이 필요함. rate 수행시 해당 목록을 작성해주어야한다.
 
-    // Parklot.deleteByParkno(req.params.no).then((lot) => {
-    //     res.sendStatus(200);
-    // }).catch(err => res.status(500).send(err));
+    Parklot.deleteByParkno(req.params.no).then((lot) => {
+        res.sendStatus(200);
+    }).catch(err => res.status(500).send(err));
 }
 
 exports.deleteid = (req, res) => {
