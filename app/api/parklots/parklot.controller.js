@@ -52,7 +52,7 @@ exports.readid = (req, res) => {
 
 exports.deleteno = (req, res) => {
     // 먼저 해당 parklot에 속하는 rate와 모든 comment를 삭제하여야 한다.
-    Parklot.findOneByParkno(req.params.no).then(parklot => {
+    Parklot.findOne({lotid: req.params.no}).then(parklot => {
         console.log('parklot => ' + parklot);
         console.log('parklot.comments => ' + parklot.comments);
 
@@ -60,25 +60,27 @@ exports.deleteno = (req, res) => {
             let userid = parklot.comments[i].user;
             let comid = parklot.comments[i].comment;
 
-            console.log(userid);
-            console.log(comid);
+            console.log('userid => ' + userid);
+            console.log('comid => ' + comid);
 
             User.findOneById(userid).then(user => {
                 user.mycomments.pull(comid);
                 user.save();
             }).catch(err => console.log(err));
-            parklot.comments.pull({user: userid, comment: comid})
+            parklot.comments[i].pull();
             parklot.save();
 
-            Comment.deleteById(comid)
-                    .then().catch(err => res.status(500).send(err));
+            // Comment.deleteById(comid)
+            //         .then().catch(err => res.status(500).send(err));
         }
 
-        Rate.deleteOne({_id: parklot.rate})
-            .then(rate => console.log(rate))
-            .catch(err => console.log(err));
+        // Rate.deleteOne({_id: parklot.rate})
+        //     .then(rate => console.log(rate))
+        //     .catch(err => console.log(err));
     }).catch(err => res.status(500).send(err));
 
+    // 각 user의 lot_rate_list에서도 해당되는 parklot 삭제해야함
+    // 아 rate_userid 목록이 필요함. rate 수행시 해당 목록을 작성해주어야한다.
 
     // Parklot.deleteByParkno(req.params.no).then((lot) => {
     //     res.sendStatus(200);
