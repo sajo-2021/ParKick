@@ -329,7 +329,9 @@ exports.deleteComment = (req, res) => {
             }
             else{ // 댓글이 존재하므로 삭제
                 lot.comments.pull({user: user._id, comment: exist.comments[0].comment})
+                lot.save();
                 user.mycomments.pull(exist.comments[0].comment);
+                user.save();
                 
                 Comment.deleteById(exist.comments[0].comment)
                     .then().catch(err => res.status(500).send(err));
