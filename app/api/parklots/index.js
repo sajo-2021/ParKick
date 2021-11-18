@@ -15,8 +15,8 @@ router.delete('/no/:no', controller.deleteno);
 router.delete('/id/:id', controller.deleteid);
 
 router.post('/com/', controller.writeComment);
-router.put('/com/:no/:comid', controller.updatecom);
-router.delete('/com/:no/:comid', controller.deletecom);
+router.put('/com/', controller.updateComment);
+router.delete('/com/:no/:user', controller.deleteComment);
 
 router.post('/rate/', controller.updateRate);
 

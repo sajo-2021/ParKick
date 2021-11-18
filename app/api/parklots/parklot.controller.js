@@ -287,13 +287,53 @@ exports.updateComment = (req, res) => {
     }).catch(err => res.ststus(500).send(err));
 }
 
-exports.updatecom = (req, res) => {
-    Parklot.findOneByParkno(req.params.no).then(lot => {
-        if(!lot) return res.status(404).send('SE09');
-        lot.updateComment(req.params.comid, req.body);
-        console.log(lot);
+exports.deleteComment = (req, res) => {
+    /*
+        params로 전달되어야 할 값
+        no : lot의 고유 넘버
+        user : user의 _id값
+    */
+    Promise.all([
+        Parklot.findOneByParkno(req.body.no),
+        Parklot.findOne({
+            lotid: req.body.no, 
+            'comments.user':req.body.user},
+            'comments.$'),
+        User.findOneById(req.body.user)
+    ]).then(([lot, exist, user]) => {
+        console.log('lot => ' + lot);
+        console.log('---------------------');
+        console.log('exist => ' + exist);
+        console.log('---------------------');
+        if(exist){
+            console.log('exist.comments[0].user => ' + exist.comments[0].user);
+            console.log('---------------------');
+        }
+        console.log('user => ' + user);
+        console.log('---------------------');
 
-        res.send(lot);
+        let result = "결과 : ";
+
+        if(!lot) {
+            console.log('lot is null');
+            result += "lot가 null 입니다.";
+        }
+        else if(!user) {
+            console.log('user is null');
+            result += "user가 null 입니다.";
+        }
+        else{
+            if(!exist) { // exist가 null이면 삭제불가능
+                console.log('아직 댓글을 달지 않았습니다.');
+                result += "해당 user는 아직 댓글을 달지 않았습니다.";
+            }
+            else{ // 댓글이 존재하므로 삭제
+                Comment.deleteById(exist.comments[0].comment)
+                    .then().catch(err => res.status(500).send(err));
+                return res.sendStatus(200); 
+            }
+        }
+        res.send('뭔가 오류가 발생했군요!\n'+result);
     }).catch(err => res.status(500).send(err));
 }
 
