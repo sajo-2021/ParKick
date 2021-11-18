@@ -69,6 +69,9 @@ exports.deleteno = (req, res) => {
             }).catch(err => console.log(err));
             parklot.comments.pull({user: userid, comment: comid})
             parklot.save();
+
+            Comment.deleteById(comid)
+                    .then().catch(err => res.status(500).send(err));
         }
 
         Rate.deleteOne({_id: parklot.rate})
