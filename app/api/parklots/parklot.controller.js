@@ -279,6 +279,8 @@ exports.updateComment = (req, res) => {
                         comment.comment = req.body.comment;
                         comment.save();
                     }).catch(err => res.status(500).send(err));
+                
+                return res.sendStatus(200); 
             }
         }
         res.send('뭔가 오류가 발생했군요!\n'+result);
