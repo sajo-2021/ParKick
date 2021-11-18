@@ -161,8 +161,10 @@ exports.writeComment = (req, res) => {
         Parklot.findOne({
             lotid: req.body.no, 
             'comments.user':req.body.user},
-            'comments.$')
-    ]).then(([lot, exist]) => {
+            'comments.$'),
+        User.findOneById(req.body.user),
+        Comment.create({comment: req.body.comment})
+    ]).then(([lot, exist, user, comment]) => {
         console.log('lot => ' + lot);
         console.log('---------------------');
         console.log('exist => ' + exist);
@@ -171,23 +173,22 @@ exports.writeComment = (req, res) => {
             console.log('exist.comments[0].user => ' + exist.comments[0].user);
             console.log('---------------------');
         }
+
+        console.log('user => ' + user);
+        console.log('---------------------');
+        console.log('comment => ' + comment);
+        console.log('---------------------');
+        
         if(!lot) return new Error('SE09');
         if(exist.comments[0].user == req.body.user)
             return new Error('댓글을 이미 달았습니다.');
-        Promise.all([
-            User.findOneById(req.body.user),
-            Comment.create({comment: req.body.comment})
-        ]).then(([user, comment]) => {
-            console.log('user => ' + user);
-            console.log('---------------------');
-            console.log('comment => ' + comment);
-            console.log('---------------------');
-
-            user.mycomments.push(comment._id);
-            user.save();
-            lot.comments.push({user: user._id, comment: comment._id});
-            lot.save();
-        }).catch(err => res.status(500).send(err));
+        
+        
+        user.mycomments.push(comment._id);
+        user.save();
+        lot.comments.push({user: user._id, comment: comment._id});
+        lot.save();
+        
         res.sendStatus(200);
     }).catch(err => res.status(500).send(err));
 }
