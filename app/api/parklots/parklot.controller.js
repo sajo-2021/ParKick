@@ -57,22 +57,23 @@ exports.deleteno = (req, res) => {
             Parklot.findOne({
                 lotid: req.params.no},
                 'comments.$'),
-            Rate.deleteById(parklot.rate),
+            //Rate.deleteOne({_id: parklot.rate}),
             
-        ]).then(([comment_list,rate]) => {
-            console.log('comment_list => ' + comment_list)
-            console.log('rate => ' + rate);
+        ]).then(([comment_list]) => {
+            console.log('comment_list => ' + comment_list);
         }).catch(err => res.status(500).send(err));
+
+        return res.sendStatus(200);
     }).catch(err => res.status(500).send(err));
 
 
-    Parklot.deleteByParkno(req.params.no).then((lot) => {
-            res.sendStatus(200)
+    // Parklot.deleteByParkno(req.params.no).then((lot) => {
+    //         res.sendStatus(200)
 
-            console.log('lot deleteno log');
-            console.log(lot);
-            console.log('------------------');
-        }).catch(err => res.status(500).send(err));
+    //         console.log('lot deleteno log');
+    //         console.log(lot);
+    //         console.log('------------------');
+    //     }).catch(err => res.status(500).send(err));
 }
 
 exports.deleteid = (req, res) => {
