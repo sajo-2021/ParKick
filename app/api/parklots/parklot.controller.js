@@ -66,19 +66,21 @@ exports.deleteno = (req, res) => {
             console.log('comid => ' + comid);
 
             parklot.comments.pull({user: userid, comment: comid});
-            parklot.save();
             console.log('parklot.comments pull 완료');
 
             User.findOneById(userid).then(user => {
                 user.mycomments.pull(comid);
+                console.log('User.mycomments['+i+'] pull 완료');
                 user.save();
             }).catch(err => console.log(err));
-            console.log('User.mycomments pull 완료');
-
+            
             Comment.deleteOne({_id: comid}).then()
                 .catch(err => res.status(500).send(err));
             console.log('Comment 삭제 완료');
         }
+        parklot.save();
+        console.log('parklot pull save() 완료');
+
         Rate.deleteOne({_id: parklot.rate}).then()
             .catch(err => console.log(err));
 
