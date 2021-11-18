@@ -31,16 +31,10 @@ const parklotSchema = new mongoose.Schema({
 
 
 parklotSchema.statics.create = function(payload){
-    this.findOne({lotid: payload.lotid}).then(lot => {
-        if(!lot){
-            var park = new this(payload);
-            park.rate = Rate.create();
+    var park = new this(payload);
+    park.rate = Rate.create();
 
-            return park.save();
-        }else{
-            console.log('이미 존재하는 lot입니다.')
-        }
-    })
+    return park.save();
     
 }
 

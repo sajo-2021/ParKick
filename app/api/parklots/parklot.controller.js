@@ -15,17 +15,30 @@ exports.index = (req, res) => {
 };
 
 exports.create = (req, res) => {
-    Parklot.create(req.body)
-        .then(lot => {
-            res.send(lot)
+    Parklot.findOne({lotid: req.body.lotid}).then(lot => {
+        if(!lot){
+            Parklot.create(req.body).then(newlot => {
+                res.send(newlot);
+
+                console.log('lot create log');
+                console.log(req.body);
+                console.log('-------------------');
+            }).catch(err => console.log(err))
+        }else
+            console.log('이미 생성된 lotid입니다.');
+    })
+
+    // Parklot.create(req.body)
+    //     .then(lot => {
+    //         res.send(lot)
             
-            console.log('lot create log');
-            console.log(req.body);
-            console.log(req.body.lotid);
-            console.log(req.body.longitude);
-            console.log('-------------------');
-        })
-        .catch(err => res.status(500).send(err));
+    //         console.log('lot create log');
+    //         console.log(req.body);
+    //         console.log(req.body.lotid);
+    //         console.log(req.body.longitude);
+    //         console.log('-------------------');
+    //     })
+    //     .catch(err => res.status(500).send(err));
 }
 
 exports.readno = (req, res) => {
