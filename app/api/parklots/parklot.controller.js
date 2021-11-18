@@ -175,8 +175,6 @@ exports.writeComment = (req, res) => {
 
         console.log('user => ' + user);
         console.log('---------------------');
-        console.log('comment => ' + comment);
-        console.log('---------------------');
 
         if(!lot) console.log('lot is null');
         else if(!user) console.log('user is null');
@@ -185,12 +183,15 @@ exports.writeComment = (req, res) => {
                 console.log('이미 댓글을 달았습니다.');
             }else{
                 Comment.create({comment: req.body.comment})
-                    .then(comment => {
+                    .then(comment => {                        
+                        console.log('comment => ' + comment);
+                        console.log('---------------------');
+
                         user.mycomments.push(comment._id);
                         user.save();
                         lot.comments.push({user: user._id, comment: comment._id});
                         lot.save();
-                        
+
                         res.sendStatus(200);
                     }).catch(err => res.status(500).send(err));
             }
