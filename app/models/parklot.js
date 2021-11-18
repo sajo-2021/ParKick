@@ -32,8 +32,8 @@ const parklotSchema = new mongoose.Schema({
 
 parklotSchema.statics.create = function(payload){
     var park = new this(payload);
-    if(park)
-        park.rate = Rate.create();
+    if(!park) return new Error('이미 존재하는 lotid입니다.');
+    park.rate = Rate.create();
 
     return park.save();
 }
