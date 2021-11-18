@@ -51,6 +51,21 @@ exports.readid = (req, res) => {
 }
 
 exports.deleteno = (req, res) => {
+    // 먼저 해당 parklot에 속하는 rate와 모든 comment를 삭제하여야 한다.
+    Parklot.findOneByParkno(req.params.no).then(parklot => {
+        Promise.all([
+            Parklot.findOne({
+                lotid: req.params.no},
+                'comments.$'),
+            Rate.deleteById(parklot.rate),
+            
+        ]).then(([comment_list,rate]) => {
+            console.log('comment_list => ' + comment_list)
+            console.log('rate => ' + rate);
+        }).catch(err => res.status(500).send(err));
+    }).catch(err => res.status(500).send(err));
+
+
     Parklot.deleteByParkno(req.params.no).then((lot) => {
             res.sendStatus(200)
 
@@ -332,7 +347,7 @@ exports.deleteComment = (req, res) => {
                 lot.save();
                 user.mycomments.pull(exist.comments[0].comment);
                 user.save();
-                
+
                 Comment.deleteById(exist.comments[0].comment)
                     .then().catch(err => res.status(500).send(err));
                 return res.sendStatus(200); 
@@ -341,14 +356,3 @@ exports.deleteComment = (req, res) => {
         res.send('뭔가 오류가 발생했군요!\n'+result);
     }).catch(err => res.status(500).send(err));
 }
-
-exports.deletecom = (req, res) => {
-    Parklot.findOneByParkno(req.params.no).then(lot => {
-        if(!lot) return res.status(404).send('SE09');
-        lot.comments.pull({'comments.$.comment' : req.params.comid});
-        lot.save();
-
-        res.send(lot);
-    }).catch(err => res.status(500).send(err));
-}
-
