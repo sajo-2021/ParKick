@@ -167,11 +167,13 @@ exports.writeComment = (req, res) => {
         console.log('---------------------');
         console.log('exist => ' + exist);
         console.log('---------------------');
-        console.log('exist.comments[0].user => ' + exist.comments[0].user);
-        console.log('---------------------');
-        if(!lot) return res.status(404).send('SE09');
-        if(exist.comments[0].user === req.body.user)
-            return res.status(505).send('이미 댓글을 단 유저입니다.');
+        if(exist){
+            console.log('exist.comments[0].user => ' + exist.comments[0].user);
+            console.log('---------------------');
+        }
+        if(!lot) return new Error('SE09');
+        if(exist.comments[0].user == req.body.user)
+            return new Error('댓글을 이미 달았습니다.');
         Promise.all([
             User.findOneById(req.body.user),
             Comment.create({comment: req.body.comment})
