@@ -52,10 +52,11 @@ exports.readid = (req, res) => {
 
 exports.deleteno = (req, res) => {
     // 먼저 해당 parklot에 속하는 rate와 모든 comment를 삭제하여야 한다.
-    Parklot.findOne({lotid: req.params.no}).then(parklot => {
+    Parklot.findOneAndDelete({lotid: req.params.no}).then(parklot => {
         console.log('parklot => ' + parklot);
         console.log('parklot.comments => ' + parklot.comments);
         console.log('parklot.comments.length => ' + parklot.comments.length);
+        let parklotid = parklot._id;
         let length = parklot.comments.length
 
         for(let i=0; i < length; i++){
@@ -65,9 +66,11 @@ exports.deleteno = (req, res) => {
             console.log('userid => ' + userid);
             console.log('comid => ' + comid);
 
-            parklot.comments.pull({user: userid, comment: comid});
-            console.log('parklot.comments pull 완료');
-
+            Parklot.findOne({_id: parklotid}).then((tmplot) => {
+                tmplot.comments.pull({user: userid, comment:comid});
+                tmplot.save();
+                console.log('Parklot.comments['+i+'] pull 완료');
+            }).catch(err => console.log(err));
             User.findOneById(userid).then(user => {
                 user.mycomments.pull(comid);
                 console.log('User.mycomments['+i+'] pull 완료');
@@ -78,15 +81,11 @@ exports.deleteno = (req, res) => {
                 .catch(err => res.status(500).send(err));
             console.log('Comment 삭제 완료');
         }
-        parklot.save();
         console.log('parklot pull save() 완료');
 
         Rate.deleteOne({_id: parklot.rate}).then()
             .catch(err => console.log(err));
 
-        Parklot.deleteOne({lotid: req.params.no}).then()
-            .catch(err => res.status(500).send(err));
-        res.sendStatus(200);
     }).catch(err => res.status(500).send(err));
 
     // 각 user의 lot_rate_list에서도 해당되는 parklot 삭제해야함
