@@ -56,10 +56,11 @@ exports.deleteno = (req, res) => {
         console.log('parklot => ' + parklot);
         console.log('parklot.comments => ' + parklot.comments);
         console.log('parklot.comments.length => ' + parklot.comments.length);
+        let length = parklot.comments.length
 
-        for(let i=0; i <= parklot.comments.length; i++){
-            let userid = parklot.comments[i].user;
-            let comid = parklot.comments[i].comment;
+        for(let i=0; i < length; i++){
+            let userid = parklot.comments[0].user;
+            let comid = parklot.comments[0].comment;
 
             console.log('userid => ' + userid);
             console.log('comid => ' + comid);
