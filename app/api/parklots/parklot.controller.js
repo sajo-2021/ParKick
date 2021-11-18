@@ -66,11 +66,13 @@ exports.deleteno = (req, res) => {
             console.log('userid => ' + userid);
             console.log('comid => ' + comid);
 
-            Parklot.findOne({_id: parklotid}).then((tmplot) => {
-                tmplot.comments.pull({user: userid, comment:comid});
-                tmplot.save();
-                console.log('Parklot.comments['+i+'] pull 완료');
-            }).catch(err => console.log(err));
+            // 아니 어차피 삭제될껀데 이걸 왜 pull을 해주고있냐고;;;;
+            // Parklot.findOne({_id: parklotid}).then((tmplot) => {
+            //     console.log('tmplot => ' + tmplot);
+            //     tmplot.comments.pull({user: userid, comment:comid});
+            //     tmplot.save();
+            //     console.log('Parklot.comments['+i+'] pull 완료');
+            // }).catch(err => console.log(err));
             User.findOneById(userid).then(user => {
                 user.mycomments.pull(comid);
                 console.log('User.mycomments['+i+'] pull 완료');
@@ -86,6 +88,7 @@ exports.deleteno = (req, res) => {
         Rate.deleteOne({_id: parklot.rate}).then()
             .catch(err => console.log(err));
 
+        res.sendStatus(200);
     }).catch(err => res.status(500).send(err));
 
     // 각 user의 lot_rate_list에서도 해당되는 parklot 삭제해야함
