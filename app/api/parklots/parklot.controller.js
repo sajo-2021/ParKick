@@ -176,12 +176,20 @@ exports.writeComment = (req, res) => {
         console.log('user => ' + user);
         console.log('---------------------');
 
-        if(!lot) console.log('lot is null');
-        else if(!user) console.log('user is null');
+        let result = "결과 : ";
+
+
+
+        if(!lot) {
+            console.log('lot is null');
+            result += "lot가 null 입니다.";
+        }
+        else if(!user) {
+            console.log('user is null');
+            result += "user가 null 입니다.";
+        }
         else{
-            if(exist.comments[0].user == req.body.user){
-                console.log('이미 댓글을 달았습니다.');
-            }else{
+            if(!exist) { // exist가 null이라면 자유롭게 추가해도 됨
                 Comment.create({comment: req.body.comment})
                     .then(comment => {                        
                         console.log('comment => ' + comment);
@@ -197,9 +205,13 @@ exports.writeComment = (req, res) => {
 
                 return res.sendStatus(200);
             }
+            else{ // exist가 null이 아니라면 추가하면 안됨.
+                console.log('이미 댓글을 달았습니다.');
+                result += "이미 댓글을 달았습니다.";
+            }
         }
 
-        res.send('뭔가 오류가 발생했군요!');
+        res.send('뭔가 오류가 발생했군요!\n'+result);
     }).catch(err => res.status(500).send(err));
 }
 
