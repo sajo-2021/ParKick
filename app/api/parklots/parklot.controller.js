@@ -55,6 +55,7 @@ exports.deleteno = (req, res) => {
     Parklot.findOne({lotid: req.params.no}).then(parklot => {
         console.log('parklot => ' + parklot);
         console.log('parklot.comments => ' + parklot.comments);
+        console.log('parklot.comments.length => ' + parklot.comments.length);
 
         for(let i=0; i <= parklot.comments.length; i++){
             let userid = parklot.comments[i].user;
@@ -65,13 +66,17 @@ exports.deleteno = (req, res) => {
 
             parklot.comments.pull({user: userid, comment: comid});
             parklot.save();
+            console.log('parklot.comments pull 완료');
+
             User.findOneById(userid).then(user => {
                 user.mycomments.pull(comid);
                 user.save();
             }).catch(err => console.log(err));
-            
+            console.log('User.mycomments pull 완료');
+
             Comment.deleteOne({_id: comid}).then()
                 .catch(err => res.status(500).send(err));
+            console.log('Comment 삭제 완료');
         }
         Rate.deleteOne({_id: parklot.rate}).then()
             .catch(err => console.log(err));
