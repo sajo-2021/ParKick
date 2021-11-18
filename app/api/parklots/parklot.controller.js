@@ -59,9 +59,9 @@ exports.deleteno = (req, res) => {
         let parklotid = parklot._id;
         let length = parklot.comments.length
 
-        for(let i=0; i < length; i++){
-            let userid = parklot.comments[0].user;
-            let comid = parklot.comments[0].comment;
+        for(let i=0; i <= length; i++){
+            let userid = parklot.comments[i].user;
+            let comid = parklot.comments[i].comment;
 
             console.log('userid => ' + userid);
             console.log('comid => ' + comid);
@@ -83,8 +83,6 @@ exports.deleteno = (req, res) => {
                 .catch(err => res.status(500).send(err));
             console.log('Comment 삭제 완료');
         }
-        console.log('parklot pull save() 완료');
-
         Rate.deleteOne({_id: parklot.rate}).then()
             .catch(err => console.log(err));
 
