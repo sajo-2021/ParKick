@@ -32,7 +32,8 @@ const parklotSchema = new mongoose.Schema({
 
 parklotSchema.statics.create = function(payload){
     var park = new this(payload);
-    park.rate = Rate.create();
+    if(park)
+        park.rate = Rate.create();
 
     return park.save();
 }

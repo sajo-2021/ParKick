@@ -75,14 +75,16 @@ exports.deleteno = (req, res) => {
         }
         Rate.deleteOne({_id: parklot.rate}).then()
             .catch(err => console.log(err));
+
+        Parklot.deleteOne({lotid: req.params.no}).then()
+            .catch(err => res.status(500).send(err));
+        res.sendStatus(200);
     }).catch(err => res.status(500).send(err));
 
     // 각 user의 lot_rate_list에서도 해당되는 parklot 삭제해야함
     // 아 rate_userid 목록이 필요함. rate 수행시 해당 목록을 작성해주어야한다.
 
-    Parklot.deleteByParkno(req.params.no).then((lot) => {
-        res.sendStatus(200);
-    }).catch(err => res.status(500).send(err));
+   
 }
 
 exports.deleteid = (req, res) => {
