@@ -24,8 +24,7 @@
 >       - 각 기능별로 반환할 정보, 상태코드 확인하기
 
 ### API Documents
-> * Parklot Information  
->
+#### Parklot Information
 > |Verb|Action|Path|Used for|
 > |:---:|:---:|:---|:---:|
 > |GET|read All|/parklots/|주차장 목록 조회|
@@ -101,7 +100,7 @@
 
 
 ### 관리자용 API
-> * Zone Information
+#### Zone Information
 >
 > |Verb|Action|Path|Used for|
 > |:---:|:---:|:---|:---:|
@@ -131,6 +130,8 @@
 >   - latitude : 주차포인트의 위도
 >   - longitude : 주차포인트의 경도
 
+> |Verb|Action|Path|Used for|
+> |:---:|:---:|:---|:---:|
 > |DELETE|delete|/zones/no/:no|zoneid가가 no인 주차포인트 삭제|
 > |DELETE|delete|/zones/id/:id|_id가 id인 주차포인트 삭제|
 >
@@ -163,8 +164,7 @@
 > * 출력 결과
 >   - OK : 삭제 완료
 
-> * Comment Information  
->
+#### Comment Information
 > |Verb|Action|Path|Used for|
 > |:---:|:---:|:---|:---:|
 > |GET|read All|/comments/|댓글 목록 조회|
@@ -184,8 +184,7 @@
 > * 출력 결과
 >   - OK : 삭제 완료
 
-> * User Information  
->
+#### User Information
 > |Verb|Action|Path|Used for|
 > |:---:|:---:|:---|:---:|
 > |GET|read All|/users/|사용자 목록 조회|
