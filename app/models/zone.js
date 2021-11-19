@@ -41,13 +41,13 @@ zoneSchema.statics.deleteByZone = function(zone){
     return this.remove({zoneid: zone});
 }
 
-userSchema.statics.findOneById = function(id){
+zoneSchema.statics.findOneById = function(id){
     return this.findOne({_id: id});
 }
-parklotSchema.statics.updateById = function(id, payload){
+zoneSchema.statics.updateById = function(id, payload){
     return this.findOneAndUpdate({_id: id},{$set: payload}, {new: true});
 }
-parklotSchema.statics.deleteById = function(id){
+zoneSchema.statics.deleteById = function(id){
     return this.remove({_id: id});
 }
 

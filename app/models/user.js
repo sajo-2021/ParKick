@@ -30,11 +30,19 @@ userSchema.statics.create = function(payload){
 }
 userSchema.statics.findAll = function(payload){
     return this.find({}).
-                populate("mycomments");
+                populate("mycomments").
+                populate({
+                    path : 'lot_rate_list',
+                    populate : {path: 'lot', select : 'lotid'}
+                });
 }
 userSchema.statics.findOneById = function(id){
     return this.findOne({_id: id}).
-                populate("mycomments");
+                populate("mycomments").
+                populate({
+                    path : 'lot_rate_list',
+                    populate : {path: 'lot', select : 'lotid'}
+                });
 }
 userSchema.statics.updateById = function(id, payload){
     return this.findOneAndUpdate({_id: id},{$set: payload}, {new: true});
@@ -45,7 +53,11 @@ userSchema.statics.deleteById = function(id){
 
 userSchema.statics.findOneByUserid = function(id){
     return this.findOne({id: id}).
-                populate("mycomments");
+                populate("mycomments").
+                populate({
+                    path : 'lot_rate_list',
+                    populate : {path: 'lot', select : 'lotid'}
+                });
 }
 userSchema.statics.updateByUserid = function(id, payload){
     return this.findOneAndUpdate({id: id},{$set: payload}, {new: true});
