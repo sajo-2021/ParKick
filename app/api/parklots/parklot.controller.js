@@ -18,15 +18,16 @@ exports.create = (req, res) => {
     Parklot.findOne({lotid: req.body.lotid}).then(lot => {
         if(!lot){
             Parklot.create(req.body).then(newlot => {
-                res.send(newlot);
-
                 console.log('lot create log');
                 console.log(req.body);
                 console.log('-------------------');
+            
+                return res.send(newlot);
             }).catch(err => console.log(err))
         }else
             console.log('이미 생성된 lotid입니다.');
-    })
+            return res.sendStatus(500);
+    }).catch(err => console.log(err))
 
     // Parklot.create(req.body)
     //     .then(lot => {
