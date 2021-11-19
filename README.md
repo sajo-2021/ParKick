@@ -24,51 +24,122 @@
 >       - 각 기능별로 반환할 정보, 상태코드 확인하기
 
 ### API Documents
-> * Parklot Information  
->
+#### Parklot Information
 > |Verb|Action|Path|Used for|
 > |:---:|:---:|:---|:---:|
 > |GET|read All|/parklots/|주차장 목록 조회|
-> |POST|create|/parklots/|신규 주차장 생성|
-> |GET|read|/parklots/no/:no|park_no가 no인 주차장 조회|
-> |DELETE|delete|/parklots/no/:no|park_no가 no인 주차장 삭제|
+> |GET|read|/parklots/no/:no|lotid가 no인 주차장 조회|
 > |GET|read|/parklots/id/:id|_id가 id인 주차장 조회|
-> |DELETE|delete|/parklots/id/:id|_id가 id인 주차장 삭제|
-> |GET|increase like|/inclike/:id|_id가 id인 주차장의 평가에서 like를 1 증가|
-> |GET|decrease like|/declike/:id|_id가 id인 주차장의 평가에서 like를 1 감소|
-> |GET|increase dislike|/incdislike/:id|_id가 id인 주차장의 평가에서 dislike를 1 증가|
-> |GET|decrease dislike|/decdislike/:id|_id가 id인 주차장의 평가에서 dislike를 1 감소|
 >
 > * 요청 uri
 >   - no : 검색, 갱신, 삭제할 lotid의 값
 >   - id : 검색할 _id의 값
 >
 > * 출력 결과
+>   - _id : 해당 document 고유의 id
 >   - lotid : 해당 주차장 고유의 번호
->   - latitude : 주차장의 위도?
+>   - latitude : 주차장의 위도
+>   - longitude : 주차장의 경도
+>   - ratelist : 해당 주차장에 평가를 한 user 목록
+>   - rate : 해당 주차장의 평가 정보
+>   - comments : 해당 주차장에 대해 기록된 댓글, {user, comment} 형식의 리스트로 반환됨
+
+
+> |Verb|Action|Path|Used for|
+> |:---:|:---:|:---|:---:|
+> |POST|create|/parklots/|신규 주차장 생성|
+>
+> * 요청 body
+>   - lotid : 해당 주차장 고유의 번호
+>   - latitude : 주차장의 위도
 >   - longitude : 주차장의 경도
 
-> * Zone Information  
+
+> |Verb|Action|Path|Used for|
+> |:---:|:---:|:---|:---:|
+> |DELETE|delete|/parklots/no/:no|lotid가 no인 주차장 삭제|
+> |DELETE|delete|/parklots/id/:id|_id가 id인 주차장 삭제|
+>
+> * 요청 uri
+>   - no : 검색, 갱신, 삭제할 lotid의 값
+>   - id : 검색할 _id의 값
+> * 출력 결과
+>   - OK : 삭제완료
+
+
+> |Verb|Action|Path|Used for|
+> |:---:|:---:|:---|:---:|
+> |POST|write comment|/parklots/com|comment 작성|
+> |PUT|update comment|/parklots/com|comment 수정|
+>
+> * 요정 body
+>   - no : comment를 남길 parklot의 lotid
+>   - user : comment를 남길 user의 _id
+>   - comment : 작성할 comment의 내용
+
+> |Verb|Action|Path|Used for|
+> |:---:|:---:|:---|:---:|
+> |DELETE|delete comment|/parklots/com/:no/:user|comment 삭제|
+>
+> * 요청 uri
+>   - no : 삭제할 comment가 기록된 parklot의 lotid
+>   - user : 삭제할 comment를 작성한 user의 _id
+> * 출력 결과
+>   - OK : 삭제완료
+
+> |Verb|Action|Path|Used for|
+> |:---:|:---:|:---|:---:|
+> |POST|rate parklot|/parklots/rate/|parklot 평가하기|
+>
+> * 요청 body
+>   - userid : 검색, 갱신, 삭제할 lotid의 값
+>   - lotid : 검색할 _id의 값
+>   - pmt : 1이면 추천 2이면 비추천
+> * 출력 결과
+>   - 
+
+
+### 관리자용 API
+#### Zone Information
 >
 > |Verb|Action|Path|Used for|
 > |:---:|:---:|:---|:---:|
 > |GET|read All|/zones/|주차포인트 목록 조회|
-> |POST|create|/zones/|신규 주차포인트 생성|
-> |GET|read|/zones/no/:no|point_no가 no인 주차포인트 조회|
-> |PUT|update|/zones/no/:no|point_no가 no인 주차포인트 갱신|
-> |DELETE|delete|/zones/no/:no|point_no가 no인 주차포인트 삭제|
+> |GET|read|/zones/no/:no|zoneid가 no인 주차포인트 조회|
 > |GET|read|/zones/id/:id|_id가 id인 주차포인트 조회|
+>
+> * 요청 uri
+>   - no : 검색, 갱신, 삭제할 zoneid의 값
+>   - id : 검색할 _id의 값
+> * 출력 결과
+>   - zoneid : 해당 주차포인트 고유의 번호
+>   - latitude : 주차포인트의 위도
+>   - longitude : 주차포인트의 경도
+
+> |Verb|Action|Path|Used for|
+> |:---:|:---:|:---|:---:|
+> |POST|create|/zones/|신규 주차포인트 생성|
+> |PUT|update|/zones/no/:no|zoneid가가 no인 주차포인트 갱신|
 > |PUT|update|/zones/id/:id|_id가 id인 주차포인트 갱신|
+>
+> * 요청 uri
+>   - no : 검색, 갱신, 삭제할 zoneid의 값
+>   - id : 검색할 _id의 값
+> * 요청 body
+>   - zoneid : 해당 주차포인트 고유의 번호
+>   - latitude : 주차포인트의 위도
+>   - longitude : 주차포인트의 경도
+
+> |Verb|Action|Path|Used for|
+> |:---:|:---:|:---|:---:|
+> |DELETE|delete|/zones/no/:no|zoneid가가 no인 주차포인트 삭제|
 > |DELETE|delete|/zones/id/:id|_id가 id인 주차포인트 삭제|
 >
 > * 요청 uri
 >   - no : 검색, 갱신, 삭제할 zoneid의 값
 >   - id : 검색할 _id의 값
->
 > * 출력 결과
->   - zoneid : 해당 주차포인트 고유의 번호
->   - latitude : 주차포인트의 위도
->   - longitude : 주차포인트의 경도
+>   - OK : 삭제 완료
 
 > * Rate Information  
 >
@@ -76,33 +147,88 @@
 > |:---:|:---:|:---|:---:|
 > |GET|read All|/rates/|평가 목록 조회|
 > |GET|read|/rates/id/:id|_id가 id인 평가 조회|
-> |DELETE|delete|/rates/id/:id|_id가 id인 평가 삭제|
 >
 > * 요청 uri
 >   - id : 검색할 _id의 값
->
 > * 출력 결과
 >   - like : 평가 중 좋아요 수
 >   - dislike : 평가 중 싫어요 수
 
-> * Comment Information  
+
+> |Verb|Action|Path|Used for|
+> |:---:|:---:|:---|:---:|
+> |DELETE|delete|/rates/id/:id|_id가 id인 평가 삭제|
 >
+> * 요청 uri
+>   - id : 검색할 _id의 값
+> * 출력 결과
+>   - OK : 삭제 완료
+
+#### Comment Information
 > |Verb|Action|Path|Used for|
 > |:---:|:---:|:---|:---:|
 > |GET|read All|/comments/|댓글 목록 조회|
-> |POST|create|/comments/|신규 댓글 생성|
 > |GET|read|/comments/id/:id|_id가 id인 댓글 조회|
-> |PUT|update|/comments/id/:id|_id가 id인 댓글 갱신|
+>
+> * 요청 uri
+>   - id : 검색할 _id의 값
+> * 출력 결과
+>   - comment : 댓글의 내용
+
+> |Verb|Action|Path|Used for|
+> |:---:|:---:|:---|:---:|
 > |DELETE|delete|/comments/id/:id|_id가 id인 댓글 삭제|
 >
 > * 요청 uri
 >   - id : 검색할 _id의 값
->
 > * 출력 결과
->   - comment : 댓글의 내용  
->   
-> comment의 CRUD가 따로 필요할까??  
-> Read는 필요없지않을까? parklot에서 populate를 통해 읽는것이 더욱 효과적  
+>   - OK : 삭제 완료
+
+#### User Information
+> |Verb|Action|Path|Used for|
+> |:---:|:---:|:---|:---:|
+> |GET|read All|/users/|사용자 목록 조회|
+> |GET|read|/users/userid/:uid|userid가 uid인 사용자 조회|
+> |GET|read|/users/id/:id|_id가 id인 사용자 조회|
+>
+> * 요청 uri
+>   - uid : 검색할 사용자의 id
+>   - id : 검색할 사용자의 _id
+> * 출력 결과
+>   - _id : 해당 document 고유의 id
+>   - id : 사용자의 userid
+>   - pwd : 사용자의 패스워드
+>   - name : 사용자의 이름
+>   - nickname : 사용자의 닉네임
+>   - email : 사용자의 이메일
+>   - mycomments : 사용자가 작성한 댓글
+>   - lot_rate_list : 사용자가 평가한 parklot과 평가내용, {lot, myrate}로 구성, myrate는 1이면 like, -1이면 dislike
+
+> |Verb|Action|Path|Used for|
+> |:---:|:---:|:---|:---:|
+> |POST|create|/users/|사용자 생성|
+> |PUT|update|/users/userid/:uid|userid가 uid인 사용자 수정|
+> |PUT|update|/users/id/:id|_id가 id인 사용자 수정|
+>
+> * 요청 uri
+>   - uid : 검색할 사용자의 id
+>   - id : 검색할 사용자의 _id
+> * 요청 body
+>   - id : 사용자의 userid
+>   - pwd : 사용자의 패스워드
+>   - name : 사용자의 이름
+>   - nickname : 사용자의 닉네임
+>   - email : 사용자의 이메일
+
+> |Verb|Action|Path|Used for|
+> |:---:|:---:|:---|:---:|
+> |DELETE|delete|/users/userid/:uid|userid가 uid인 사용자 삭제|
+> |DELETE|delete|/users/id/:id|_id가 id인 사용자 삭제|
+> * 요청 uri
+>   - uid : 검색할 사용자의 id
+>   - id : 검색할 사용자의 _id
+> * 출력 결과
+>   - OK : 삭제 완료
 
 ### status code
 > * 400 : 형식 오류
