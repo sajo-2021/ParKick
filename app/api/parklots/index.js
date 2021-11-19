@@ -8,15 +8,16 @@ router.post('/', controller.create);
 
 router.get('/no/:no', controller.readno);
 
-router.put('/no/:no', controller.updateno);
+router.get('/id/:id', controller.readid);
 
 router.delete('/no/:no', controller.deleteno);
 
-router.get('/id/:id', controller.readid);
-
-router.put('/id/:id', controller.updateid);
-
 router.delete('/id/:id', controller.deleteid);
 
+router.post('/com/', controller.writeComment);
+router.put('/com/', controller.updateComment);
+router.delete('/com/:no/:user', controller.deleteComment);
+
+router.post('/rate/', controller.updateRate);
 
 module.exports = router;
