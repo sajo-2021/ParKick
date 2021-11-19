@@ -75,7 +75,7 @@ exports.deleteno = (req, res) => {
         let clength = parklot.comments.length;
         let rlength = parklot.ratelist.length;
 
-        for(let i=0; i <= clength; i++){
+        for(let i=0; i < clength; i++){
             let userid = parklot.comments[i].user;
             let comid = parklot.comments[i].comment;
 
@@ -92,7 +92,7 @@ exports.deleteno = (req, res) => {
                 .catch(err => res.status(500).send(err));
             console.log('Comment 삭제 완료');
         }
-        for(let i=0; i <= rlength; i++){
+        for(let i=0; i < rlength; i++){
             let userid = parklot.ratelist[i];
 
             console.log('rate userid => ' + userid);
@@ -116,13 +116,47 @@ exports.deleteno = (req, res) => {
 }
 
 exports.deleteid = (req, res) => {
-    Parklot.deleteById(req.params.id).then((lot) => {
-            res.sendStatus(200)
+    Parklot.findOneAndDelete({lotid: req.params.id}).then(parklot => {
+        console.log('parklot => ' + parklot);
+        console.log('parklot.comments => ' + parklot.comments);
+        console.log('parklot.comments.length => ' + parklot.comments.length);
+        let parklotid = parklot._id;
+        let clength = parklot.comments.length;
+        let rlength = parklot.ratelist.length;
 
-            console.log('lot deleteid log');
-            console.log(lot);
-            console.log('------------------');
-        }).catch(err => res.status(500).send(err));
+        for(let i=0; i < clength; i++){
+            let userid = parklot.comments[i].user;
+            let comid = parklot.comments[i].comment;
+
+            console.log('comment userid => ' + userid);
+            console.log('comid => ' + comid);
+
+            User.findOneById(userid).then(user => {
+                user.mycomments.pull(comid);
+                console.log('User.mycomments['+i+'] pull 완료');
+                user.save();
+            }).catch(err => console.log(err));
+            
+            Comment.deleteOne({_id: comid}).then()
+                .catch(err => res.status(500).send(err));
+            console.log('Comment 삭제 완료');
+        }
+        for(let i=0; i < rlength; i++){
+            let userid = parklot.ratelist[i];
+
+            console.log('rate userid => ' + userid);
+            User.findOne({_id: userid, 'lot_rate_list.lot':parklotid}).then(user => {
+                let mrate = user.lot_rate_list[0].myrate;
+                user.lot_rate_list.pull({lotid: parklotid, myrate: mrate});
+                user.save();
+            })
+        }
+
+        Rate.deleteOne({_id: parklot.rate}).then()
+            .catch(err => console.log(err));
+
+        res.sendStatus(200);
+    }).catch(err => res.status(500).send(err));
 }
 
 exports.updateRate = (req, res) => {
@@ -136,7 +170,7 @@ exports.updateRate = (req, res) => {
                 _id: req.body.userid, 
                 'lot_rate_list.lot': req.body.lotid
                 }, 'lot_rate_list.$'),
-            Rate.findOne({_id: parklot.rate})
+            Rate.findOneById(parklot.rate)
         ]).then(([exist, user, lot, rateid]) => {
             console.log('parklot => ' + parklot);
             console.log('---------------------');

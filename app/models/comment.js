@@ -23,9 +23,6 @@ commentSchema.statics.findAll = function(){
 commentSchema.statics.findOneById = function(id){
     return this.findOne({_id: id});
 }
-commentSchema.statics.updateById = function(id, payload){
-    return this.findOneAndUpdate({_id:id},{$set: payload}, {new: true});
-}
 commentSchema.statics.deleteById = function(id){
     return this.remove({_id:id});
 }

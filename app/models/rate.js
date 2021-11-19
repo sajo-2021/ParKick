@@ -28,11 +28,8 @@ rateSchema.statics.findAll = function(){
 rateSchema.statics.findOneById = function(id){
     return this.findOne({_id: id});
 }
-rateSchema.statics.updateById = function(id, payload){
-    return this.findOneAndUpdate({_id: id}, {$set: payload}, {new: true});
-}
 rateSchema.statics.deleteById = function(id){
-    return this.remove({_id: id});
+    return this.deleteOne({_id: id});
 }
 
 
