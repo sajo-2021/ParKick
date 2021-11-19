@@ -24,9 +24,10 @@ exports.create = (req, res) => {
             
                 return res.send(newlot);
             }).catch(err => console.log(err))
-        }else
+        }else{
             console.log('이미 생성된 lotid입니다.');
-            return res.sendStatus(500);
+            return res.send('이미 생성된 lotid입니다.');
+        }
     }).catch(err => console.log(err))
 
     // Parklot.create(req.body)
@@ -166,13 +167,20 @@ exports.updateRate = (req, res) => {
                     rateid.dislike++;
                     rateid.save();
                 }
+                parklot.ratelist.push(req.body.userid);
             }else{
                 console.log('user는 null이 아닙니다.');
                 let myrate = lot.lot_rate_list[0].myrate;
                 console.log('myrate : ' + myrate);
                 if(myrate == 1){
                     if(req.body.pmt == 1){
-                        console.log('이미 like입니다.');
+                        console.log('like를 취소합니다.');
+                        user.lot_rate_list.pull({lot:req.body.lotid, myrate: 1});
+                        user.lot_rate_list.push({lot:req.body.lotid, myrate: 0});
+                        user.save();
+                        
+                        rateid.like--;
+                        rateid.save();
                     }else if(req.body.pmt == 2){
                         console.log('like를 dislike로 변경합니다.');
                         user.lot_rate_list.pull({lot:req.body.lotid, myrate: 1});
@@ -194,7 +202,13 @@ exports.updateRate = (req, res) => {
                         rateid.dislike--;
                         rateid.save();
                     }else if(req.body.pmt == 2){
-                        console.log('이미 dislike입니다.');
+                        console.log('dislike를 취소합니다.');
+                        user.lot_rate_list.pull({lot:req.body.lotid, myrate: -1});
+                        user.lot_rate_list.push({lot:req.body.lotid, myrate: 0});
+                        user.save();
+                        
+                        rateid.dislike--;
+                        rateid.save();
                     }
                 }
             }
