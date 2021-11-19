@@ -1,5 +1,7 @@
 ### API Documents
 
+### URL : http://118.67.131.50/
+
 #### Parklot
 ##### API 기본정보 : Parklot 조회
 > |Verb|Action|Path|Used for|
