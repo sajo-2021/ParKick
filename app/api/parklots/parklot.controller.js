@@ -72,22 +72,16 @@ exports.deleteno = (req, res) => {
         console.log('parklot.comments => ' + parklot.comments);
         console.log('parklot.comments.length => ' + parklot.comments.length);
         let parklotid = parklot._id;
-        let length = parklot.comments.length
+        let clength = parklot.comments.length;
+        let rlength = parklot.ratelist.length;
 
-        for(let i=0; i <= length; i++){
+        for(let i=0; i <= clength; i++){
             let userid = parklot.comments[i].user;
             let comid = parklot.comments[i].comment;
 
-            console.log('userid => ' + userid);
+            console.log('comment userid => ' + userid);
             console.log('comid => ' + comid);
 
-            // 아니 어차피 삭제될껀데 이걸 왜 pull을 해주고있냐고;;;;
-            // Parklot.findOne({_id: parklotid}).then((tmplot) => {
-            //     console.log('tmplot => ' + tmplot);
-            //     tmplot.comments.pull({user: userid, comment:comid});
-            //     tmplot.save();
-            //     console.log('Parklot.comments['+i+'] pull 완료');
-            // }).catch(err => console.log(err));
             User.findOneById(userid).then(user => {
                 user.mycomments.pull(comid);
                 console.log('User.mycomments['+i+'] pull 완료');
@@ -98,6 +92,17 @@ exports.deleteno = (req, res) => {
                 .catch(err => res.status(500).send(err));
             console.log('Comment 삭제 완료');
         }
+        for(let i=0; i <= rlength; i++){
+            let userid = parklot.ratelist[i];
+
+            console.log('rate userid => ' + userid);
+            User.findOne({_id: userid, 'lot_rate_list.lot':parklotid}).then(user => {
+                let mrate = user.lot_rate_list[0].myrate;
+                user.lot_rate_list.pull({lotid: parklotid, myrate: mrate});
+                user.save();
+            })
+        }
+
         Rate.deleteOne({_id: parklot.rate}).then()
             .catch(err => console.log(err));
 
