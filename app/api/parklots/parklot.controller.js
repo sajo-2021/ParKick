@@ -133,11 +133,11 @@ exports.updateRate = (req, res) => {
                 }, 'lot_rate_list.$'),
             Rate.findOne({_id: parklot.rate})
         ]).then(([exist, user, lot, rateid]) => {
-            console.log('user => ' + parklot);
+            console.log('parklot => ' + parklot);
             console.log('---------------------');
-            console.log('user => ' + exist);
+            console.log('exist => ' + exist);
             console.log('---------------------');
-            console.log('nopark => ' + user);
+            console.log('user => ' + user);
             console.log('---------------------');
             console.log('lot => ' + lot);
             console.log('---------------------');
@@ -153,19 +153,13 @@ exports.updateRate = (req, res) => {
                 if(req.body.pmt==1){ // like인 경우
                     user.lot_rate_list.push({lot:req.body.lotid, myrate:1});
                     console.log('push 완료');
-                    user.save();
-                    console.log('save 완료');
 
                     rateid.like++;
-                    rateid.save();
                 }else if(req.body.pmt==2){ //dislike인 경우
                     user.lot_rate_list.push({lot:req.body.lotid, myrate:-1});
                     console.log('push 완료');
-                    user.save();
-                    console.log('save 완료');
 
                     rateid.dislike++;
-                    rateid.save();
                 }
                 parklot.ratelist.push(req.body.userid);
             }else{
@@ -177,41 +171,37 @@ exports.updateRate = (req, res) => {
                         console.log('like를 취소합니다.');
                         user.lot_rate_list.pull({lot:req.body.lotid, myrate: 1});
                         user.lot_rate_list.push({lot:req.body.lotid, myrate: 0});
-                        user.save();
                         
                         rateid.like--;
-                        rateid.save();
                     }else if(req.body.pmt == 2){
                         console.log('like를 dislike로 변경합니다.');
                         user.lot_rate_list.pull({lot:req.body.lotid, myrate: 1});
                         user.lot_rate_list.push({lot:req.body.lotid, myrate: -1});
-                        user.save();
                         
                         rateid.like--;
                         rateid.dislike++;
-                        rateid.save();
                     }
                 }else if(myrate == -1){
                     if(req.body.pmt == 1){
                         console.log('dislike를 like로 변경합니다.');
                         user.lot_rate_list.pull({lot:req.body.lotid, myrate: -1});
                         user.lot_rate_list.push({lot:req.body.lotid, myrate: 1});
-                        user.save();
                         
                         rateid.like++;
                         rateid.dislike--;
-                        rateid.save();
                     }else if(req.body.pmt == 2){
                         console.log('dislike를 취소합니다.');
                         user.lot_rate_list.pull({lot:req.body.lotid, myrate: -1});
                         user.lot_rate_list.push({lot:req.body.lotid, myrate: 0});
-                        user.save();
                         
                         rateid.dislike--;
-                        rateid.save();
                     }
                 }
             }
+            user.save();
+            rateid.save();
+            parklot.save();
+            console.log('save Complete!!')
         }).catch(err => res.status(500).send(err));
         res.send(parklot);
     }).catch(err => res.status(500).send(err));
