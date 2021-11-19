@@ -31,11 +31,13 @@
 > |GET|read All|/parklots/|주차장 목록 조회|
 > |POST|create|/parklots/|신규 주차장 생성|
 > |GET|read|/parklots/no/:no|park_no가 no인 주차장 조회|
-> |PUT|update|/parklots/no/:no|park_no가 no인 주차장 갱신|
 > |DELETE|delete|/parklots/no/:no|park_no가 no인 주차장 삭제|
 > |GET|read|/parklots/id/:id|_id가 id인 주차장 조회|
-> |PUT|update|/parklots/id/:id|_id가 id인 주차장 갱신|
 > |DELETE|delete|/parklots/id/:id|_id가 id인 주차장 삭제|
+> |GET|increase like|/inclike/:id|_id가 id인 주차장의 평가에서 like를 1 증가|
+> |GET|decrease like|/declike/:id|_id가 id인 주차장의 평가에서 like를 1 감소|
+> |GET|increase dislike|/incdislike/:id|_id가 id인 주차장의 평가에서 dislike를 1 증가|
+> |GET|decrease dislike|/decdislike/:id|_id가 id인 주차장의 평가에서 dislike를 1 감소|
 >
 > * 요청 uri
 >   - no : 검색, 갱신, 삭제할 lotid의 값
@@ -73,22 +75,15 @@
 > |Verb|Action|Path|Used for|
 > |:---:|:---:|:---|:---:|
 > |GET|read All|/rates/|평가 목록 조회|
-> |POST|create|/rates/|신규 평가 생성|
-> |GET|read|/rates/no/:no|lotid가 no인 평가 조회|
-> |PUT|update|/rates/no/:no|lotid가 no인 평가 갱신|
-> |DELETE|delete|/rates/no/:no|lotid가 no인 평가 삭제|
 > |GET|read|/rates/id/:id|_id가 id인 평가 조회|
-> |PUT|update|/rates/id/:id|_id가 id인 평가 갱신|
 > |DELETE|delete|/rates/id/:id|_id가 id인 평가 삭제|
 >
 > * 요청 uri
->   - no : 검색, 갱신, 삭제할 lotid의 값
 >   - id : 검색할 _id의 값
 >
 > * 출력 결과
->   - lotid : 해당 평가에 해당되는 주차장의 id
 >   - like : 평가 중 좋아요 수
->   - dislike : 평가중 싫어요 수
+>   - dislike : 평가 중 싫어요 수
 
 > * Comment Information  
 >

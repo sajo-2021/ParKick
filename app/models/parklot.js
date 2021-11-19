@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+var Rate = require('./rate');
+var Comment = require('./comment');
+var User = require('./user');
 
 const parklotSchema = new mongoose.Schema({
     lotid: { type: Number, required: true, unique:true},
@@ -14,49 +17,83 @@ const parklotSchema = new mongoose.Schema({
         validate(value) {
             if(value < 0) throw new Error("A number less than 0 came in.");
         }
-    }
+    },
+    rate: {type: mongoose.Schema.Types.ObjectId, ref:'Rate' },
+    ratelist: [{type: mongoose.Schema.Types.ObjectId, ref:'User'}],
+    comments: [new mongoose.Schema({
+        user: {type:mongoose.Schema.Types.ObjectId, ref:'User'}, 
+        comment: {type: mongoose.Schema.Types.ObjectId, ref:'Comment'},
+    },{
+        _id:false
+    })]
 },{
     timestamps: true
 });
 
 
 parklotSchema.statics.create = function(payload){
-    const park = new this(payload);
+    var park = new this(payload);
+    park.rate = Rate.create();
 
     return park.save();
+    
 }
+
+
 parklotSchema.statics.findAll = function(){
-    return this.find({});
+    return this.find({})
+        .populate("rate", "like dislike")
+        .populate({
+            path: "comments", 
+            populate: {path:"user", select: "nickname"}
+        }).populate({
+            path: "comments",
+            populate: {path: "comment", select: "comment"}
+        }).populate({
+            path: "ratelist",
+            select: "userid nickname"
+        });
 }
 parklotSchema.statics.findOneByParkno = function(lot){
-    return this.findOne({ lotid : lot });
+    return this.findOne({ lotid : lot })
+        .populate("rate", "like dislike")
+        .populate({
+            path: "comments", 
+            populate: {path:"user", select: "nickname"}
+        }).populate({
+            path: "comments",
+            populate: {path: "comment", select: "comment"}
+        }).populate({
+            path: "ratelist",
+            select: "userid nickname"
+        });
     // position은 사용자의 좌표를 바로 입력하면 안됨
     // 좌표에 해당하는 격자의 위치정보로 바꾸어주는 함수 필요
 }
-/*
-parklotSchema.ststics.findOneById = function(id){
-    return this.findOne({_id: id});
-}
-*/
-parklotSchema.statics.updateByParkno = function(lot, payload){
-    return this.findOneAndUpdate({lotid: lot}, payload, {new: true});
-}
-parklotSchema.statics.deleteByParkno = function(lot){
-    return this.remove({lotid: lot});
-}
-
 parklotSchema.statics.findOneById = function(id){
-    console.log(id);
-
-    return this.findOne({_id: id});
+    return this.findOne({_id: id})
+        .populate("rate", "like dislike")
+        .populate({
+            path: "comments", 
+            populate: {path:"user", select: "nickname"}})
+        .populate({
+            path: "comments",
+            populate: {path: "comment", select: "comment"}
+        }).populate({
+            path: "ratelist",
+            select: "userid nickname"
+        });
 }
-parklotSchema.statics.updateById = function(id, payload){
-    return this.findOneAndUpdate({_id: id},{$set: payload}, {new: true});
+
+parklotSchema.statics.deleteByParkno = function(lot){
+    // 연결된 rate와 comment들을 먼저 삭제하는 동작이 필요함
+    // 유저가 comment와 연결이 되어 있다면 거기서도 삭제를 해야 할텐데...
+    // parklot의 comment에 존재하는 모든 유저에 대해 삭제?
+    // 아니면 comment가 유저정보를 가지는 방식을 따를까?
+    return this.deleteOne({lotid: lot});
 }
 parklotSchema.statics.deleteById = function(id){
-    return this.remove({_id: id});
+    return this.deleteOne({_id: id});
 }
-
-
 
 module.exports = mongoose.model('Parklot',parklotSchema);

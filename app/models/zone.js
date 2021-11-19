@@ -22,26 +22,33 @@ const zoneSchema = new mongoose.Schema({
         timestamps:true
     });
 
-zoneSchema.statics.findAll = function(){
-    return this.find({});
-}
-zoneSchema.statics.findOneByPointno = function(id){
-    return this.findOne({zoneid: id});
-}
 zoneSchema.statics.create = function (payload) {
     const zone = new this(payload);
-    // 데이터가 통으로 전달되면 controller에서
-    // 데이터를 가공하여 payload를 만들어 호출하라
 
     return zone.save();
 }
-
-zoneSchema.statics.updateByPointno = function(id, payload){
-    return this.findOneAndUpdate({zoneid: id}, {$set: payload}, {new: true});
+zoneSchema.statics.findAll = function(){
+    return this.find({});
+}
+zoneSchema.statics.findOneByZone = function(zone){
+    return this.findOne({zoneid: zone});
 }
 
-zoneSchema.statics.deleteByPointno = function(id){
-    return this.remove({zoneid: id});
+zoneSchema.statics.updateByZone = function(zone, payload){
+    return this.findOneAndUpdate({zoneid: zone}, {$set: payload}, {new: true});
+}
+zoneSchema.statics.deleteByZone = function(zone){
+    return this.remove({zoneid: zone});
+}
+
+userSchema.statics.findOneById = function(id){
+    return this.findOne({_id: id});
+}
+parklotSchema.statics.updateById = function(id, payload){
+    return this.findOneAndUpdate({_id: id},{$set: payload}, {new: true});
+}
+parklotSchema.statics.deleteById = function(id){
+    return this.remove({_id: id});
 }
 
 module.exports = mongoose.model('Zone',zoneSchema);

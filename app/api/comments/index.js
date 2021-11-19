@@ -6,10 +6,6 @@ router.get('/', controller.index);
 
 router.get('/id/:id', controller.readid);
 
-router.post('/', controller.create);
-
-router.put('/id/:id', controller.update);
-
 router.delete('/id/:id', controller.delete);
 
 
