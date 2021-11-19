@@ -10,9 +10,9 @@ router.get('/', controller.index);
 router.post('/', controller.create);
 // 유저 생성
 
-router.get('/:id', controller.read);
-router.put('/:id', controller.update);
-router.delete('/:id',controller.delete);
+router.get('/userid/:id', controller.read);
+router.put('/userid/:id', controller.update);
+router.delete('/userid/:id',controller.delete);
 // userid로 조회 수정 삭제
 
 router.get('/id/:id', controller.readid);
