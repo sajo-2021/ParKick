@@ -21,11 +21,11 @@
 > |:---:|:---:|:---|:---|
 > |_id|ObjectId|조회된 주차장 document 고유의 id|-|
 > |lotid|Number|조회된 주차장 고유의 번호(이름)|-|
-> |latitude|String|조회된 주차장의 위도|-|
-> |longitude|String|조회된 주차장의 경도|-|
+> |latitude|Number|조회된 주차장의 위도|-|
+> |longitude|Number|조회된 주차장의 경도|-|
 > |ratelist|[ObjectId]|조회된 주차장에 평가를 남긴 user의 목록|-|
 > |rate|Schema|조회된 주차장의 평가 정보|{like, dislike}|
-> |comments|Schema|조회된 주차장에 작성된 댓글 목록|{user의 _id, comment} 형식으로 기록|
+> |comments|[Schema]|조회된 주차장에 작성된 댓글 목록|{user의 _id, comment} 형식으로 기록|
 
 ##### API 기본정보 : Parklot 생성
 > |Verb|Action|Path|Used for|
@@ -36,8 +36,8 @@
 > |분류|요청변수|타입|필수여부|기본값|설명|
 > |:---:|:---:|:---|:---:|:---:|:---|
 > |body|lotid|Number|Y|-|생성하려는 주차장의 lotid|
-> |body|latitude|String|Y|-|생성하려는 주차장의 latitude|
-> |body|longitude|String|Y|-|생성하려는 주차장의 longitude|
+> |body|latitude|Number|Y|-|생성하려는 주차장의 위도|
+> |body|longitude|Number|Y|-|생성하려는 주차장의 경도|
 
 ###### 2. 출력결과
 > |필드|타입|설명|비고|
@@ -58,6 +58,23 @@
 ###### 2. 출력결과
 > |필드|타입|설명|비고|
 > |:---:|:---:|:---|:---|
+
+##### API 기본정보 : Parklot에 commnet 조회
+> |Verb|Action|Path|Used for|
+> |:---:|:---:|:---|:---|
+> |POST|write comment|/parklots/com/no/:no|lotid가 no인 parklot의 comment 조회|
+
+###### 1. 요청변수
+> |분류|요청변수|타입|필수여부|기본값|설명|
+> |:---:|:---:|:---|:---:|:---:|:---|
+> |body|no|Number|Y|-|comment를 조회하려는 주차장의 lotid|
+
+###### 2. 출력결과
+> |필드|타입|설명|비고|
+> |:---:|:---:|:---|:---|
+> |user/nickname|String|comment를 작성한 user의 닉네임|비고|
+> |comment/comment|String|comment의 내용|비고|
+
 
 ##### API 기본정보 : Parklot에 commnet 작성/수정
 > |Verb|Action|Path|Used for|
@@ -116,37 +133,33 @@
 > |Verb|Action|Path|Used for|
 > |:---:|:---:|:---|:---|
 > |GET|read All|/zones/|주차포인트 목록 조회|
-> |GET|read|/zones/no/:no|zoneid가 no인 주차포인트 조회|
 > |GET|read|/zones/id/:id|_id가 id인 주차포인트 조회|
 
 ###### 1. 요청변수
 > |분류|요청변수|타입|필수여부|기본값|설명|
 > |:---:|:---:|:---|:---:|:---:|:---|
-> |params|no|Number|-|-|조회하려는 주차포인트의 zoneid|
 > |params|id|ObjectId|-|-|조회하려는 주차포인트 document의 _id|
 
 ###### 2. 출력결과
 > |필드|타입|설명|비고|
 > |:---:|:---:|:---|:---|
-> |zoneid|Number|조회한 주차포인트의 zoneid|-|
 > |latitude|String|조회한 주차포인트의 위도|-|
 > |longitude|String|조회한 주차포인트의 경도|-|
+> |suggest|Boolean|조회한 주차포인트의 추천/비추천 속성|추천시 true, 비추천시 false|
 
 ##### API 기본정보 : Zone 생성/수정
 > |Verb|Action|Path|Used for|
 > |:---:|:---:|:---|:---|
 > |POST|create|/zones/|신규 주차포인트 생성|
-> |PUT|update|/zones/no/:no|zoneid가가 no인 주차포인트 수정|
 > |PUT|update|/zones/id/:id|_id가 id인 주차포인트 수정|
 
 ###### 1. 요청변수
 > |분류|요청변수|타입|필수여부|기본값|설명|
 > |:---:|:---:|:---|:---:|:---:|:---|
-> |params|no|Number|-|-|수정하려는 주차포인트의 zoneid|
 > |params|id|ObjectId|-|-|수정하려는 주차포인트 document의 _id|
-> |body|zoneid|Number|Y|-|생성/수정하려는 주차포인트의 zoneid|
 > |body|latitude|String|Y|-|생성/수정하려는 주차포인트의 위도|
 > |body|longitude|String|Y|-|생성/수정하려는 주차포인트의 경도|
+> |body|suggest|Boolean|Y|-|생성/수정하려는 주차포인트 추천/비추천(T/F) 속성|
 
 ###### 2. 출력결과
 > |필드|타입|설명|비고|
@@ -155,14 +168,12 @@
 ##### API 기본정보 : Zone 삭제
 > |Verb|Action|Path|Used for|
 > |:---:|:---:|:---|:---|
-> |DELETE|delete|/zones/no/:no|zoneid가가 no인 주차포인트 삭제|
 > |DELETE|delete|/zones/id/:id|_id가 id인 주차포인트 삭제|
 
 ###### 1. 요청변수
 > |분류|요청변수|타입|필수여부|기본값|설명|
 > |:---:|:---:|:---|:---:|:---:|:---|
-> |params|no|Number|-|-|삭제하려는 주차포인트의 zoneid|
-> |params|id|ObjectId|-|-|삭제하려는 주차포인트 document의 _id|
+> |params|id|ObjectId|Y|-|삭제하려는 주차포인트 document의 _id|
 
 ###### 2. 출력결과
 > |필드|타입|설명|비고|
