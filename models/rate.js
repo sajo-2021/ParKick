@@ -1,6 +1,10 @@
+// models/rate.js
+// rate : like / unlike
+
 const mongoose = require('mongoose');
 const validator = require('validator');
 
+// 스키마 생성
 const rateSchema = new mongoose.Schema({
     like: {
         type:Number, default: 0,
@@ -46,7 +50,6 @@ rateSchema.statics.deleteById = function(id){
 // rateSchema.methods.decDislike = function(){
 //     return this.update({}, {$inc: {dislike: -1}}, {new: true});
 // }
-
 
 
 

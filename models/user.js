@@ -1,6 +1,8 @@
+// models/user.js
 const mongoose = require('mongoose');
 var Comment = require('./comment');
 
+// 스키마 생성
 const userSchema = new mongoose.Schema({
     id: { type: String, trim:true, required: true, unique:true},
     pwd: { type: String, trim:true, required: true},

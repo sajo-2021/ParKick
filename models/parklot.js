@@ -1,18 +1,27 @@
+// models/parklot.js
+// lot : 주차장(클러스터링 알고리즘을 거쳐 만족하는 영역)
+
 const mongoose = require('mongoose');
 const validator = require('validator');
 var Rate = require('./rate');
 var Comment = require('./comment');
 var User = require('./user');
 
+// 스키마 생성
 const parklotSchema = new mongoose.Schema({
-    lotid: { type: Number, required: true, unique:true},
-    latitude: { 
+    lotid: {        // 주차장 고유번호
+        type: Number, required: true, unique:true
+    },
+    lotname: {        // 주차장 고유이름
+        type: String, required: true, unique:true
+    },
+    latitude: {     // 위도
         type: Number, required: true,
         validate(value) {
             if(value < 0) throw new Error("A number less than 0 came in.");
         }
     },
-    longitude: { 
+    longitude: {    // 경도
         type: Number, required: true,
         validate(value) {
             if(value < 0) throw new Error("A number less than 0 came in.");
@@ -67,7 +76,7 @@ parklotSchema.statics.findOneByParkno = function(lot){
             path: "ratelist",
             select: "-_id userid nickname"
         });
-    // position은 사용자의 좌표를 바로 입력하면 안됨
+    // position은 유저 위치를 바로 입력하면 안됨
     // 좌표에 해당하는 격자의 위치정보로 바꾸어주는 함수 필요
 }
 parklotSchema.statics.findOneById = function(id){
@@ -95,5 +104,7 @@ parklotSchema.statics.deleteByParkno = function(lot){
 parklotSchema.statics.deleteById = function(id){
     return this.deleteOne({_id: id});
 }
+
+
 
 module.exports = mongoose.model('Parklot',parklotSchema);
