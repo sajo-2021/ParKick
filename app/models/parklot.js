@@ -7,13 +7,13 @@ var User = require('./user');
 const parklotSchema = new mongoose.Schema({
     lotid: { type: Number, required: true, unique:true},
     latitude: { 
-        type: String, required: true,
+        type: Number, required: true,
         validate(value) {
             if(value < 0) throw new Error("A number less than 0 came in.");
         }
     },
     longitude: { 
-        type: String, required: true,
+        type: Number, required: true,
         validate(value) {
             if(value < 0) throw new Error("A number less than 0 came in.");
         }
@@ -42,46 +42,46 @@ parklotSchema.statics.create = function(payload){
 
 parklotSchema.statics.findAll = function(){
     return this.find({})
-        .populate("rate", "like dislike")
+        .populate("rate", "-_id like dislike")
         .populate({
             path: "comments", 
-            populate: {path:"user", select: "nickname"}
+            populate: {path:"user", select: "-_id nickname"}
         }).populate({
             path: "comments",
-            populate: {path: "comment", select: "comment"}
+            populate: {path: "comment", select: "-_id comment"}
         }).populate({
             path: "ratelist",
-            select: "userid nickname"
+            select: "-_id userid nickname"
         });
 }
 parklotSchema.statics.findOneByParkno = function(lot){
     return this.findOne({ lotid : lot })
-        .populate("rate", "like dislike")
+        .populate("rate", "-_id like dislike")
         .populate({
             path: "comments", 
-            populate: {path:"user", select: "nickname"}
+            populate: {path:"user", select: "-_id nickname"}
         }).populate({
             path: "comments",
-            populate: {path: "comment", select: "comment"}
+            populate: {path: "comment", select: "-_id comment"}
         }).populate({
             path: "ratelist",
-            select: "userid nickname"
+            select: "-_id userid nickname"
         });
     // position은 사용자의 좌표를 바로 입력하면 안됨
     // 좌표에 해당하는 격자의 위치정보로 바꾸어주는 함수 필요
 }
 parklotSchema.statics.findOneById = function(id){
     return this.findOne({_id: id})
-        .populate("rate", "like dislike")
+        .populate("rate", "-_id like dislike")
         .populate({
             path: "comments", 
-            populate: {path:"user", select: "nickname"}})
+            populate: {path:"user", select: "-_id nickname"}})
         .populate({
             path: "comments",
-            populate: {path: "comment", select: "comment"}
+            populate: {path: "comment", select: "-_id comment"}
         }).populate({
             path: "ratelist",
-            select: "userid nickname"
+            select: "-_id userid nickname"
         });
 }
 
