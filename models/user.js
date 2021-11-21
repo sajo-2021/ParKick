@@ -1,61 +1,71 @@
-// models/user.js
-const mongoose = require("mongoose");
-const validator = require("validator");
+const mongoose = require('mongoose');
+var Comment = require('./comment');
 
-// 스키마 생성
-const UserSchema = new mongoose.Schema({
-  id: {
-    type: String,
-    trim: true,   // 공백제거
-    required: true, // id 없으면 db 저장X
-  },
-  pwd: {
-    type: String,
-    trim: true,   // 공백제거
-    required: true, // id 없으면 db 저장X
-  },
-  name: {
-    type: String,
-    trim: true,
-    required: true,
-  },
-  nickname: {
-    type: String,
-  },
-  // age: {
-  //   type: Number,
-  //   validate(value) {
-  //     if (value < 0) {
-  //       throw new Error("Age must be a postive number");
-  //     }
-  //   },
-  // },
-  email: {
-    type: String,
-    // required: true,
-    validate(value) {
-      if (!validator.isEmail(value)) {
-        throw new Error("Email is invalid");
-      }
+const userSchema = new mongoose.Schema({
+    id: { type: String, trim:true, required: true, unique:true},
+    pwd: { type: String, trim:true, required: true},
+    name: { type: String, required: true},
+    nickname: { type: String},
+    email: {
+        type:String, required:true,
+        // validate(value){
+        //     if(!validator.isEmail(value)) throw new Error("Email is invalid");
+        // }
     },
-  },
-  comments: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Comment'
-  }],
-},
-{
-  timestamps:true
-});
-
-const Comment = require("comment");
-Comment.findOne({user: user_id }).populate('comments').exec((err, data) => {
-  // user_id : 특정 유저 _id 입력받기
-  console.log(data);
+    lot_rate_list: [new mongoose.Schema({
+        lot: {type: mongoose.Schema.Types.ObjectId, ref: 'Parklot'},
+        myrate: {type: Number, default: 0 }
+    },{
+        _id: false
+    })],
+    mycomments: [ {type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}]
+},{
+    timestamps:true
 });
 
 
-// 모델 생성
-const User = mongoose.model("User", UserSchema);
+userSchema.statics.create = function(payload){
+    const user = new this(payload);
+    return user.save();
+}
+userSchema.statics.findAll = function(payload){
+    return this.find({}).
+                populate("mycomments").
+                populate({
+                    path : 'lot_rate_list',
+                    populate : {path: 'lot', select : 'lotid'}
+                });
+}
+userSchema.statics.findOneById = function(id){
+    return this.findOne({_id: id}).
+                populate("mycomments").
+                populate({
+                    path : 'lot_rate_list',
+                    populate : {path: 'lot', select : 'lotid'}
+                });
+}
+userSchema.statics.updateById = function(id, payload){
+    return this.findOneAndUpdate({_id: id},{$set: payload}, {new: true});
+}
+userSchema.statics.deleteById = function(id){
+    return this.deleteOne({_id: id});
+}
 
-module.exports = User;
+userSchema.statics.findOneByUserid = function(id){
+    return this.findOne({id: id}).
+                populate("mycomments").
+                populate({
+                    path : 'lot_rate_list',
+                    populate : {path: 'lot', select : 'lotid'}
+                });
+}
+userSchema.statics.updateByUserid = function(id, payload){
+    return this.findOneAndUpdate({id: id},{$set: payload}, {new: true});
+}
+userSchema.statics.deleteByUserid = function(id){
+    return this.deleteOne({id: id});
+}
+
+
+
+module.exports = mongoose.model('User',userSchema);

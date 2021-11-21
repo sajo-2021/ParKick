@@ -1,51 +1,53 @@
-// models/rate.js
-// rate : like / unlike
+const mongoose = require('mongoose');
+const validator = require('validator');
 
-const mongoose = require("mongoose");
-const validator = require("validator");
-
-// 스키마 생성
-const RateSchema = new mongoose.Schema({
-  parklot: [{ 
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Parklot'
-  }],
-  user: [{  // 특정 유저의 rate 참여 여부 판단
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  }],
-  like: {
-    type: Number,
-    validate(value){
-      if(value < 0) throw new Error("like is not Negative");
+const rateSchema = new mongoose.Schema({
+    like: {
+        type:Number, default: 0,
+        validate(value){
+            if(value < 0) throw new Error("like is not Negative");
+        }
+    },
+    dislike: {
+        type:Number, default: 0,
+        validate(value){
+            if(value < 0) throw new Error("dislike is not Negative");
+        }
     }
-  },
-  // like와 dislike 구분
-  // like : 좋아요    dislike : 싫어요
-  // APIserver에서 각각 count 갯수 세기 용이
-  dislike: {
-    type: Number,
-    validate(value){
-      if(value < 0) throw new Error("like is not Negative");
-    }
-  },
-},
-{
-  timestamps: true
-});
+}, {timestamps: true});
 
-const Parklot = require("parklot");
-const User = require("user");
-Parklot.findOne({_id: parklot_id}).populate('parklot').exec((err, data) => {
-  // parklot_id : 특정 주차장 _id 입력받기
-  console.log(data);
-});
-User.findOne({_id: user_id }).populate('user').exec((err, data) => {
-  // user_id : 특정 유저 _id 입력받기
-  console.log(data);
-});
+rateSchema.statics.create = function(){
+    const rate = new this();
+    rate.save();
 
-// 모델 생성
-const Rate = mongoose.model("Rate", RateSchema);
+    return rate._id;
+}
+rateSchema.statics.findAll = function(){
+    return this.find({});
+}
+rateSchema.statics.findOneById = function(id){
+    return this.findOne({_id: id});
+}
+rateSchema.statics.deleteById = function(id){
+    return this.deleteOne({_id: id});
+}
 
-module.exports = Rate;
+
+// rateSchema의 인스턴스 메소드
+// rateSchema.methods.incLike = function(){
+//     return this.update({}, {$inc: {like: 1}}, {new: true});
+// }
+// rateSchema.methods.incDislike = function(){
+//     return this.update({}, {$inc: {dislike: 1}}, {new: true});
+// }
+// rateSchema.methods.decLike = function(){
+//     return this.update({}, {$inc: {like: -1}}, {new: true});
+// }
+// rateSchema.methods.decDislike = function(){
+//     return this.update({}, {$inc: {dislike: -1}}, {new: true});
+// }
+
+
+
+
+module.exports = mongoose.model('Rate',rateSchema);

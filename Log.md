@@ -202,15 +202,77 @@ const UserSchema = new mongoose.Schema({
 > "start": "node index.js"
 > $npm start
 
+***
+
+## USER schema 
+- id
+- pwd
+- name
+- nickname
+- email
+- lot_rate_list(rate에서 받아옴)
+- mycomments(comments에서 받아옴)
+
+// 데이터베이스 선택
+db = db.getSiblingDB('parkick')
+use parkick
+
+// users에 유저정보 추가 = 회원가입
+db.users.insert({
+    "id" : "user_id",
+    "pwd" : "user_pwd",
+    "name" : "user_name",
+    "nickname" : "user_nickname",
+    "email" : "user_email"
+  })
+
+// users에 전체 유저정보 조회 = 관리자?
+db.user.find({})
+
+// users에 특정 id로 해당 유저정보 조회 = 로그인 외 대부분 기능
+db.user.find({"id" : "user_id"})
+
+// users에 특정 id로 해당 유저정보 수정 = 개인정보 수정
+db.user.update(
+    {"id" : "user_id"},
+    { $set: {
+      "pwd" : "user_pwd",
+      "name" : "user_name2",
+      "nickname" : "user_nickname",
+      "email" : "user_email"
+    }}
+  )
+
+// users에 특정 id로 해당 유저정보 삭제 = 회원탈퇴
+db.users.remove({"id" : "user_id"})
+
+***
+
 ## Log 2021.11.13
 1. parklot 스키마에 섹션별 구분을 위한 배열 구현 -> (parklot.js)Section 스키마 생성
 2. rate 스키마에서 like/dislike 구분 및 type 변경
 3. 연관있는 필드 연결 (외래키 특성 구현)
 4. DaaEun/Parkick 브랜치 정리
-5. Systemserver 연동을 위한 TCP, UDP 학습 및 통신(못함)
-6. 우분투 서버에서 실행(못함)
 
+## Log 2021.11.15
+1. 10-11주차 주간보고서 발표 준비
 
+## Log 2021.11.19
+
+## Log 2021.11.20
+1. Systemserver와 연동을 위한 TCP통신 학습
+2. USER schema의 Query 작성
+
+## Log 2021.11.21
+1. 프로트타입 발표 논의
+2. mongo collection 정리
+3. 각 collection에 더미데이터(document) 추가 
+4. schema 수정ing _해도해도 매일 생기넹..._
+
+## Log NEXT
+1. 우분투 공인ip 서버에서 실행
+2. API서버-DB서버 연동 마무리
+3. Sys서버-DB서버 연동 및 마무리
 
 
 

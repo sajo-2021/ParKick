@@ -1,32 +1,18 @@
-/*
-    # index.js :  최상위 문서
-    # mongoose를 통해 MongoDB와 연동한 후, 
-    # POST /users API를 만들어 User모델을 이용해 새로운 객체를 생성한 후 저장
-*/
+const express = require('express');
+const bodyParser = require('body-parser'); 
+const dotenv = require('dotenv');
+// body-parser 패키지 : POST에서 body값을 읽어오기 위한 패키지
+const mongoose = require('mongoose');
+dotenv.config();
 
-// index.js
-const express = require("express");
-const mongoose = require("mongoose");
-const api = require("./api");
+const port = process.env.PORT || 80;
 
-const app = express();
-const port = process.env.PORT || 3000;
+// Node의 native Promise 사용
+mongoose.Promise = global.Promise;
 
-mongoose
-  .connect("mongodb://127.0.0.1:27017/parkick", {
+mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     // useCreateIndex: true,
   })
-  .then(() => {
-    console.log("Connected to MongoDB");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
-app.use(express.json());
-app.use("/api", api);   // 깔끔하게 api로 대체
-
-app.listen(port, () => {
-  console.log("Server is up on port " + port);
-});
+  .then(() => {console.log("Connected to MongoDB");})
+  .catch((err) => {console.error(e);});
