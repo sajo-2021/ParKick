@@ -246,6 +246,12 @@ exports.updateRate = (req, res) => {
     }).catch(err => res.status(500).send(err));
 }
 
+exports.readComment = (req, res) => {
+    Parklot.findOneByParkno(req.params.no).then(parklot => {
+        if(!parklot) return res.status(404).send({err : 'SE09'});
+        res.send(parklot.comments);
+    }).catch(err => res.status(500).send(err))
+}
 
 exports.writeComment = (req, res) => {
     /*
