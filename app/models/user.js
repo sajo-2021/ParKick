@@ -29,19 +29,19 @@ userSchema.statics.create = function(payload){
     return user.save();
 }
 userSchema.statics.findAll = function(payload){
-    return this.find({}).
-                populate("mycomments").
+    return this.find({}, '-pwd').
+                populate('mycomments', '-_id comment').
                 populate({
                     path : 'lot_rate_list',
-                    populate : {path: 'lot', select : 'lotid'}
+                    populate : {path: 'lot', select : '-_id lotid'}
                 });
 }
 userSchema.statics.findOneById = function(id){
-    return this.findOne({_id: id}).
-                populate("mycomments").
+    return this.findOne({_id: id}, '-pwd').
+                populate('mycomments', '-_id comment').
                 populate({
                     path : 'lot_rate_list',
-                    populate : {path: 'lot', select : 'lotid'}
+                    populate : {path: 'lot', select : '-_id lotid'}
                 });
 }
 userSchema.statics.updateById = function(id, payload){
@@ -52,11 +52,11 @@ userSchema.statics.deleteById = function(id){
 }
 
 userSchema.statics.findOneByUserid = function(id){
-    return this.findOne({id: id}).
-                populate("mycomments").
+    return this.findOne({id: id}, '-pwd').
+                populate('mycomments', '-_id comment').
                 populate({
                     path : 'lot_rate_list',
-                    populate : {path: 'lot', select : 'lotid'}
+                    populate : {path: 'lot', select : '-_id lotid'}
                 });
 }
 userSchema.statics.updateByUserid = function(id, payload){

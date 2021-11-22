@@ -52,7 +52,7 @@ exports.create = (req, res) => {
 
 
 exports.readid = (req, res) => {
-    Zone.findOneById(req.params.no).then((zone) => {
+    Zone.findOneById(req.params.id).then((zone) => {
         if(!zone) return res.status(404).send({err: 'SE09'});
         res.send(zone);
 
@@ -63,7 +63,7 @@ exports.readid = (req, res) => {
 }
 
 exports.updateid = (req, res) => {
-    Zone.updateById(req.params.no, req.body).then((zone) => {
+    Zone.updateById(req.params.id, req.body).then((zone) => {
         res.send(zone);
 
         console.log('zone updateid log');
@@ -73,7 +73,7 @@ exports.updateid = (req, res) => {
 }
 
 exports.deleteid = (req, res) => {
-    Zone.deleteById(req.params.no).then((zone) => {
+    Zone.deleteById(req.params.id).then((zone) => {
         res.sendStatus(200);
         
         console.log('zone deleteid log');
