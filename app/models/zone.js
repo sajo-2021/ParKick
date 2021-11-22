@@ -4,13 +4,13 @@ const validator = require('validator');
 const zoneSchema = new mongoose.Schema({
     // zoneid: { type: Number, required:true},
     latitude: { 
-        type: String, required:true,
+        type: Number, required:true,
         validate(value){
             if(value < 0) throw new Error("A number less than 0 came in.");
         }
     },
     longitude: {
-        type: String, required:true,
+        type: Number, required:true,
         validate(value){
             if(value < 0) throw new Error("A number less than 0 came in.");
         }
@@ -43,7 +43,7 @@ zoneSchema.statics.findAll = function(){
 // }
 // zoneSchema.statics.deleteByZone = function(zone){
 //     return this.remove({zoneid: zone});
-}
+// }
 
 zoneSchema.statics.findOneById = function(id){
     return this.findOne({_id: id});
