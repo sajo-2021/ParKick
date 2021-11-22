@@ -25,7 +25,9 @@ const parklotSchema = new mongoose.Schema({
         comment: {type: mongoose.Schema.Types.ObjectId, ref:'Comment'},
     },{
         _id:false
-    })]
+    })],
+    report: { type: Number, default: 0 },
+    reportlist: [{type: mongoose.Schema.Types.ObjectId, ref:'User'}]
 },{
     timestamps: true
 });

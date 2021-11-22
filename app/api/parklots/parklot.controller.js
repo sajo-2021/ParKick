@@ -235,6 +235,20 @@ exports.updateRate = (req, res) => {
                         
                         rateid.dislike--;
                     }
+                }else if(myrate == 0){
+                    if(req.body.pmt == 1){
+                        console.log('like로 평가합니다.');
+                        user.lot_rate_list.pull({lot:req.body.lotid, myrate: 0});
+                        user.lot_rate_list.push({lot:req.body.lotid, myrate: 1});
+                        
+                        rateid.like++;
+                    }else if(req.body.pmt == 2){
+                        console.log('dislike로 평가합니다.');
+                        user.lot_rate_list.pull({lot:req.body.lotid, myrate: 0});
+                        user.lot_rate_list.push({lot:req.body.lotid, myrate: -1});
+                        
+                        rateid.dislike++;
+                    }
                 }
             }
             user.save();
@@ -438,4 +452,22 @@ exports.deleteComment = (req, res) => {
         }
         res.send('뭔가 오류가 발생했군요!\n'+result);
     }).catch(err => res.status(500).send(err));
+}
+
+exports.rptLot = (req, res) => {
+    // req.body.lotid
+    // req.body.userid
+
+    Promise.all([
+        Parklot.findOne({_id: req.body.lotid, 'reportlist': req.body.userid}),
+        Parklot.findOne({_id: req.body.lotid}),
+        User.findOne({_id: req.body.userid})
+    ]).then(([exist, parklot, user]) => {
+        if(!exist){
+            parklot.report++;
+            parklot.reportlist.push(user._id);
+            parklot.save();
+        }
+        res.sendStatus(200);
+    }).catch(err => console.log(err));
 }

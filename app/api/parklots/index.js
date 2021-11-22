@@ -18,4 +18,6 @@ router.delete('/com/:no/:user', controller.deleteComment);
 
 router.post('/rate/', controller.updateRate);
 
+router.post('/report/', controller.rptLot);
+
 module.exports = router;

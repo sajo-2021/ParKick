@@ -143,8 +143,8 @@
 ###### 2. 출력결과
 > |필드|타입|설명|비고|
 > |:---:|:---:|:---|:---|
-> |latitude|String|조회한 주차포인트의 위도|-|
-> |longitude|String|조회한 주차포인트의 경도|-|
+> |latitude|Number|조회한 주차포인트의 위도|-|
+> |longitude|Number|조회한 주차포인트의 경도|-|
 > |suggest|Boolean|조회한 주차포인트의 추천/비추천 속성|추천시 true, 비추천시 false|
 
 ##### API 기본정보 : Zone 생성/수정
@@ -157,8 +157,8 @@
 > |분류|요청변수|타입|필수여부|기본값|설명|
 > |:---:|:---:|:---|:---:|:---:|:---|
 > |params|id|ObjectId|-|-|수정하려는 주차포인트 document의 _id|
-> |body|latitude|String|Y|-|생성/수정하려는 주차포인트의 위도|
-> |body|longitude|String|Y|-|생성/수정하려는 주차포인트의 경도|
+> |body|latitude|Number|Y|-|생성/수정하려는 주차포인트의 위도|
+> |body|longitude|Number|Y|-|생성/수정하려는 주차포인트의 경도|
 > |body|suggest|Boolean|Y|-|생성/수정하려는 주차포인트 추천/비추천(T/F) 속성|
 
 ###### 2. 출력결과
