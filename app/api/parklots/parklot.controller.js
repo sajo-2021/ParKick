@@ -172,21 +172,6 @@ exports.updateRate = (req, res) => {
                 }, 'lot_rate_list.$'),
             Rate.findOneById(parklot.rate)
         ]).then(([exist, user, lot, rateid]) => {
-            console.log('parklot => ' + parklot);
-            console.log('---------------------');
-            console.log('exist => ' + exist);
-            console.log('---------------------');
-            console.log('user => ' + user);
-            console.log('---------------------');
-            console.log('lot => ' + lot);
-            console.log('---------------------');
-            console.log('rateid => ' + rateid);
-            console.log('---------------------');
-            console.log('rateid.like => ' + rateid.like);
-            console.log('---------------------');
-            console.log('rateid.dislike => ' + rateid.dislike);
-            console.log('---------------------');
-
     
             if(!exist){ // user가 null이라면
                 if(req.body.pmt==1){ // like인 경우
@@ -255,9 +240,9 @@ exports.updateRate = (req, res) => {
             rateid.save();
             parklot.save();
             console.log('save Complete!!')
-        }).catch(err => res.status(500).send(err));
-        res.send(parklot);
-    }).catch(err => res.status(500).send(err));
+            res.send(rateid);
+        }).catch(err => console.log(err));
+    }).catch(err => console.log(err));
 }
 
 exports.readComment = (req, res) => {
@@ -455,8 +440,8 @@ exports.deleteComment = (req, res) => {
 }
 
 exports.rptLot = (req, res) => {
-    // req.body.lotid
-    // req.body.userid
+    // req.body.lotid (ObjectId)
+    // req.body.userid (ObjectId)
 
     Promise.all([
         Parklot.findOne({_id: req.body.lotid, 'reportlist': req.body.userid}),
@@ -466,6 +451,10 @@ exports.rptLot = (req, res) => {
         if(!exist){
             parklot.report++;
             parklot.reportlist.push(user._id);
+            parklot.save();
+        }else{
+            parklot.report--;
+            parklot.reportlist.pull(user._id);
             parklot.save();
         }
         res.sendStatus(200);
