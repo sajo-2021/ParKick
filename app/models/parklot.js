@@ -38,7 +38,6 @@ parklotSchema.statics.create = function(payload){
     park.rate = Rate.create();
 
     return park.save();
-    
 }
 
 
@@ -53,7 +52,10 @@ parklotSchema.statics.findAll = function(){
             populate: {path: "comment", select: "-_id comment"}
         }).populate({
             path: "ratelist",
-            select: "-_id userid nickname"
+            select: "-_id id nickname"
+        }).populate({
+            path: "reportlist",
+            select: "-_id id nickname"
         });
 }
 parklotSchema.statics.findOneByParkno = function(lot){
@@ -67,7 +69,10 @@ parklotSchema.statics.findOneByParkno = function(lot){
             populate: {path: "comment", select: "-_id comment"}
         }).populate({
             path: "ratelist",
-            select: "-_id userid nickname"
+            select: "-_id id nickname"
+        }).populate({
+            path: "reportlist",
+            select: "-_id id nickname"
         });
     // position은 사용자의 좌표를 바로 입력하면 안됨
     // 좌표에 해당하는 격자의 위치정보로 바꾸어주는 함수 필요
@@ -83,7 +88,10 @@ parklotSchema.statics.findOneById = function(id){
             populate: {path: "comment", select: "-_id comment"}
         }).populate({
             path: "ratelist",
-            select: "-_id userid nickname"
+            select: "-_id id nickname"
+        }).populate({
+            path: "reportlist",
+            select: "-_id id nickname"
         });
 }
 

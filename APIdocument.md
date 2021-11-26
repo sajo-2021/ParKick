@@ -126,6 +126,7 @@
 > |:---:|:---:|:---|:---|
 
 ##### API 기본정보 : Parklot 신고
+> 한번 보내면 신고되고, 다시 한 번 보내면 신고가 취소됩니다.
 > |Verb|Action|Path|Used for|
 > |:---:|:---:|:---|:---|
 > |POST|report parklot|/parklots/rpt/|parklot 신고하기|
@@ -137,12 +138,14 @@
 > |body|uid|ObjectId|Y|-|신고를 하는 사용자의 _id|
 
 ###### 2. 출력결과
+> 해당 parklot이 리턴됩니다.
 > |필드|타입|설명|비고|
 > |:---:|:---:|:---|:---|
+> |report|Number|해당 parklot이 신고를 받은 횟수입니다.|비고|
+> |reportlist|[ObjectId]|해당 parklot을 신고한 user의 목록입니다.|비고|
 
 
-
-### 관리자용 API
+## 관리자용 API
 #### Zone
 ##### API 기본정보 : Zone 조회
 > |Verb|Action|Path|Used for|
