@@ -8,17 +8,6 @@ exports.index = (req, res) => {
     }).catch(err => res.status(500).send(err));
 }
 
-exports.create = (req, res) => {
-    Rate.create(req.body)
-        .then((rate) => {
-            res.send(rate);
-
-            console.log('Rate create log');
-            console.log(rate);
-            console.log('----------------------');
-        }).catch((err) => res.status(500).send(err));
-}
-
 
 exports.read = (req, res) => {
     Rate.findOneById(req.params.id).then((rate)=>{
@@ -29,16 +18,6 @@ exports.read = (req, res) => {
         console.log('Rate read log');
         console.log(rate);
         console.log('-------------------');
-    }).catch(err => res.status(500).send(err));
-}
-
-exports.update = (req, res) => {
-    Rate.updateById(req.params.id, req.body).then((rate) => {
-        res.send(rate);
-
-        console.log('Rate update log');
-        console.log(req.body);
-        console.log('--------------------');
     }).catch(err => res.status(500).send(err));
 }
 
