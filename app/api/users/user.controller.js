@@ -14,23 +14,17 @@ const User = require('../../models/user');
 // exports 코드를 통해 외부에 연결 가능
 exports.index = (req, res) => {
     User.findAll().then((users) => {
-        if(!users.length) return res.status(404).send('SE09');
+        if(!users.length) return res.status(404).send({err: 'SE09'});
         res.send(users);
 
-        console.log('user list log');
-        console.log(users);
-        console.log('---------------');
     }).catch(err => res.status(500).send(err));
 };
 
 exports.read = (req, res) => {
     User.findOneByUserid(req.params.id).then((user) => {
-        if(!user) return res.status(404).send('SE09');
+        if(!user) return res.status(404).send({err: 'SE09'});
         res.send(user);
 
-        console.log('user read log');
-        console.log(user);
-        console.log('---------------');
     }).catch(err => res.status(500).send(err));
 };
 
@@ -38,9 +32,6 @@ exports.create = (req, res) => {
     User.create(req.body).then((user) => {
         res.send(user);
 
-        console.log('user create log');
-        console.log(user);
-        console.log('---------------');
     }).catch(err => res.status(500).send(err));
 };
 
@@ -48,10 +39,6 @@ exports.update = (req, res) => {
     User.updateByUserid(req.params.id, req.body).then((user) => {
         res.send(user);
 
-        console.log('user update log');
-        console.log(`id : ${req.params.id}`);
-        console.log(req.body);
-        console.log('---------------');
     }).catch(err => res.status(500).send(err));
 };
 
@@ -59,9 +46,6 @@ exports.delete = (req, res) => {
     User.deleteByUserid(req.params.id).then((user) => {
         res.sendStatus(200);
 
-        console.log('user delete log');
-        console.log(user);
-        console.log('-----------------');
     }).catch(err => res.status(500).send(err));
 };
 
@@ -70,9 +54,6 @@ exports.readid = (req, res) => {
         if(!user) return res.status(404).send('SE09');
         res.send(user);
 
-        console.log('user read log');
-        console.log(user);
-        console.log('---------------');
     }).catch(err => res.status(500).send(err));
 };
 
@@ -80,10 +61,6 @@ exports.updateid = (req, res) => {
     User.updateById(req.params.id, req.body).then((user) => {
         res.send(user);
 
-        console.log('user update log');
-        console.log(`id : ${req.params.id}`);
-        console.log(req.body);
-        console.log('---------------');
     }).catch(err => res.status(500).send(err));
 };
 
@@ -91,8 +68,5 @@ exports.deleteid = (req, res) => {
     User.deleteById(req.params.id).then((user) => {
         res.sendStatus(200);
 
-        console.log('user delete log');
-        console.log(user);
-        console.log('-----------------');
     }).catch(err => res.status(500).send(err));
 };

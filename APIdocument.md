@@ -62,12 +62,12 @@
 ##### API 기본정보 : Parklot에 commnet 조회
 > |Verb|Action|Path|Used for|
 > |:---:|:---:|:---|:---|
-> |POST|write comment|/parklots/com/no/:no|lotid가 no인 parklot의 comment 조회|
+> |POST|write comment|/parklots/com/:oid|_id가 oid인 parklot의 comment 조회|
 
 ###### 1. 요청변수
 > |분류|요청변수|타입|필수여부|기본값|설명|
 > |:---:|:---:|:---|:---:|:---:|:---|
-> |body|no|Number|Y|-|comment를 조회하려는 주차장의 lotid|
+> |body|oid|ObjectId|Y|-|comment를 조회하려는 주차장의 _id|
 
 ###### 2. 출력결과
 > |필드|타입|설명|비고|
@@ -85,8 +85,8 @@
 ###### 1. 요청변수
 > |분류|요청변수|타입|필수여부|기본값|설명|
 > |:---:|:---:|:---|:---:|:---:|:---|
-> |body|no|Number|Y|-|comment를 작성하려는 주차장의 lotid|
-> |body|user|ObjectId|Y|-|comment를 작성하려는 사용자의 _id|
+> |body|oid|ObjectId|Y|-|comment를 작성하려는 주차장의 _id|
+> |body|uid|ObjectId|Y|-|comment를 작성하려는 사용자의 _id|
 > |body|comment|String|Y|-|작성하려 하는 comment의 내용|
 
 ###### 2. 출력결과
@@ -97,13 +97,13 @@
 ##### API 기본정보 : Parklot의 comment 삭제
 > |Verb|Action|Path|Used for|
 > |:---:|:---:|:---|:---|
-> |DELETE|delete comment|/parklots/com/:no/:user|comment 삭제|
+> |DELETE|delete comment|/parklots/com/:oid/:uid|comment 삭제|
 
 ###### 1. 요청변수
 > |분류|요청변수|타입|필수여부|기본값|설명|
 > |:---:|:---:|:---|:---:|:---:|:---|
-> |body|no|Number|Y|-|삭제하려는 comment가 작성된 주차장의 lotid|
-> |body|user|ObjectId|Y|-|삭제하려는 comment를 작성한 사용자의 _id|
+> |body|oid|ObjectId|Y|-|삭제하려는 comment가 작성된 주차장의 _id|
+> |body|uid|ObjectId|Y|-|삭제하려는 comment를 작성한 사용자의 _id|
 
 ###### 2. 출력결과
 > |필드|타입|설명|비고|
@@ -117,9 +117,24 @@
 ###### 1. 요청변수
 > |분류|요청변수|타입|필수여부|기본값|설명|
 > |:---:|:---:|:---|:---:|:---:|:---|
-> |body|lotid|ObjectId|Y|-|평가하려는 주차장의 _id|
-> |body|userid|ObjectId|Y|-|평가를 하는 사용자의 _id|
+> |body|oid|ObjectId|Y|-|평가하려는 주차장의 _id|
+> |body|uid|ObjectId|Y|-|평가를 하는 사용자의 _id|
 > |body|pmt|Number|Y|-|like는 1, dislike는 2|
+
+###### 2. 출력결과
+> |필드|타입|설명|비고|
+> |:---:|:---:|:---|:---|
+
+##### API 기본정보 : Parklot 신고
+> |Verb|Action|Path|Used for|
+> |:---:|:---:|:---|:---|
+> |POST|report parklot|/parklots/rpt/|parklot 신고하기|
+
+###### 1. 요청변수
+> |분류|요청변수|타입|필수여부|기본값|설명|
+> |:---:|:---:|:---|:---:|:---:|:---|
+> |body|oid|ObjectId|Y|-|신고하려는 주차장의 _id|
+> |body|uid|ObjectId|Y|-|신고를 하는 사용자의 _id|
 
 ###### 2. 출력결과
 > |필드|타입|설명|비고|

@@ -14,19 +14,12 @@ exports.read = (req, res) => {
         if(!rate) return res.status(404).send({err:'SE09'});
 
         res.send(rate);
-
-        console.log('Rate read log');
-        console.log(rate);
-        console.log('-------------------');
     }).catch(err => res.status(500).send(err));
 }
 
 exports.delete = (req, res) => {
     Rate.deleteById(req.params.id).then((rate) => {
         res.sendStatus(200);
-
-        console.log('Rate delete log');
-        console.log(rate);
-        console.log('-------------------');
+        
     }).catch(err => res.status(500).send(err));
 }
