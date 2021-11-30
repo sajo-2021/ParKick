@@ -134,96 +134,101 @@ exports.updateRate = (req, res) => {
         res.status(400).send({err : 'SE01'});
     }else{
         Parklot.findOne({_id: req.body.oid}).then(parklot => {
-            Promise.all([
-                User.findOne({
-                    _id: req.body.uid, 
-                    'lot_rate_list.lot': parklot._id}),
-                User.findOne({_id: req.body.uid}),
-                User.findOne({
-                    _id: req.body.uid, 
-                    'lot_rate_list.lot': parklot._id
-                    }, 'lot_rate_list.$'),
-                Rate.findOneById(parklot.rate)
-            ]).then(([exist, user, lot, rateid]) => {
-                let result = "";
-        
-                if(!exist){
-                    // 해당 user가 parklot에 평가한 적이 없을 경우
-                    if(req.body.pmt==1){ // like인 경우
-                        user.lot_rate_list.push({lot:parklot._id, myrate:1});
-                        rateid.like++;
-                    }else if(req.body.pmt==2){ //dislike인 경우
-                        user.lot_rate_list.push({lot:parklot._id, myrate:-1});
-                        rateid.dislike++;
-                    }else{
+            let result = "";
+            if(!parklot){
+                result += "SE05"
+            }else{
+                Promise.all([
+                    User.findOne({
+                        _id: req.body.uid, 
+                        'lot_rate_list.lot': parklot._id}),
+                    User.findOne({_id: req.body.uid}),
+                    User.findOne({
+                        _id: req.body.uid, 
+                        'lot_rate_list.lot': parklot._id
+                        }, 'lot_rate_list.$'),
+                    Rate.findOneById(parklot.rate)
+                ]).then(([exist, user, lot, rateid]) => {
+                    if(!user){
                         result += "SE05";
+                    }else{
+                        if(!exist){
+                            // 해당 user가 parklot에 평가한 적이 없을 경우
+                            if(req.body.pmt==1){ // like인 경우
+                                user.lot_rate_list.push({lot:parklot._id, myrate:1});
+                                rateid.like++;
+                            }else if(req.body.pmt==2){ //dislike인 경우
+                                user.lot_rate_list.push({lot:parklot._id, myrate:-1});
+                                rateid.dislike++;
+                            }else{
+                                result += "SE05";
+                            }
+                            parklot.ratelist.push(user._id);
+                        }else{
+                            // 해당 user가 parklot을 평가했을 경우
+                            let myrate = lot.lot_rate_list[0].myrate;
+                            // 평가가 무엇인지 확인
+                            if(myrate == 1){
+                                if(req.body.pmt == 1){
+                                    // like 취소
+                                    user.lot_rate_list.pull({lot: parklot._id, myrate: 1});
+                                    user.lot_rate_list.push({lot: parklot._id, myrate: 0});
+                                    
+                                    rateid.like--;
+                                }else if(req.body.pmt == 2){
+                                    // like를 dislike로 변경
+                                    user.lot_rate_list.pull({lot: parklot._id, myrate: 1});
+                                    user.lot_rate_list.push({lot: parklot._id, myrate: -1});
+                                    
+                                    rateid.like--;
+                                    rateid.dislike++;
+                                }else{
+                                    result += "SE05";
+                                }
+                            }else if(myrate == -1){
+                                if(req.body.pmt == 1){
+                                    // dislike를 like로 변경
+                                    user.lot_rate_list.pull({lot: parklot._id, myrate: -1});
+                                    user.lot_rate_list.push({lot: parklot._id, myrate: 1});
+                                    
+                                    rateid.like++;
+                                    rateid.dislike--;
+                                }else if(req.body.pmt == 2){
+                                    // dislike 취소
+                                    user.lot_rate_list.pull({lot: parklot._id, myrate: -1});
+                                    user.lot_rate_list.push({lot: parklot._id, myrate: 0});
+                                    
+                                    rateid.dislike--;
+                                }else{
+                                    result += "SE05";
+                                }
+                            }else if(myrate == 0){
+                                if(req.body.pmt == 1){
+                                    // like로 평가
+                                    user.lot_rate_list.pull({lot: parklot._id, myrate: 0});
+                                    user.lot_rate_list.push({lot: parklot._id, myrate: 1});
+                                    
+                                    rateid.like++;
+                                }else if(req.body.pmt == 2){
+                                    // dislike로 평가
+                                    user.lot_rate_list.pull({lot: parklot._id, myrate: 0});
+                                    user.lot_rate_list.push({lot: parklot._id, myrate: -1});
+                                    
+                                    rateid.dislike++;
+                                }else{
+                                    result += "SE05";
+                                }
+                            }
+                        }
+                        // 모든 수정사항 저장
+                        user.save();
+                        rateid.save();
+                        parklot.save();
+                        return res.send(rateid);
                     }
-                    parklot.ratelist.push(user._id);
-                }else{
-                    // 해당 user가 parklot을 평가했을 경우
-                    let myrate = lot.lot_rate_list[0].myrate;
-                    // 평가가 무엇인지 확인
-                    if(myrate == 1){
-                        if(req.body.pmt == 1){
-                            // like 취소
-                            user.lot_rate_list.pull({lot: parklot._id, myrate: 1});
-                            user.lot_rate_list.push({lot: parklot._id, myrate: 0});
-                            
-                            rateid.like--;
-                        }else if(req.body.pmt == 2){
-                            // like를 dislike로 변경
-                            user.lot_rate_list.pull({lot: parklot._id, myrate: 1});
-                            user.lot_rate_list.push({lot: parklot._id, myrate: -1});
-                            
-                            rateid.like--;
-                            rateid.dislike++;
-                        }else{
-                            result += "SE05";
-                        }
-                    }else if(myrate == -1){
-                        if(req.body.pmt == 1){
-                            // dislike를 like로 변경
-                            user.lot_rate_list.pull({lot: parklot._id, myrate: -1});
-                            user.lot_rate_list.push({lot: parklot._id, myrate: 1});
-                            
-                            rateid.like++;
-                            rateid.dislike--;
-                        }else if(req.body.pmt == 2){
-                            // dislike 취소
-                            user.lot_rate_list.pull({lot: parklot._id, myrate: -1});
-                            user.lot_rate_list.push({lot: parklot._id, myrate: 0});
-                            
-                            rateid.dislike--;
-                        }else{
-                            result += "SE05";
-                        }
-                    }else if(myrate == 0){
-                        if(req.body.pmt == 1){
-                            // like로 평가
-                            user.lot_rate_list.pull({lot: parklot._id, myrate: 0});
-                            user.lot_rate_list.push({lot: parklot._id, myrate: 1});
-                            
-                            rateid.like++;
-                        }else if(req.body.pmt == 2){
-                            // dislike로 평가
-                            user.lot_rate_list.pull({lot: parklot._id, myrate: 0});
-                            user.lot_rate_list.push({lot: parklot._id, myrate: -1});
-                            
-                            rateid.dislike++;
-                        }else{
-                            result += "SE05";
-                        }
-                    }
-                }
-                // 모든 수정사항 저장
-                user.save();
-                rateid.save();
-                parklot.save();
-                if(result != "")
-                    return res.status(400).send({err: result});
-                res.send(rateid);
-                // 해당 parklot의 평가내용 return
-            }).catch(err => res.status(500).send(err));
+                    res.status(400).send({err: result});
+                }).catch(err => res.status(500).send(err));
+            }
         }).catch(err => res.status(500).send(err));
     }
 }
