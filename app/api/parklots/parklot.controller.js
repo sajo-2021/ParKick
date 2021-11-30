@@ -12,7 +12,7 @@ exports.index = (req, res) => {
 
 exports.create = (req, res) => {
     if(req.body.lotid == null || req.body.latitude == null || req.body.longitude == null){
-        res.send({err : 'SE01'})
+        res.status(400).send({err : 'SE01'})
     }else{
         Parklot.findOne({lotid: req.body.lotid}).then(lot => {
             if(!lot){
@@ -20,7 +20,7 @@ exports.create = (req, res) => {
                     return res.send(newlot);
                 }).catch(err => console.log(err))
             }else{
-                return res.send({err: 'SE06'});
+                return res.status(400).send({err: 'SE06'});
             }
         }).catch(err => res.status(500).send(err))
     }
@@ -131,7 +131,7 @@ exports.updateRate = (req, res) => {
     */
     // 우선 해당 oid와 일치하는 parklot 조회
     if(req.body.oid == null | req.body.uid == null | req.body.pmt == null){
-        res.send({err : 'SE01'});
+        res.status(400).send({err : 'SE01'});
     }else{
         Parklot.findOne({_id: req.body.oid}).then(parklot => {
             Promise.all([
@@ -219,7 +219,9 @@ exports.updateRate = (req, res) => {
                 user.save();
                 rateid.save();
                 parklot.save();
-                res.send({err: result});
+                if(result != "")
+                    return res.status(400).send({err: result});
+                res.send(rateid);
                 // 해당 parklot의 평가내용 return
             }).catch(err => res.status(500).send(err));
         }).catch(err => res.status(500).send(err));
@@ -228,7 +230,7 @@ exports.updateRate = (req, res) => {
 
 exports.readComment = (req, res) => {
     if(req.body.oid == null){
-        res.send({err : 'SE01'});
+        res.status(400).send({err : 'SE01'});
     }else{
         Parklot.findOneById(req.params.oid).then(parklot => {
             if(!parklot) return res.status(404).send({err : 'SE09'});
@@ -245,7 +247,7 @@ exports.writeComment = (req, res) => {
         comment : 기록하고자 하는 comment의 내용
     */
     if(req.body.oid == null || req.body.uid == null){
-        res.send({err : 'SE01'});
+        res.status(400).send({err : 'SE01'});
     }else{
         Promise.all([
             Parklot.findOne({_id: req.body.oid}),
@@ -279,7 +281,7 @@ exports.writeComment = (req, res) => {
                     result += "SE06";
                 }
             }
-            res.send({err : result});
+            res.status(400).send({err : result});
         }).catch(err => res.status(500).send(err));
     }
 }
@@ -292,7 +294,7 @@ exports.updateComment = (req, res) => {
         comment : 기록하고자 하는 comment의 내용
     */
     if(req.body.oid == null || req.body.uid == null){
-        res.send({err : 'SE01'});
+        res.status(400).send({err : 'SE01'});
     }else{
         Promise.all([
             Parklot.findOne({_id: req.body.oid}),
@@ -324,7 +326,7 @@ exports.updateComment = (req, res) => {
                     return res.sendStatus(200); 
                 }
             }
-            res.send({err : result});
+            res.status(400).send({err : result});
         }).catch(err => res.ststus(500).send(err));
     }
 }
@@ -336,7 +338,7 @@ exports.deleteComment = (req, res) => {
         uid : user의 _id값
     */
     if(req.body.oid == null || req.body.uid == null){
-        res.send({err : 'SE01'});
+        res.status(400).send({err : 'SE01'});
     }else{
         Promise.all([
             Parklot.findOne({_id: req.params.oid}),
@@ -369,7 +371,7 @@ exports.deleteComment = (req, res) => {
                     return res.sendStatus(200); 
                 }
             }
-            res.send({err : result});
+            res.status(400).send({err : result});
         }).catch(err => res.status(500).send(err));
     }
 }
@@ -381,7 +383,7 @@ exports.rptLot = (req, res) => {
         uid : user의 _id값
     */
     if(req.body.oid == null || req.body.uid == null){
-        res.send({err : 'SE01'});
+        res.status(400).send({err : 'SE01'});
     }else{
         Promise.all([
             Parklot.findOne({_id: req.body.oid, 'reportlist': req.body.uid}),
@@ -405,7 +407,7 @@ exports.rptLot = (req, res) => {
                 }
                 return res.send(parklot);
             }
-            res.send({err: result});
+            res.status(400).send({err: result});
         }).catch(err => res.status(500).send(err));
     }
 }
