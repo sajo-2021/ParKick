@@ -250,7 +250,7 @@ db.users.remove({"id" : "user_id"})
 
 ## Connect server
 
-
+[(리눅스) 몽고디비 설치 및 삭제](https://jungwoong.tistory.com/96)
 
 ***
 
