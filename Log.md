@@ -248,6 +248,12 @@ db.users.remove({"id" : "user_id"})
 
 ***
 
+## Connect server
+
+
+
+***
+
 ## Log 2021.11.13
 1. parklot 스키마에 섹션별 구분을 위한 배열 구현 -> (parklot.js)Section 스키마 생성
 2. rate 스키마에서 like/dislike 구분 및 type 변경
@@ -269,10 +275,12 @@ db.users.remove({"id" : "user_id"})
 3. 각 collection에 더미데이터(document) 추가 
 4. schema 수정ing _해도해도 매일 생기넹..._
 
-## Log NEXT
+## Log 2021.11.30
 1. 우분투 공인ip 서버에서 실행
 2. API서버-DB서버 연동 마무리
 3. Sys서버-DB서버 연동 및 마무리
+
+## Log NEXT
 
 
 
