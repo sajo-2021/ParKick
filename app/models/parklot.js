@@ -1,27 +1,18 @@
-// models/parklot.js
-// lot : 주차장(클러스터링 알고리즘을 거쳐 만족하는 영역)
-
 const mongoose = require('mongoose');
 const validator = require('validator');
 var Rate = require('./rate');
 var Comment = require('./comment');
 var User = require('./user');
 
-// 스키마 생성
 const parklotSchema = new mongoose.Schema({
-    lotid: {        // 주차장 고유번호
-        type: Number, required: true, unique:true
-    },
-    lotname: {        // 주차장 고유이름
-        type: String, required: true, unique:true
-    },
-    latitude: {     // 위도
+    lotid: { type: Number, required: true, unique:true},
+    latitude: { 
         type: Number, required: true,
         validate(value) {
             if(value < 0) throw new Error("A number less than 0 came in.");
         }
     },
-    longitude: {    // 경도
+    longitude: { 
         type: Number, required: true,
         validate(value) {
             if(value < 0) throw new Error("A number less than 0 came in.");
@@ -34,7 +25,9 @@ const parklotSchema = new mongoose.Schema({
         comment: {type: mongoose.Schema.Types.ObjectId, ref:'Comment'},
     },{
         _id:false
-    })]
+    })],
+    report: { type: Number, default: 0 },
+    reportlist: [{type: mongoose.Schema.Types.ObjectId, ref:'User'}]
 },{
     timestamps: true
 });
@@ -45,7 +38,6 @@ parklotSchema.statics.create = function(payload){
     park.rate = Rate.create();
 
     return park.save();
-    
 }
 
 
@@ -60,7 +52,10 @@ parklotSchema.statics.findAll = function(){
             populate: {path: "comment", select: "-_id comment"}
         }).populate({
             path: "ratelist",
-            select: "-_id userid nickname"
+            select: "-_id id nickname"
+        }).populate({
+            path: "reportlist",
+            select: "-_id id nickname"
         });
 }
 parklotSchema.statics.findOneByParkno = function(lot){
@@ -74,9 +69,12 @@ parklotSchema.statics.findOneByParkno = function(lot){
             populate: {path: "comment", select: "-_id comment"}
         }).populate({
             path: "ratelist",
-            select: "-_id userid nickname"
+            select: "-_id id nickname"
+        }).populate({
+            path: "reportlist",
+            select: "-_id id nickname"
         });
-    // position은 유저 위치를 바로 입력하면 안됨
+    // position은 사용자의 좌표를 바로 입력하면 안됨
     // 좌표에 해당하는 격자의 위치정보로 바꾸어주는 함수 필요
 }
 parklotSchema.statics.findOneById = function(id){
@@ -90,7 +88,10 @@ parklotSchema.statics.findOneById = function(id){
             populate: {path: "comment", select: "-_id comment"}
         }).populate({
             path: "ratelist",
-            select: "-_id userid nickname"
+            select: "-_id id nickname"
+        }).populate({
+            path: "reportlist",
+            select: "-_id id nickname"
         });
 }
 
@@ -104,7 +105,5 @@ parklotSchema.statics.deleteByParkno = function(lot){
 parklotSchema.statics.deleteById = function(id){
     return this.deleteOne({_id: id});
 }
-
-
 
 module.exports = mongoose.model('Parklot',parklotSchema);

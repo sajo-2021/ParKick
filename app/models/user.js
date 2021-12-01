@@ -1,8 +1,6 @@
-// models/user.js
 const mongoose = require('mongoose');
 var Comment = require('./comment');
 
-// 스키마 생성
 const userSchema = new mongoose.Schema({
     id: { type: String, trim:true, required: true, unique:true},
     pwd: { type: String, trim:true, required: true},
@@ -31,19 +29,19 @@ userSchema.statics.create = function(payload){
     return user.save();
 }
 userSchema.statics.findAll = function(payload){
-    return this.find({}).
-                populate("mycomments").
+    return this.find({}, '-pwd').
+                populate('mycomments', '-_id comment').
                 populate({
                     path : 'lot_rate_list',
-                    populate : {path: 'lot', select : 'lotid'}
+                    populate : {path: 'lot', select : '-_id lotid'}
                 });
 }
 userSchema.statics.findOneById = function(id){
-    return this.findOne({_id: id}).
-                populate("mycomments").
+    return this.findOne({_id: id}, '-pwd').
+                populate('mycomments', '-_id comment').
                 populate({
                     path : 'lot_rate_list',
-                    populate : {path: 'lot', select : 'lotid'}
+                    populate : {path: 'lot', select : '-_id lotid'}
                 });
 }
 userSchema.statics.updateById = function(id, payload){
@@ -54,11 +52,11 @@ userSchema.statics.deleteById = function(id){
 }
 
 userSchema.statics.findOneByUserid = function(id){
-    return this.findOne({id: id}).
-                populate("mycomments").
+    return this.findOne({id: id}, '-pwd').
+                populate('mycomments', '-_id comment').
                 populate({
                     path : 'lot_rate_list',
-                    populate : {path: 'lot', select : 'lotid'}
+                    populate : {path: 'lot', select : '-_id lotid'}
                 });
 }
 userSchema.statics.updateByUserid = function(id, payload){
