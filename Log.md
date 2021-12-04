@@ -204,7 +204,7 @@ const UserSchema = new mongoose.Schema({
 
 ***
 
-## USER schema 
+## TCP connect Query 
 - id
 - pwd
 - name
@@ -246,11 +246,36 @@ db.user.update(
 // users에 특정 id로 해당 유저정보 삭제 = 회원탈퇴
 db.users.remove({"id" : "user_id"})
 
+// 사용자 추천 혹은 비추천 주차공간 정보 조회
+db.zones.find({})
+
+// 클러스털이 후 주차장 정보 입력
+db.parklots.insert({
+    "lotid" : "lot_id",
+    "latitude" : "lot_latitude",
+    "longitude" : "lot_longitude",
+  })
+
 ***
 
 ## Connect server
 
-[(리눅스) 몽고디비 설치 및 삭제](https://jungwoong.tistory.com/96)
+[(리눅스) 몽고디비 설치 및 삭제](https://jungwoong.tistory.com/96)   
+
+외부접속을 위한 ip 바인딩 변경하기 _이것을 못찾아 지금껏 어려웠음_   
+[몽고디비 외부접속 허용하기](https://bongbongreview.tistory.com/69)    
+[mongodb 외부접속](https://emong.tistory.com/236)   
+[다른 아이피에서 접속하기](https://iancoding.tistory.com/164)   
+
+***
+
+## Connect server
+
+1. PuTTY Configuration 접속
+2. DBserver로 배정받은 ip와 port 입력 -> Open
+3. root, pwd 입력
+4. cd github 
+
 
 ***
 
@@ -277,11 +302,17 @@ db.users.remove({"id" : "user_id"})
 
 ## Log 2021.11.30
 1. 우분투 공인ip 서버에서 실행
-2. API서버-DB서버 연동 마무리
-3. Sys서버-DB서버 연동 및 마무리
+2. API서버-DB서버 연동 마무리 - 실패
+3. Sys서버-DB서버 연동 및 마무리 - 실패
 
-## Log NEXT
+## Log 2021.12.04
+1. 공유서버에서 DB접속 성공
+2. API서버-DB서버 연동
+3. Sys서버-DB서버 연동 - 체크하기
 
+## Log 2021.12.05
+1. 최종보고서 작성
+2. 프로젝트 테스트 실행
 
 
 
