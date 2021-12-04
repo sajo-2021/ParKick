@@ -273,8 +273,65 @@ db.parklots.insert({
 
 1. PuTTY Configuration 접속
 2. DBserver로 배정받은 ip와 port 입력 -> Open
-3. root, pwd 입력
-4. cd github 
+```
+login as: root
+root@106.10.46.5's password:
+Welcome to Ubuntu 18.04.5 LTS (GNU/Linux 4.15.0-118-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Sat Dec  4 22:06:12 KST 2021
+
+  System load:  0.0               Processes:           92
+  Usage of /:   8.8% of 48.96GB   Users logged in:     0
+  Memory usage: 16%               IP address for eth0: 10.41.168.21
+  Swap usage:   0%
+
+ * Super-optimized for small spaces - read how we shrank the memory
+   footprint of MicroK8s to make it the smallest full K8s around.
+
+   https://ubuntu.com/blog/microk8s-memory-optimisation
+
+ * Canonical Livepatch is available for installation.
+   - Reduce system reboots and improve kernel security. Activate at:
+     https://ubuntu.com/livepatch
+
+168 packages can be updated.
+111 updates are security updates.
+
+New release '20.04.3 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+
+Last login: Sat Dec  4 21:21:23 2021 from 110.34.73.236
+root@uoscapstone002:~# cd github
+root@uoscapstone002:~/github# git pull origin DBserver
+remote: Enumerating objects: 10, done.
+remote: Counting objects: 100% (10/10), done.
+remote: Compressing objects: 100% (4/4), done.
+remote: Total 7 (delta 4), reused 6 (delta 3), pack-reused 0
+Unpacking objects: 100% (7/7), done.
+From https://github.com/DaaEun/ParKick
+ * branch            DBserver   -> FETCH_HEAD
+   e840e21..4adcf4b  DBserver   -> origin/DBserver
+Updating e840e21..4adcf4b
+Fast-forward
+ .gitignore |  5 +++++
+ Log.md     | 41 ++++++++++++++++++++++++++++++++++++-----
+ 2 files changed, 41 insertions(+), 5 deletions(-)
+root@uoscapstone002:~/github# npm start
+
+> parkick@1.0.0 start
+> node app/index.js
+
+Example app listening on port 80!
+Successfully connected to mongodb
+^C
+```
+3. 'Successfully connected to mongodb' 확인
+4. ip 대여기간 끝나면 접속불가
 
 
 ***
