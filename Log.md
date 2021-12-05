@@ -249,7 +249,7 @@ db.users.remove({"id" : "user_id"})
 // 사용자 추천 혹은 비추천 주차공간 정보 조회
 db.zones.find({})
 
-// 클러스털이 후 주차장 정보 입력
+// 클러스터링 이후 주차장 정보 입력
 db.parklots.insert({
     "lotid" : "lot_id",
     "latitude" : "lot_latitude",
@@ -370,6 +370,7 @@ Successfully connected to mongodb
 ## Log 2021.12.05
 1. 최종보고서 작성
 2. 프로젝트 테스트 실행
+3. 최종발표 준비
 
 
 
