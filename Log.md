@@ -204,7 +204,7 @@ const UserSchema = new mongoose.Schema({
 
 ***
 
-## USER schema 
+## TCP connect Query 
 - id
 - pwd
 - name
@@ -246,11 +246,93 @@ db.user.update(
 // users에 특정 id로 해당 유저정보 삭제 = 회원탈퇴
 db.users.remove({"id" : "user_id"})
 
+// 사용자 추천 혹은 비추천 주차공간 정보 조회
+db.zones.find({})
+
+// 클러스터링 이후 주차장 정보 입력
+db.parklots.insert({
+    "lotid" : "lot_id",
+    "latitude" : "lot_latitude",
+    "longitude" : "lot_longitude",
+  })
+
 ***
 
 ## Connect server
 
-[(리눅스) 몽고디비 설치 및 삭제](https://jungwoong.tistory.com/96)
+[(리눅스) 몽고디비 설치 및 삭제](https://jungwoong.tistory.com/96)   
+
+외부접속을 위한 ip 바인딩 변경하기 _이것을 못찾아 지금껏 어려웠음_   
+[몽고디비 외부접속 허용하기](https://bongbongreview.tistory.com/69)    
+[mongodb 외부접속](https://emong.tistory.com/236)   
+[다른 아이피에서 접속하기](https://iancoding.tistory.com/164)   
+
+***
+
+## Connect server
+
+1. PuTTY Configuration 접속
+2. DBserver로 배정받은 ip와 port 입력 -> Open
+```
+login as: root
+root@106.10.46.5's password:
+Welcome to Ubuntu 18.04.5 LTS (GNU/Linux 4.15.0-118-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Sat Dec  4 22:06:12 KST 2021
+
+  System load:  0.0               Processes:           92
+  Usage of /:   8.8% of 48.96GB   Users logged in:     0
+  Memory usage: 16%               IP address for eth0: 10.41.168.21
+  Swap usage:   0%
+
+ * Super-optimized for small spaces - read how we shrank the memory
+   footprint of MicroK8s to make it the smallest full K8s around.
+
+   https://ubuntu.com/blog/microk8s-memory-optimisation
+
+ * Canonical Livepatch is available for installation.
+   - Reduce system reboots and improve kernel security. Activate at:
+     https://ubuntu.com/livepatch
+
+168 packages can be updated.
+111 updates are security updates.
+
+New release '20.04.3 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+
+Last login: Sat Dec  4 21:21:23 2021 from 110.34.73.236
+root@uoscapstone002:~# cd github
+root@uoscapstone002:~/github# git pull origin DBserver
+remote: Enumerating objects: 10, done.
+remote: Counting objects: 100% (10/10), done.
+remote: Compressing objects: 100% (4/4), done.
+remote: Total 7 (delta 4), reused 6 (delta 3), pack-reused 0
+Unpacking objects: 100% (7/7), done.
+From https://github.com/DaaEun/ParKick
+ * branch            DBserver   -> FETCH_HEAD
+   e840e21..4adcf4b  DBserver   -> origin/DBserver
+Updating e840e21..4adcf4b
+Fast-forward
+ .gitignore |  5 +++++
+ Log.md     | 41 ++++++++++++++++++++++++++++++++++++-----
+ 2 files changed, 41 insertions(+), 5 deletions(-)
+root@uoscapstone002:~/github# npm start
+
+> parkick@1.0.0 start
+> node app/index.js
+
+Example app listening on port 80!
+Successfully connected to mongodb
+^C
+```
+3. 'Successfully connected to mongodb' 확인
+4. ip 대여기간 끝나면 접속불가
+
 
 ***
 
@@ -277,11 +359,18 @@ db.users.remove({"id" : "user_id"})
 
 ## Log 2021.11.30
 1. 우분투 공인ip 서버에서 실행
-2. API서버-DB서버 연동 마무리
-3. Sys서버-DB서버 연동 및 마무리
+2. API서버-DB서버 연동 마무리 - 실패
+3. Sys서버-DB서버 연동 및 마무리 - 실패
 
-## Log NEXT
+## Log 2021.12.04
+1. 공유서버에서 DB접속 성공
+2. API서버-DB서버 연동
+3. Sys서버-DB서버 연동 - 체크하기
 
+## Log 2021.12.05
+1. 최종보고서 작성
+2. 프로젝트 테스트 실행
+3. 최종발표 준비
 
 
 
