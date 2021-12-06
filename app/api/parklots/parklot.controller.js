@@ -234,7 +234,7 @@ exports.updateRate = (req, res) => {
 }
 
 exports.readComment = (req, res) => {
-    if(req.body.oid == null){
+    if(req.params.oid == null){
         res.status(400).send({err : 'SE01'});
     }else{
         Parklot.findOneById(req.params.oid).then(parklot => {
@@ -342,7 +342,7 @@ exports.deleteComment = (req, res) => {
         oid : lot의 _id값
         uid : user의 _id값
     */
-    if(req.body.oid == null || req.body.uid == null){
+    if(req.params.oid == null || req.params.uid == null){
         res.status(400).send({err : 'SE01'});
     }else{
         Promise.all([
@@ -383,7 +383,7 @@ exports.deleteComment = (req, res) => {
 
 exports.rptLot = (req, res) => {
     /*
-        params로 전달되어야 할 값
+        body로 전달되어야 할 값
         oid : lot의 _id값
         uid : user의 _id값
     */
