@@ -6,20 +6,25 @@ const Comment = require('../../models/comment');
 exports.index = (req, res) => {
     Parklot.findAll().then((lots) => {
         if(!lots.length) return res.status(404).send({err: 'SE09'});
+
+        console.log('parklot list read');
         res.send(lots);
     }).catch(err => res.status(500).send(err));
 };
 
 exports.create = (req, res) => {
     if(req.body.lotid == null || req.body.latitude == null || req.body.longitude == null){
+        console.log({err: 'SE01'});
         res.status(400).send({err : 'SE01'})
     }else{
         Parklot.findOne({lotid: req.body.lotid}).then(lot => {
             if(!lot){
                 Parklot.create(req.body).then(newlot => {
+                    console.log('new parklot create');
                     return res.send(newlot);
                 }).catch(err => console.log(err))
             }else{
+                console.log('lotid is exist');
                 return res.status(400).send({err: 'SE06'});
             }
         }).catch(err => res.status(500).send(err))
@@ -29,16 +34,16 @@ exports.create = (req, res) => {
 exports.readno = (req, res) => {
     Parklot.findOneByParkno(req.params.no).then((lot) => {
             if(!lot) return res.status(404).send({err: 'SE09'});
+            console.log('lotid '+lot.lotid+' parklot read');
             res.send(lot);
-
         }).catch(err => res.status(500).send(err));
 }
 
 exports.readid = (req, res) => {
     Parklot.findOneById(req.params.oid).then((lot) => {
         if(!lot) return res.status(404).send({err: 'SE09'});
+            console.log('lotid '+lot.lotid+' parklot read');
             res.send(lot);
-
         }).catch(err => res.status(500).send(err));
 }
 
@@ -83,6 +88,7 @@ exports.deleteno = (req, res) => {
         Rate.deleteOne({_id: parklot.rate}).then()
             .catch(err => console.log(err));
 
+        console.log('parklot delete');
         res.sendStatus(200);
     }).catch(err => res.status(500).send(err));
 }
@@ -117,6 +123,7 @@ exports.deleteid = (req, res) => {
         Rate.deleteOne({_id: parklot.rate}).then()
             .catch(err => console.log(err));
 
+        console.log('parklot delete');
         res.sendStatus(200);
     }).catch(err => res.status(500).send(err));
 }
@@ -131,6 +138,7 @@ exports.updateRate = (req, res) => {
     */
     // 우선 해당 oid와 일치하는 parklot 조회
     if(req.body.oid == null | req.body.uid == null | req.body.pmt == null){
+        console.log({err: 'SE01'});
         res.status(400).send({err : 'SE01'});
     }else{
         Parklot.findOne({_id: req.body.oid}).then(parklot => {
@@ -224,8 +232,10 @@ exports.updateRate = (req, res) => {
                         user.save();
                         rateid.save();
                         parklot.save();
+                        console.log('parklot rate updated');
                         return res.send(rateid);
                     }
+                    console.log({err: result});
                     res.status(400).send({err: result});
                 }).catch(err => res.status(500).send(err));
             }
@@ -235,10 +245,13 @@ exports.updateRate = (req, res) => {
 
 exports.readComment = (req, res) => {
     if(req.params.oid == null){
+        console.log({err: 'SE01'});
         res.status(400).send({err : 'SE01'});
     }else{
         Parklot.findOneById(req.params.oid).then(parklot => {
             if(!parklot) return res.status(404).send({err : 'SE09'});
+
+            console.log('lotid '+parklot.lotid+' parklot comment read');
             res.send(parklot.comments);
         }).catch(err => res.status(500).send(err))
     }
@@ -252,6 +265,7 @@ exports.writeComment = (req, res) => {
         comment : 기록하고자 하는 comment의 내용
     */
     if(req.body.oid == null || req.body.uid == null){
+        console.log({err: 'SE01'});
         res.status(400).send({err : 'SE01'});
     }else{
         Promise.all([
@@ -280,12 +294,14 @@ exports.writeComment = (req, res) => {
                             lot.save();
                         }).catch(err => res.status(500).send(err));
 
+                    console.log('lotid '+lot.lotid+' parklot comment write');
                     return res.sendStatus(200);
                 }
                 else{ // exist가 null이 아니라면 추가하면 안됨.
                     result += "SE06";
                 }
             }
+            console.log({err: result});
             res.status(400).send({err : result});
         }).catch(err => res.status(500).send(err));
     }
@@ -299,6 +315,7 @@ exports.updateComment = (req, res) => {
         comment : 기록하고자 하는 comment의 내용
     */
     if(req.body.oid == null || req.body.uid == null){
+        console.log({err: 'SE01'});
         res.status(400).send({err : 'SE01'});
     }else{
         Promise.all([
@@ -328,9 +345,11 @@ exports.updateComment = (req, res) => {
                             comment.save();
                         }).catch(err => console.log(err));
                     
+                    console.log('lotid '+lot.lotid+' parklot comments updated');
                     return res.sendStatus(200); 
                 }
             }
+            console.log({err: result});
             res.status(400).send({err : result});
         }).catch(err => res.ststus(500).send(err));
     }
@@ -343,6 +362,7 @@ exports.deleteComment = (req, res) => {
         uid : user의 _id값
     */
     if(req.params.oid == null || req.params.uid == null){
+        console.log({err: 'SE01'});
         res.status(400).send({err : 'SE01'});
     }else{
         Promise.all([
@@ -373,9 +393,12 @@ exports.deleteComment = (req, res) => {
 
                     Comment.deleteById(exist.comments[0].comment)
                         .then().catch(err => console.log(err));
+
+                    console.log('lotid '+lot.lotid+' parklot comment delete');
                     return res.sendStatus(200); 
                 }
             }
+            console.log({err: result});
             res.status(400).send({err : result});
         }).catch(err => res.status(500).send(err));
     }
@@ -388,6 +411,7 @@ exports.rptLot = (req, res) => {
         uid : user의 _id값
     */
     if(req.body.oid == null || req.body.uid == null){
+        console.log({err: 'SE01'});
         res.status(400).send({err : 'SE01'});
     }else{
         Promise.all([
@@ -410,8 +434,10 @@ exports.rptLot = (req, res) => {
                     parklot.reportlist.pull(user._id);
                     parklot.save();
                 }
+                console.log('lotid '+parklot.lotid+' parklot report updated');
                 return res.send(parklot);
             }
+            console.log({err: result});
             res.status(400).send({err: result});
         }).catch(err => res.status(500).send(err));
     }
