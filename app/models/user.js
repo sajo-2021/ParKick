@@ -52,6 +52,10 @@ userSchema.statics.deleteById = function(id){
     return this.deleteOne({_id: id});
 }
 
+
+userSchema.statics.logIn = function(id){
+    return this.findOne({id: id});
+}
 userSchema.statics.findOneByUserid = function(id){
     return this.findOne({id: id}, '-pwd').
                 populate('mycomments', '-_id comment').
