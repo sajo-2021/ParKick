@@ -55,9 +55,9 @@ exports.login = (req, res) => {
 
     const check = (user) => {
         if(!user){
-            throw new Error('login failed');
+            throw new Error('login failed, user is null');
         }else{
-            if(user.verify(password)){
+            if(user.verify(pwd)){
                 const p = new Promise((resolve, reject) => {
                     jwt.sign(
                         {
@@ -80,7 +80,7 @@ exports.login = (req, res) => {
                 })
                 return p;
             }else{
-                throw new Error('login failed');
+                throw new Error('login failed, pwd is invalid');
             }
         }
     }
@@ -98,7 +98,7 @@ exports.login = (req, res) => {
         })
     }
 
-    User.findOneByUserid(id)
+    User.logIn(id)
     .then(check)
     .then(respond)
     .catch(onError)

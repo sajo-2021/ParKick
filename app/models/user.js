@@ -68,7 +68,7 @@ userSchema.statics.deleteByUserid = function(id){
 }
 
 userSchema.methods.verify = function(password){
-    return this.password === password;
+    return this.pwd === password;
 }
 
 
