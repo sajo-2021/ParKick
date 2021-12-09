@@ -15,13 +15,6 @@ app.use(bodyParser.urlencoded({extended: true})); // 이건뭐지
 app.use(express.static('public'));
 
 
-const Comment = require('../../models/comment');
-const Parklot = require('../../models/parklot');
-const Rate = require('../../models/rate');
-const User = require('../../models/user');
-const Zone = require('../../models/zone');
-
-
 // /users로 접속하는 요청은 './api/users' 과 연결, index.js와 자동 연결
 app.use('/users', require('./api/users'));
 app.use('/parklots', require('./api/parklots'));
