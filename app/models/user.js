@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
     id: { type: String, trim:true, required: true, unique:true},
     pwd: { type: String, trim:true, required: true},
     name: { type: String, required: true},
-    nickname: { type: String},
+    nickname: { type: String, required: true},
     email: {
         type:String, required:true,
         // validate(value){
@@ -28,6 +28,7 @@ userSchema.statics.create = function(payload){
     const user = new this(payload);
     return user.save();
 }
+
 userSchema.statics.findAll = function(payload){
     return this.find({}, '-pwd').
                 populate('mycomments', '-_id comment').
@@ -66,6 +67,9 @@ userSchema.statics.deleteByUserid = function(id){
     return this.deleteOne({id: id});
 }
 
+userSchema.methods.verify = function(password){
+    return this.password === password;
+}
 
 
 module.exports = mongoose.model('User',userSchema);
