@@ -148,6 +148,8 @@ exports.updateRate = (req, res) => {
             let result = "";
             if(!parklot){
                 result += "SE05"
+                console.log({err: result});
+                return res.status(400).send({err: result});
             }else{
                 Promise.all([
                     User.findOne({
@@ -238,10 +240,12 @@ exports.updateRate = (req, res) => {
                         console.log('parklot rate updated');
                         return res.send(rateid);
                     }
+                    console.log({err: result});
+                    return res.status(400).send({err: result});
                 }).catch(err => res.status(500).send(err));
             }
-            console.log({err: result});
-            res.status(400).send({err: result});
+            //console.log({err: result});
+            //return res.status(400).send({err: result});
         }).catch(err => res.status(500).send(err));
     }
 }
