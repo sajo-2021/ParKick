@@ -238,10 +238,10 @@ exports.updateRate = (req, res) => {
                         console.log('parklot rate updated');
                         return res.send(rateid);
                     }
-                    console.log({err: result});
-                    res.status(400).send({err: result});
                 }).catch(err => res.status(500).send(err));
             }
+            console.log({err: result});
+            res.status(400).send({err: result});
         }).catch(err => res.status(500).send(err));
     }
 }
