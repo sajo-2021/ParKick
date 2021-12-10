@@ -1,6 +1,6 @@
-const jwr = require('jsonwebtoken')
+const jwt = require('jsonwebtoken')
 
-const authMiddleware = (res, res, next) => {
+const authMiddleware = (req, res, next) => {
     const token = req.headers['x-access-token'] || req.query.token;
 
     if(!token){

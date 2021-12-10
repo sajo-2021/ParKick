@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const crypto = require('crypto');
+const config = require('../../config');
 var Comment = require('./comment');
 
 const userSchema = new mongoose.Schema({
@@ -25,12 +27,18 @@ const userSchema = new mongoose.Schema({
 
 
 userSchema.statics.create = function(payload){
+    const encrypted = crypto.createHmac('sha1', config.secret)
+                            .update(payload.pwd)
+                            .digest('base64')
+
+    payload.pwd = encrypted;
+
     const user = new this(payload);
     return user.save();
 }
 
 userSchema.statics.findAll = function(payload){
-    return this.find({}, '-pwd').
+    return this.find({}).
                 populate('mycomments', '-_id comment').
                 populate({
                     path : 'lot_rate_list',
@@ -72,7 +80,11 @@ userSchema.statics.deleteByUserid = function(id){
 }
 
 userSchema.methods.verify = function(password){
-    return this.pwd === password;
+    const encrypted = crypto.createHmac('sha1', config.secret)
+                            .update(password)
+                            .digest('base64')
+
+    return this.pwd === encrypted
 }
 
 

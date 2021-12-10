@@ -111,7 +111,6 @@ exports.login = (req, res) => {
 exports.check = (req, res) => {
     res.json({
         success: true,
-        info: req.decoded,
-        uid: req.decoded._id
+        info: req.decoded
     })
 }
