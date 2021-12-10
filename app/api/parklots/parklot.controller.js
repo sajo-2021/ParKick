@@ -327,7 +327,7 @@ exports.updateComment = (req, res) => {
         oid : lot의  _id값
         comment : 기록하고자 하는 comment의 내용
     */
-    const {oid, comment} = req.body;
+    const {oid, com} = req.body;
     const uid = req.decoded._id;
 
     if(oid == null || uid == null){
@@ -352,7 +352,7 @@ exports.updateComment = (req, res) => {
             }
             else{
                 if(!exist) { // exist가 null이라면 수정 불가능
-                    Comment.create({comment: comment})
+                    Comment.create({comment: com})
                         .then(comment => {
                             user.mycomments.push({lot: oid, comment: comment._id});
                             user.save();
@@ -362,11 +362,10 @@ exports.updateComment = (req, res) => {
 
                     console.log('lotid '+lot.lotid+' parklot comment write');
                     return res.sendStatus(200);
-                }
-                else{ // exist가 null이 아니라면 검색 후 수정
+                }else{ // exist가 null이 아니라면 검색 후 수정
                     Comment.findOneById(exist.comments[0].comment)
                         .then(comment => {
-                            comment.comment = comment;
+                            comment.comment = com;
                             comment.save();
                         }).catch(err => console.log(err));
                     
