@@ -52,7 +52,7 @@ zoneSchema.statics.updateById = function(id, payload){
     return this.findOneAndUpdate({_id: id},{$set: payload}, {new: true});
 }
 zoneSchema.statics.deleteById = function(id){
-    return this.remove({_id: id});
+    return this.deleteOne({_id: id});
 }
 
 module.exports = mongoose.model('Zone',zoneSchema);
