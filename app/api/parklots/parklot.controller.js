@@ -327,8 +327,9 @@ exports.updateComment = (req, res) => {
         oid : lot의  _id값
         comment : 기록하고자 하는 comment의 내용
     */
-    const {oid, com} = req.body;
+    const {oid, comment} = req.body;
     const uid = req.decoded._id;
+    const com = comment;
 
     if(oid == null || uid == null){
         console.log({err: 'SE01'});
