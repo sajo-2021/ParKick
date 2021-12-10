@@ -24,7 +24,7 @@ commentSchema.statics.findOneById = function(id){
     return this.findOne({_id: id});
 }
 commentSchema.statics.deleteById = function(id){
-    return this.remove({_id:id});
+    return this.deleteOne({_id:id});
 }
 
 

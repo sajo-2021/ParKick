@@ -1,6 +1,6 @@
 const router = require('express').Router();
 // express에서 제공하는 라우터 객체를 이용
-
+const authMiddleware = require('../../middlewares/auth');
 
 const controller = require('./user.controller');
 
@@ -9,6 +9,9 @@ router.get('/', controller.index);
 
 router.post('/', controller.create);
 // 유저 생성
+
+router.use('/mypage', authMiddleware);
+router.get('/mypage', controller.mypage);
 
 router.get('/userid/:id', controller.read);
 router.put('/userid/:id', controller.update);

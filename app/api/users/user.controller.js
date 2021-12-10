@@ -70,3 +70,11 @@ exports.deleteid = (req, res) => {
 
     }).catch(err => res.status(500).send(err));
 };
+
+exports.mypage = (req, res) => {
+    const uid = req.decoded._id
+
+    User.findOneById(uid).then((user) => {
+        res.send(user);
+    }).catch(err => res.status(500).send(err))
+}
