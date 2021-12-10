@@ -17,10 +17,12 @@ router.get('/com/:oid', controller.readComment);
 router.use('/com/', authMiddleware);
 router.post('/com/', controller.updateComment);
 // router.put('/com/', controller.updateComment);
-router.delete('/com/:oid/:uid', controller.deleteComment);
+router.delete('/com/:oid', controller.deleteComment);
 
+router.use('/rate/', authMiddleware);
 router.post('/rate/', controller.updateRate);
 
+router.use('/rpt/', authMiddleware);
 router.post('/rpt/', controller.rptLot);
 
 module.exports = router;

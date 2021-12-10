@@ -133,27 +133,30 @@ exports.updateRate = (req, res) => {
     /*
         body로 전달되어야 할 값
         oid : lot의 _id
-        uid : user의 _id값
         pmt : 평가값, 1은 like, 2는 dislike
     */
     // 우선 해당 oid와 일치하는 parklot 조회
-    if(req.body.oid == null | req.body.uid == null | req.body.pmt == null){
+    const {oid, pmt} = req.body;
+    const uid = req.decoded._id;
+
+
+    if(oid == null | uid == null | pmt == null){
         console.log({err: 'SE01'});
         res.status(400).send({err : 'SE01'});
     }else{
-        Parklot.findOne({_id: req.body.oid}).then(parklot => {
+        Parklot.findOne({_id: oid}).then(parklot => {
             let result = "";
             if(!parklot){
                 result += "SE05"
             }else{
                 Promise.all([
                     User.findOne({
-                        _id: req.body.uid, 
-                        'lot_rate_list.lot': parklot._id}),
-                    User.findOne({_id: req.body.uid}),
+                        _id: uid, 
+                        'lot_rate_list.lot': oid}),
+                    User.findOne({_id: uid}),
                     User.findOne({
-                        _id: req.body.uid, 
-                        'lot_rate_list.lot': parklot._id
+                        _id: uid, 
+                        'lot_rate_list.lot': oid
                         }, 'lot_rate_list.$'),
                     Rate.findOneById(parklot.rate)
                 ]).then(([exist, user, lot, rateid]) => {
@@ -163,15 +166,15 @@ exports.updateRate = (req, res) => {
                         if(!exist){
                             // 해당 user가 parklot에 평가한 적이 없을 경우
                             if(req.body.pmt==1){ // like인 경우
-                                user.lot_rate_list.push({lot:parklot._id, myrate:1});
+                                user.lot_rate_list.push({lot:oid, myrate:1});
                                 rateid.like++;
                             }else if(req.body.pmt==2){ //dislike인 경우
-                                user.lot_rate_list.push({lot:parklot._id, myrate:-1});
+                                user.lot_rate_list.push({lot:oid, myrate:-1});
                                 rateid.dislike++;
                             }else{
                                 result += "SE05";
                             }
-                            parklot.ratelist.push(user._id);
+                            parklot.ratelist.push(uid);
                         }else{
                             // 해당 user가 parklot을 평가했을 경우
                             let myrate = lot.lot_rate_list[0].myrate;
@@ -179,14 +182,14 @@ exports.updateRate = (req, res) => {
                             if(myrate == 1){
                                 if(req.body.pmt == 1){
                                     // like 취소
-                                    user.lot_rate_list.pull({lot: parklot._id, myrate: 1});
-                                    user.lot_rate_list.push({lot: parklot._id, myrate: 0});
+                                    user.lot_rate_list.pull({lot: oid, myrate: 1});
+                                    user.lot_rate_list.push({lot: oid, myrate: 0});
                                     
                                     rateid.like--;
                                 }else if(req.body.pmt == 2){
                                     // like를 dislike로 변경
-                                    user.lot_rate_list.pull({lot: parklot._id, myrate: 1});
-                                    user.lot_rate_list.push({lot: parklot._id, myrate: -1});
+                                    user.lot_rate_list.pull({lot: oid, myrate: 1});
+                                    user.lot_rate_list.push({lot: oid, myrate: -1});
                                     
                                     rateid.like--;
                                     rateid.dislike++;
@@ -196,15 +199,15 @@ exports.updateRate = (req, res) => {
                             }else if(myrate == -1){
                                 if(req.body.pmt == 1){
                                     // dislike를 like로 변경
-                                    user.lot_rate_list.pull({lot: parklot._id, myrate: -1});
-                                    user.lot_rate_list.push({lot: parklot._id, myrate: 1});
+                                    user.lot_rate_list.pull({lot: oid, myrate: -1});
+                                    user.lot_rate_list.push({lot: oid, myrate: 1});
                                     
                                     rateid.like++;
                                     rateid.dislike--;
                                 }else if(req.body.pmt == 2){
                                     // dislike 취소
-                                    user.lot_rate_list.pull({lot: parklot._id, myrate: -1});
-                                    user.lot_rate_list.push({lot: parklot._id, myrate: 0});
+                                    user.lot_rate_list.pull({lot: oid, myrate: -1});
+                                    user.lot_rate_list.push({lot: oid, myrate: 0});
                                     
                                     rateid.dislike--;
                                 }else{
@@ -213,14 +216,14 @@ exports.updateRate = (req, res) => {
                             }else if(myrate == 0){
                                 if(req.body.pmt == 1){
                                     // like로 평가
-                                    user.lot_rate_list.pull({lot: parklot._id, myrate: 0});
-                                    user.lot_rate_list.push({lot: parklot._id, myrate: 1});
+                                    user.lot_rate_list.pull({lot: oid, myrate: 0});
+                                    user.lot_rate_list.push({lot: oid, myrate: 1});
                                     
                                     rateid.like++;
                                 }else if(req.body.pmt == 2){
                                     // dislike로 평가
-                                    user.lot_rate_list.pull({lot: parklot._id, myrate: 0});
-                                    user.lot_rate_list.push({lot: parklot._id, myrate: -1});
+                                    user.lot_rate_list.pull({lot: oid, myrate: 0});
+                                    user.lot_rate_list.push({lot: oid, myrate: -1});
                                     
                                     rateid.dislike++;
                                 }else{
@@ -423,14 +426,16 @@ exports.rptLot = (req, res) => {
         oid : lot의 _id값
         uid : user의 _id값
     */
-    if(req.body.oid == null || req.body.uid == null){
+    const {oid} = req.body;
+    const uid = req.decoded._id;
+    if(oid == null || uid == null){
         console.log({err: 'SE01'});
         res.status(400).send({err : 'SE01'});
     }else{
         Promise.all([
-            Parklot.findOne({_id: req.body.oid, 'reportlist': req.body.uid}),
-            Parklot.findOne({_id: req.body.oid}),
-            User.findOneById(req.body.uid)
+            Parklot.findOne({_id: oid, 'reportlist': uid}),
+            Parklot.findOne({_id: oid}),
+            User.findOneById(uid)
         ]).then(([exist, parklot, user]) => {
             result = "";
             if(!parklot){
@@ -440,11 +445,11 @@ exports.rptLot = (req, res) => {
             }else{
                 if(!exist){
                     parklot.report++;
-                    parklot.reportlist.push(user._id);
+                    parklot.reportlist.push(uid);
                     parklot.save();
                 }else{
                     parklot.report--;
-                    parklot.reportlist.pull(user._id);
+                    parklot.reportlist.pull(uid);
                     parklot.save();
                 }
                 console.log('lotid '+parklot.lotid+' parklot report updated');
