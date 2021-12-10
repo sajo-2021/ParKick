@@ -50,7 +50,7 @@ userSchema.statics.findAll = function(payload){
                 // })
                 .populate({
                     path: 'mycomments',
-                    populate: {path: 'comment', select: '_id comment'}
+                    populate: {path: 'comment', select: '-_id comment'}
                 })
                 .populate({
                     path : 'lot_rate_list',
@@ -67,7 +67,7 @@ userSchema.statics.findOneById = function(id){
                 // })
                 .populate({
                     path: 'mycomments',
-                    populate: {path: 'comment', select: '_id comment'}
+                    populate: {path: 'comment', select: '-_id comment'}
                 })
                 .populate({
                     path : 'lot_rate_list',
@@ -95,7 +95,7 @@ userSchema.statics.findOneByUserid = function(id){
                 // })
                 .populate({
                     path: 'mycomments',
-                    populate: {path: 'comment', select: '_id comment'}
+                    populate: {path: 'comment', select: '-_id comment'}
                 })
                 .populate({
                     path : 'lot_rate_list',

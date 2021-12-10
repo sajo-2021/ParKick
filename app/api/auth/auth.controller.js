@@ -18,7 +18,7 @@ exports.register = (req, res) => {
 
     const create = (user) => {
         if(user){
-            throw new Error('username exists');
+            throw new Error('id is exists');
         }else{
             return User.create(req.body);
         }
@@ -26,7 +26,7 @@ exports.register = (req, res) => {
 
 
     const respond = (register) => {
-        res.json({
+        res.send({
             message: 'registerd successfully'
         })
     }
@@ -69,7 +69,7 @@ exports.login = (req, res) => {
                         },
                         secret,
                         {
-                            expiresIn: '7d',
+                            expiresIn: '1d',
                             issuer:'velopert.com',
                             subject: 'userInfo'
                         }, (err, token) => {
