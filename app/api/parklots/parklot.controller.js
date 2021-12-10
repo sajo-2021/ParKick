@@ -340,9 +340,9 @@ exports.updateComment = (req, res) => {
                 if(!exist) { // exist가 null이라면 수정 불가능
                     Comment.create({comment: comment})
                         .then(comment => {
-                            user.mycomments.push(comment._id);
+                            user.mycomments.push({lot: oid, comment: comment._id});
                             user.save();
-                            lot.comments.push({user: user._id, comment: comment._id});
+                            lot.comments.push({user: uid, comment: comment._id});
                             lot.save();
                         }).catch(err => res.status(500).send(err));
 
@@ -370,19 +370,21 @@ exports.deleteComment = (req, res) => {
     /*
         params로 전달되어야 할 값
         oid : lot의 _id값
-        uid : user의 _id값
     */
-    if(req.params.oid == null || req.params.uid == null){
+    const oid = req.params.oid;
+    const uid = req.decoded._id;
+
+    if(oid == null || uid == null){
         console.log({err: 'SE01'});
         res.status(400).send({err : 'SE01'});
     }else{
         Promise.all([
-            Parklot.findOne({_id: req.params.oid}),
+            Parklot.findOne({_id: oid}),
             Parklot.findOne({
-                _id: req.params.oid, 
-                'comments.user':req.params.uid},
+                _id: oid, 
+                'comments.user':uid},
                 'comments.$'),
-            User.findOneById(req.params.uid)
+            User.findOneById(uid)
         ]).then(([lot, exist, user]) => {
             let result = "";
 
@@ -397,9 +399,9 @@ exports.deleteComment = (req, res) => {
                     result += "SE07";
                 }
                 else{ // 댓글이 존재하므로 삭제
-                    lot.comments.pull({user: user._id, comment: exist.comments[0].comment})
+                    lot.comments.pull({user: uid, comment: exist.comments[0].comment})
                     lot.save();
-                    user.mycomments.pull(exist.comments[0].comment);
+                    user.mycomments.pull({lot: oid, comment: exist.comments[0].comment});
                     user.save();
 
                     Comment.deleteById(exist.comments[0].comment)

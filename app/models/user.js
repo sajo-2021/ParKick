@@ -20,7 +20,12 @@ const userSchema = new mongoose.Schema({
     },{
         _id: false
     })],
-    mycomments: [ {type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}]
+    mycomments: [ new mongoose.Schema({
+        lot: {type: mongoose.Schema.Types.ObjectId, ref: 'Parklot'},
+        comment: {type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}
+    },{
+        _id: false
+    })]
 },{
     timestamps:true
 });
