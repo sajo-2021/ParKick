@@ -164,6 +164,8 @@ exports.updateRate = (req, res) => {
                 ]).then(([exist, user, lot, rateid]) => {
                     if(!user){
                         result += "SE05";
+                        console.log({err: result});
+                        return res.status(400).send({err: result});
                     }else{
                         if(!exist){
                             // 해당 user가 parklot에 평가한 적이 없을 경우
@@ -175,6 +177,8 @@ exports.updateRate = (req, res) => {
                                 rateid.dislike++;
                             }else{
                                 result += "SE05";
+                                console.log({err: result});
+                                return res.status(400).send({err: result});
                             }
                             parklot.ratelist.push(uid);
                         }else{
@@ -197,6 +201,8 @@ exports.updateRate = (req, res) => {
                                     rateid.dislike++;
                                 }else{
                                     result += "SE05";
+                                    console.log({err: result});
+                                    return res.status(400).send({err: result});
                                 }
                             }else if(myrate == -1){
                                 if(req.body.pmt == 1){
@@ -214,6 +220,8 @@ exports.updateRate = (req, res) => {
                                     rateid.dislike--;
                                 }else{
                                     result += "SE05";
+                                    console.log({err: result});
+                                    return res.status(400).send({err: result});
                                 }
                             }else if(myrate == 0){
                                 if(req.body.pmt == 1){
@@ -230,6 +238,8 @@ exports.updateRate = (req, res) => {
                                     rateid.dislike++;
                                 }else{
                                     result += "SE05";
+                                    console.log({err: result});
+                                    return res.status(400).send({err: result});
                                 }
                             }
                         }
@@ -240,12 +250,9 @@ exports.updateRate = (req, res) => {
                         console.log('parklot rate updated');
                         return res.send(rateid);
                     }
-                    console.log({err: result});
-                    return res.status(400).send({err: result});
+                    
                 }).catch(err => res.status(500).send(err));
             }
-            //console.log({err: result});
-            //return res.status(400).send({err: result});
         }).catch(err => res.status(500).send(err));
     }
 }
