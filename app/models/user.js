@@ -43,17 +43,33 @@ userSchema.statics.create = function(payload){
 }
 
 userSchema.statics.findAll = function(payload){
-    return this.find({}).
-                populate('mycomments', '-_id comment').
-                populate({
+    return this.find({})
+                // .populate({
+                //     path: 'mycomments',
+                //     populate : {path: 'lot', select : '_id lotid'}
+                // })
+                .populate({
+                    path: 'mycomments',
+                    populate: {path: 'comment', select: '_id comment'}
+                })
+                .populate({
                     path : 'lot_rate_list',
                     populate : {path: 'lot', select : '-_id lotid'}
                 });
 }
+
+// mypage 조회시 호출
 userSchema.statics.findOneById = function(id){
-    return this.findOne({_id: id}, '-pwd').
-                populate('mycomments', '-_id comment').
-                populate({
+    return this.findOne({_id: id}, '-pwd')
+                // .populate({
+                //     path: 'mycomments',
+                //     populate : {path: 'lot', select : '_id lotid'}
+                // })
+                .populate({
+                    path: 'mycomments',
+                    populate: {path: 'comment', select: '_id comment'}
+                })
+                .populate({
                     path : 'lot_rate_list',
                     populate : {path: 'lot', select : '-_id lotid'}
                 });
@@ -65,14 +81,23 @@ userSchema.statics.deleteById = function(id){
     return this.deleteOne({_id: id});
 }
 
-
+// 로그인 시 호출
 userSchema.statics.logIn = function(id){
     return this.findOne({id: id});
 }
+
+// 뭐 기타 호출
 userSchema.statics.findOneByUserid = function(id){
-    return this.findOne({id: id}, '-pwd').
-                populate('mycomments', '-_id comment').
-                populate({
+    return this.findOne({id: id}, '-pwd')
+                // .populate({
+                //     path: 'mycomments',
+                //     populate : {path: 'lot', select : '_id lotid'}
+                // })
+                .populate({
+                    path: 'mycomments',
+                    populate: {path: 'comment', select: '_id comment'}
+                })
+                .populate({
                     path : 'lot_rate_list',
                     populate : {path: 'lot', select : '-_id lotid'}
                 });
