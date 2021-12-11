@@ -12,6 +12,7 @@ router.get('/id/:oid', controller.readid);
 router.delete('/no/:no', controller.deleteno);
 router.delete('/id/:oid', controller.deleteid);
 
+
 router.get('/com/:oid', controller.readComment);
 
 router.use('/com/', authMiddleware);
