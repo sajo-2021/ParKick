@@ -9,6 +9,8 @@ exports.index = (req, res) => {
 }
 
 exports.create = (req, res) => {
+    req.body.user = req.decoded.id;
+
     Zone.create(req.body).then((zone) => {
         res.send(zone);
 

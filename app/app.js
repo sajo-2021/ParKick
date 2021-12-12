@@ -16,7 +16,7 @@ app.use(bodyParser.json()); // express에서 json으로 body를 받음
 app.use(bodyParser.urlencoded({extended: true})); // 이건뭐지
 // Static file Service
 
-app.use(morgan('dev'));
+app.use(morgan('combined'));
 app.use(express.static('public'));
 
 app.set('jwt-secret', config.secret);

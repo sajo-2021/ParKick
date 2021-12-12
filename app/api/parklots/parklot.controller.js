@@ -459,9 +459,10 @@ exports.rptLot = (req, res) => {
                     parklot.reportlist.push(uid);
                     parklot.save();
                 }else{
-                    parklot.report--;
-                    parklot.reportlist.pull(uid);
-                    parklot.save();
+                    // 아무것도 안하는걸로 결정
+                    // parklot.report--;
+                    // parklot.reportlist.pull(uid);
+                    // parklot.save();
                 }
                 console.log('lotid '+parklot.lotid+' parklot report updated');
                 return res.send(parklot);

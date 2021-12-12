@@ -1,9 +1,12 @@
 const router = require('express').Router();
+const authMiddleware = require('../../middlewares/auth');
 
 const controller = require('./zone.controller');
 
+
 router.get('/', controller.index);
 
+router.use('/', authMiddleware);
 router.post('/', controller.create);
 
 router.get('/id/:id', controller.readid);

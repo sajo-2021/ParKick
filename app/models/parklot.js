@@ -82,7 +82,7 @@ parklotSchema.statics.findOneById = function(id){
         .populate("rate", "-_id like dislike")
         .populate({
             path: "comments", 
-            populate: {path:"user", select: "-_id nickname"}})
+            populate: {path:"user", select: "_id nickname"}})
         .populate({
             path: "comments",
             populate: {path: "comment", select: "-_id comment"}

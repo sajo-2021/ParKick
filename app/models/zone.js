@@ -18,6 +18,9 @@ const zoneSchema = new mongoose.Schema({
     suggest: {
         type: Boolean, required: true,
         default: true
+    },
+    user: {
+        type: String, required:true
     }
     // 필드에 다른 오브젝트의 아이디를 지정할 수 있음
     // { type: Schema.Types.ObjectId, ref:'스키마이름' }
