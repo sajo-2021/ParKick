@@ -20,6 +20,10 @@ exports.register = (req, res) => {
         if(user){
             throw new Error('id is exists');
         }else{
+            if(pwd.length < 8){
+                throw new Error('password is short than 8');
+            }
+
             return User.create(req.body);
         }
     }
